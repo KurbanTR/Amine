@@ -1,0 +1,36 @@
+.footer{
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 10px;
+    position: relative;
+    top: 120px;
+    background: #1c1c1c;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1em;
+    padding: 50px 20px;
+}
+.card{
+    overflow: hidden;
+    border-radius: 15px;
+    height: 15em;
+    position: relative;
+}
+.card img{
+    width: 100%;
+    display: block;
+}
+.title{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5); 
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
+}

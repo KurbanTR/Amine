@@ -1,13 +1,15 @@
 header{
+    position: fixed;
+    height: 65px;
+    padding: 0 25px;
     width: 100%;
-    height: 70px;
-    padding: 0 50px;
+    background: #1c1c1c;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 0 60px rgb(0 0 0);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: fixed;
-    background: #333;
-    border-bottom: 1px solid white;
+    z-index: 1;
 }
 .nav{
     display: flex;
@@ -32,4 +34,15 @@ header{
     font-weight: 700;
     color: black;
     cursor: pointer;
+}
+.search{
+    width: 20%;
+}
+.input{
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    color: #fff;
 }

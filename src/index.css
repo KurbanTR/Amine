@@ -1,9 +1,14 @@
 *{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  background: 0 0;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: 0;
+    box-sizing: border-box;
 }
-body{
+body {
   background: #1c1c1c;
   color: white;
+  background-image: url('https://image.cdn2.seaart.ai/2023-09-02/16036943202635781/78b998c5cad19595d48ada5dfc12b9087c43e9d7_high.webp');
+  background-repeat: no-repeat;
 }
