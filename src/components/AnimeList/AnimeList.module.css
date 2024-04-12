@@ -1,19 +1,19 @@
 .footer{
-    width: 90%;
+    width: 90em;
     margin: 0 auto;
-    border-radius: 10px;
+    border-radius: 2em;
     position: relative;
     top: 120px;
     background: #1c1c1c;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 1em;
-    padding: 50px 20px;
+    gap: 2em;
+    padding: 50px 3em;
 }
 .card{
     overflow: hidden;
-    border-radius: 15px;
-    height: 15em;
+    border-radius: 0.5em;
+    height: 18em;
     position: relative;
 }
 .card img{
@@ -25,12 +25,25 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.5); 
+    background: linear-gradient(to top, #000 0%, transparent 100%); 
     color: white;
-    font-size: 20px;
+    font-size: 28px;
+    font-weight: 600;
     padding: 10px;
     text-align: center;
     overflow: hidden;
     white-space: nowrap; 
     text-overflow: ellipsis; 
+    padding-top: 7em;
+}
+@media screen and (max-width: 1501px) and (min-width: 1051px) {
+    .footer{
+        width: 67em;
+    }
+    .card{
+        height: 13em;
+    }
+    .title{
+        font-size: 20px;
+    }
 }

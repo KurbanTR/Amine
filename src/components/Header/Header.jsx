@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import s from './Header.module.css'
 
 const Header = ({tema, setTema}) => {
@@ -15,10 +16,10 @@ const Header = ({tema, setTema}) => {
         <nav className={s.nav}>
           {tema && <img onClick={()=>setTema(false)} className={s.tema} src="https://cdn-icons-png.flaticon.com/512/17/17768.png" alt="" />}
           {!tema && <img onClick={()=>setTema(true)} className={s.tema} src="https://cdn-icons-png.flaticon.com/512/14/14881.png" alt="" />}
-          <a className={s.link} href="#">Главная</a>
-          <a className={s.link} href="#">Аниме</a>
-          <a className={s.link} href="#">О нас</a>
-          <a className={s.link} href="#">Контакты</a>
+          <Link className={s.link} to='/'>Главная</Link>
+          <Link className={s.link}>Аниме</Link>
+          <Link className={s.link}>О нас</Link>
+          <Link className={s.link}>Контакты</Link>
         </nav>
       </header>
   )
