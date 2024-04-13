@@ -37,6 +37,8 @@ header{
 }
 .search{
     width: 20%;
+    display: flex;
+    gap: 1em;
 }
 .input{
     width: 100%;
@@ -45,4 +47,12 @@ header{
     background: rgba(255, 255, 255, 0.2);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     color: #fff;
+}
+.search_button{
+    color: #fff;
+    font-size: 25px;
+    font-weight: 600;
+    background: #ff4500;
+    border-radius: 1em;
+    cursor: pointer;
 }

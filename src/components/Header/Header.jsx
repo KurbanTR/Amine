@@ -1,7 +1,17 @@
 import { Link } from 'react-router-dom'
 import s from './Header.module.css'
+import { fetchSearchPersons } from '../../store/animeSlice'
+import { useDispatch } from 'react-redux'
+import { useState } from 'react'
 
 const Header = ({tema, setTema}) => {
+  const [value, setValue] = useState('')
+  const dispatch = useDispatch()
+
+  const onSearchClick = ()=>{
+    dispatch(fetchSearchPersons({title: value}))
+    setValue('')
+  }
   return (
     <header className={s.header}>
         <div className={s.title}>
@@ -9,8 +19,8 @@ const Header = ({tema, setTema}) => {
         </div>
 
         <div className={s.search}>
-          <input className={s.input} placeholder="Поиск аниме..."/>
-          <button></button>
+          <input value={value} onChange={e => setValue(e.target.value)} className={s.input} placeholder="Поиск аниме..."/>
+          <button onClick={onSearchClick} className={s.search_button}>go</button>
         </div>
 
         <nav className={s.nav}>

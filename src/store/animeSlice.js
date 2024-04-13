@@ -17,6 +17,24 @@ export const fetchPersons = createAsyncThunk(
     }
 )
 
+export const fetchSearchPersons = createAsyncThunk(
+    'todos/fetchSearchPersons',
+    async function({title}, {rejectWithValue, dispatch}){
+        try{
+            const res = await fetch(`https://api.jikan.moe/v4/anime?q=${title}`)
+            if(!res.ok) {
+                throw new Error('Server Error!')
+            }
+            const data = await res.json()
+            dispatch(setPersons(data.data));
+            console.log(data.data);
+        }catch(error){
+            return rejectWithValue(error.message)
+        }
+
+    }
+)
+
 export const fetchPerson = createAsyncThunk(
     'todos/fetchPerson',
     async function({id}, {rejectWithValue, dispatch}){
