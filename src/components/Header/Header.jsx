@@ -20,6 +20,9 @@ const Header = ({tema, setTema}) => {
           <Link className={s.link}>Аниме</Link>
           <Link className={s.link}>О нас</Link>
           <Link className={s.link}>Контакты</Link>
+          <div>
+            
+          </div>
         </nav>
       </header>
   )
