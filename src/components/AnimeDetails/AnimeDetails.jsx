@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux'
 import s from './AnimeDetails.module.css';
@@ -7,7 +8,9 @@ import { fetchPerson } from '../../store/animeSlice';
 const AnimeDetails = () => {
     const params = useParams()
     const dispatch = useDispatch()
-    dispatch(fetchPerson({id : params.id}))
+    useEffect(()=>{
+        dispatch(fetchPerson({id : params.id}))
+      },[params.id, dispatch])
     const anime = useSelector(state => state.anime.person)
     return (
         <div>

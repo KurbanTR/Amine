@@ -50,32 +50,6 @@ const animeSlice = createSlice({
             state.person = action.payload
         },
     },
-    extraReducers: (bilder) => {
-        bilder.addCase(fetchPersons.pending, (state) => {
-            state.loading = true
-            state.error = false
-        }),
-        bilder.addCase(fetchPersons.fulfilled, (state, action) => {
-            state.loading = false
-            state.persons = action.payload
-        }),
-        bilder.addCase(fetchPersons.rejected, (state, action) => {
-            state.loading = false
-            state.error = action.payload
-        }),
-        bilder.addCase(fetchPerson.pending, (state) => {
-            state.loading = true
-            state.error = false
-        }),
-        bilder.addCase(fetchPerson.fulfilled, (state, action) => {
-            state.loading = false
-            state.person = action.payload
-        }),
-        bilder.addCase(fetchPerson.rejected, (state, action) => {
-            state.loading = false
-            state.error = action.payload
-        })
-    }
 })
 export const {setPersons, setPerson} = animeSlice.actions
 export default animeSlice.reducer

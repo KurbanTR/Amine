@@ -6,14 +6,14 @@
     top: 120px;
     background: #1c1c1c;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 2em;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5em;
     padding: 50px 3em;
 }
 .card{
     overflow: hidden;
     border-radius: 0.5em;
-    height: 18em;
+    height: 23em;
     position: relative;
 }
 .card img{
@@ -41,7 +41,7 @@
         width: 67em;
     }
     .card{
-        height: 13em;
+        height: 15em;
     }
     .title{
         font-size: 20px;

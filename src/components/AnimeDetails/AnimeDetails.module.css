@@ -63,6 +63,7 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
+    border-radius: 1em;
     gap: 1em;
 }
 .pon{
