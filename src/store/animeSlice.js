@@ -2,9 +2,9 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 
 export const fetchPersons = createAsyncThunk(
     'todos/fetchPersons',
-    async function(_, {rejectWithValue, dispatch}){
+    async function({page}, {rejectWithValue, dispatch}){
         try{
-            const res = await fetch('https://api.jikan.moe/v4/anime')
+            const res = await fetch(`https://api.jikan.moe/v4/top/anime?page=${page}`)
             if(!res.ok) {
                 throw new Error('Server Error!')
             }

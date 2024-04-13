@@ -1,14 +1,16 @@
 .footer{
     width: 90em;
     margin: 0 auto;
-    border-radius: 2em;
     position: relative;
     top: 120px;
+}
+.center{
     background: #1c1c1c;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 1.5em;
     padding: 50px 3em;
+    border-radius: 2em;
 }
 .card{
     overflow: hidden;
@@ -35,6 +37,17 @@
     white-space: nowrap; 
     text-overflow: ellipsis; 
     padding-top: 7em;
+}
+.button{
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    width: 100%;
+}
+.character_btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 @media screen and (max-width: 1501px) and (min-width: 1051px) {
     .footer{

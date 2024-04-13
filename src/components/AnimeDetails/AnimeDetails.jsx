@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux'
 import s from './AnimeDetails.module.css';
@@ -6,6 +6,7 @@ import { Rate } from 'antd';
 import { fetchPerson } from '../../store/animeSlice';
 
 const AnimeDetails = () => {
+    const [height, setHeight] = useState('7em')
     const params = useParams()
     const dispatch = useDispatch()
     useEffect(()=>{
@@ -13,7 +14,7 @@ const AnimeDetails = () => {
       },[params.id, dispatch])
     const anime = useSelector(state => state.anime.person)
     return (
-        <div>
+        <div className={s.block_1}>
         <div className={s.center}>
                 <div className={s.card}><img className={s.image} src={anime?.images.jpg.image_url} alt="" /></div>
                 <div className={s.titles}>
@@ -40,10 +41,21 @@ const AnimeDetails = () => {
                         <p className={s.pon_info}>{anime?.studios[0].name}</p>
                     </div>
                 </div>
-        </div>
-        <div className={s.description}>
-
-        </div>
+            </div>
+            <div className={s.block_2}>
+                <div className={s.description} style={{height: height}}>
+                    <p className={s.synopsis}>{anime?.synopsis}</p>
+                </div>
+                <span onClick={()=>setHeight('auto')} className={s.span}>Свернуть описание</span>
+                <div className={s.videoTreiler}>
+                    <iframe
+                    className={s.iframe}
+                    title='trailer'
+                    src={anime?.trailer.embed_url}
+                    allowFullScreen
+                    />
+                </div>
+            </div>
         </div>
     );
 };
