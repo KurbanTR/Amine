@@ -1,47 +1,40 @@
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { data } from "../../Data";
+import {useSelector, useDispatch} from 'react-redux'
 import s from './AnimeDetails.module.css';
 import { Rate } from 'antd';
+import { fetchPerson } from '../../store/animeSlice';
 
 const AnimeDetails = () => {
-    const params = useParams();
-    const [anime, setAnime] = useState(null);
-    useEffect(() => {
-        const foundAnime = data.find(item => item.id == params.id);
-        setAnime(foundAnime);
-        console.log(foundAnime);
-    }, [params.id]);
-  
-    if (!anime) {
-        return <div>Loading...</div>;
-    }
+    const params = useParams()
+    const dispatch = useDispatch()
+    dispatch(fetchPerson({id : params.id}))
+    const anime = useSelector(state => state.anime.person)
     return (
         <div>
         <div className={s.center}>
-                <div className={s.card}><img className={s.image} src={anime.image} alt="" /></div>
+                <div className={s.card}><img className={s.image} src={anime?.images.jpg.image_url} alt="" /></div>
                 <div className={s.titles}>
-                    <p className={s.title}>{anime.title}</p>
+                    <p className={s.title}>{anime?.title}</p>
                     <div className={s.megapon_title}>
                         <div className={s.center_rating}>
-                            <Rate allowHalf disabled={true} defaultValue={anime.rating} count={11} style={{ color: '#c9af1c', }}/>
-                            <p className={s.rating}>{anime.rating}</p>
+                            <Rate allowHalf disabled={true} defaultValue={anime?.score} count={11} style={{ color: '#c9af1c', }}/>
+                            <p className={s.rating}>{anime?.score}</p>
                         </div>
-                        <p className={s.number_of_episodes}>Серий: {anime.number_of_episodes}</p>
+                        <p className={s.number_of_episodes}>Серий: {anime?.episodes}</p>
                     </div>
                 </div>
                 <div className={s.info}>
                     <div className={s.megapon}>
                         <p className={s.pon}>Год выпуска:</p>
-                        <p className={s.pon_info}>{anime.release_year}</p>
+                        <p className={s.pon_info}>{anime?.year}</p>
                     </div>
                     <div className={s.megapon}>
                         <p className={s.pon}>Жанр:</p>
-                        <p className={s.pon_info}>{anime.genre.join(", ")}</p>
+                        <p className={s.pon_info}>{anime?.genres.map(genre => ` ${genre.name},`)}</p>
                     </div>
                     <div className={s.megapon}>
                         <p className={s.pon}>Студия:</p>
-                        <p className={s.pon_info}>{anime.studio}</p>
+                        <p className={s.pon_info}>{anime?.studios[0].name}</p>
                     </div>
                 </div>
         </div>
