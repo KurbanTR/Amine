@@ -3,3 +3,40 @@
   padding: 0;
   box-sizing: border-box;
 }
+.main{
+  width: 90em;
+  margin: 0 auto;
+  position: relative;
+  top: 120px;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  border-radius: 1em;
+  overflow: hidden;
+  gap: 5px;
+}
+@media screen and (max-width: 1501px) and (min-width: 1251px) {
+  .main{
+      width: 100%;
+  }
+}
+@media screen and (max-width: 1250px) and (min-width: 1051px){
+  .main{
+    width: 60em;
+    display: flex;
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 1050px) and (min-width: 801px){
+  .main{
+    width: 50em;
+    display: flex;
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 800px){
+  .main{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}

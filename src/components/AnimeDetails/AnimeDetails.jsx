@@ -13,6 +13,11 @@ const AnimeDetails = () => {
         dispatch(fetchPerson({id : params.id}))
       },[params.id, dispatch])
     const anime = useSelector(state => state.anime.person)
+
+    const SetDescription = ()=>{
+        height == '7em' ? setHeight('auto') : setHeight('7em')
+    }
+
     return (
         <div className={s.block_1}>
         <div className={s.center}>
@@ -21,7 +26,7 @@ const AnimeDetails = () => {
                     <p className={s.title}>{anime?.title}</p>
                     <div className={s.megapon_title}>
                         <div className={s.center_rating}>
-                            <Rate allowHalf disabled={true} defaultValue={anime?.score} count={11} style={{ color: '#c9af1c', }}/>
+                            <Rate allowHalf disabled={true} defaultValue={anime?.score} count={10} style={{ color: '#c9af1c', }}/>
                             <p className={s.rating}>{anime?.score}</p>
                         </div>
                         <p className={s.number_of_episodes}>Серий: {anime?.episodes}</p>
@@ -46,7 +51,7 @@ const AnimeDetails = () => {
                 <div className={s.description} style={{height: height}}>
                     <p className={s.synopsis}>{anime?.synopsis}</p>
                 </div>
-                <span onClick={()=>setHeight('auto')} className={s.span}>Свернуть описание</span>
+                <span onClick={SetDescription} className={s.span}>{height == 'auto' ? 'Свернуть описание' : 'Показать...'}</span>
                 <div className={s.videoTreiler}>
                     <iframe
                     className={s.iframe}

@@ -11,6 +11,7 @@ const Footers = () => {
   const [page, setPage] = useState(1)
 
   const data = useSelector(state => state.anime.persons)
+  const {pages} = useSelector(state => state.anime)
   const dispatch = useDispatch()
   useEffect(()=>{
     dispatch(fetchPersons({page}))
@@ -19,7 +20,7 @@ const Footers = () => {
 
   const onChange = (page) => setPage(page)
   return (
-    <div className={s.footer}>
+    <>
       <div className={s.center}>
         {
           data?.map((item) => 
@@ -30,10 +31,11 @@ const Footers = () => {
           )
         }
       </div>
+      <p/>
       <div className={s.character_btn}>
-        <Pagination current={+page} onChange={onChange} total={10820} style={{background: '#fff'}}/>
+        <Pagination current={+page} onChange={onChange} total={pages * 10} className={s.pagination}/>
       </div>
-    </div>
+    </>
   )
 }
 

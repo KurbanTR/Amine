@@ -1,21 +1,14 @@
-.footer{
-    width: 90em;
-    margin: 0 auto;
-    position: relative;
-    top: 120px;
-}
 .center{
     background: #1c1c1c;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 1.5em;
     padding: 50px 3em;
-    border-radius: 2em;
 }
 .card{
     overflow: hidden;
     border-radius: 0.5em;
-    height: 23em;
+    height: 15em;
     position: relative;
 }
 .card img{
@@ -49,14 +42,58 @@
     display: flex;
     justify-content: center;
 }
+.pagination{
+    background: white;
+}
 @media screen and (max-width: 1501px) and (min-width: 1051px) {
     .footer{
         width: 67em;
     }
+}
+@media screen and (max-width: 1050px) and (min-width: 801px) {
+    .center{
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+@media screen and (max-width: 800px) and (min-width: 521px) {
+    .center{
+        padding: 50px 0;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
     .card{
-        height: 15em;
+        width: 13em;
+        height: 19em;
+    }
+}
+@media screen and (max-width: 520px) and (min-width: 341px){
+    .center{
+        grid-template-columns: 1fr 1fr;
+    }
+    .card{
+        height: auto;
     }
     .title{
-        font-size: 20px;
+        font-size: 17px;
+    }
+}
+@media screen and (max-width: 400px) and (min-width: 341px){
+    .center{
+        padding: 2em 1em;
+    }
+}
+@media screen and (max-width: 340px){
+    .center{
+        grid-template-columns: 1fr;
+    }
+    .card{
+        height: auto;
+    }
+    .title{
+        font-size: 25px;
+    }
+    .center{
+        padding: 2em;
     }
 }

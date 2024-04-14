@@ -1,0 +1,23 @@
+.sort{
+    background: linear-gradient(to bottom, rgba(17, 33, 46, 0.66) 0%, #11212e 800px);
+    padding: 10px;
+}
+.sort_links{
+    display: flex;
+    flex-direction: column;
+}
+.sort_link{
+    width: 100%;
+    padding: 0.5em 0;
+    padding-left: 2em;
+    transition: all 0.5s;
+}
+.sort_link:hover{
+    border-radius: 0.5em;
+    background: rgba(255, 255, 255, 0.162);
+}
+@media screen and (max-width: 1250px){
+    .sort{
+        display: none;
+    }
+}

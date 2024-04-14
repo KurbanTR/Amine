@@ -7,9 +7,9 @@
     box-sizing: border-box;
 }
 body {
-  background: #1c1c1c;
-  color: white;
-  background-size: cover;
-  background-image: url('https://image.cdn2.seaart.ai/2023-09-02/16036943202635781/78b998c5cad19595d48ada5dfc12b9087c43e9d7_high.webp');
-  background-repeat: no-repeat;
+  background: #1c1c1c !important;
+  color: white !important;
+  background-size: cover !important;
+  background-image: url('https://image.cdn2.seaart.ai/2023-09-02/16036943202635781/78b998c5cad19595d48ada5dfc12b9087c43e9d7_high.webp') !important;
+  background-repeat: no-repeat !important;
 }
