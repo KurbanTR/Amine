@@ -50,6 +50,10 @@ header{
 .search_android{
     display: none;
 }
+.nav{
+    display: flex;
+    gap: 1.5em;
+}
 @media screen and (max-width: 900px) {
     .header_menu{
         display: block;
@@ -58,10 +62,11 @@ header{
         gap: 2em;
     }
     .search{
-        width: 15em;
+        width: 13em;
+        height: 40px;
     }
 }
-@media screen and (max-width: 520px){
+@media screen and (max-width: 625px){
     header{
         justify-content: center;
         flex-wrap: wrap;

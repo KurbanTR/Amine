@@ -3,8 +3,10 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 export const fetchPersons = createAsyncThunk(
     'todos/fetchPersons',
     async function({page}, {rejectWithValue, dispatch}){
+        const ratings = ['g', 'pg', 'pg13', 'r', 'r17'];
+        const ratingQueries = ratings.map(rating => `rated=${rating}`).join('&');
         try{
-            const res = await fetch(`https://api.jikan.moe/v4/top/anime?page=${page}&rating=pg13`)
+            const res = await fetch(`https://api.jikan.moe/v4/top/anime?page=${page}&${ratingQueries}`)
             if(!res.ok) {
                 throw new Error('Server Error!')
             }

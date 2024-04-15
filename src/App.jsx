@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import Header from './components/Header/Header';
 import AnimeList from './components/AnimeList/AnimeList';
-import AnimeDetails from './components/AnimeDetails/AnimeDetails';
+import AnimeDetails from './components/AnimeList/AnimeDetails/AnimeDetails';
 import {Routes, Route} from 'react-router-dom'
 import Sort from './components/Sort/Sort';
 

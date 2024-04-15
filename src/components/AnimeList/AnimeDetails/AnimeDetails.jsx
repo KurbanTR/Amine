@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux'
 import s from './AnimeDetails.module.css';
 import { Rate } from 'antd';
-import { fetchPerson } from '../../store/animeSlice';
+import { fetchPerson } from '../../../store/animeSlice';
 
 const AnimeDetails = () => {
     const [height, setHeight] = useState('7em')
@@ -43,7 +43,7 @@ const AnimeDetails = () => {
                     </div>
                     <div className={s.megapon}>
                         <p className={s.pon}>Студия:</p>
-                        <p className={s.pon_info}>{anime?.studios[0].name}</p>
+                        <p className={s.pon_info}>{anime?.studios && anime?.studios[0].name}</p>
                     </div>
                 </div>
             </div>
