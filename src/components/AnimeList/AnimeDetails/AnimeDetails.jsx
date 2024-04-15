@@ -9,6 +9,8 @@ const AnimeDetails = () => {
     const [height, setHeight] = useState('7em')
     const params = useParams()
     const dispatch = useDispatch()
+
+
     useEffect(()=>{
         dispatch(fetchPerson({id : params.id}))
       },[params.id, dispatch])

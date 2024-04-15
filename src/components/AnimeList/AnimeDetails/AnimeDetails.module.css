@@ -4,7 +4,6 @@
     align-items: center;
     gap: 3em;
     background: #09161c;
-    border-radius: 1em;
     overflow: hidden;
     padding-bottom: 20em;
 }
@@ -99,11 +98,13 @@
     border: 3px solid 0 0 0 1px #3e202a, 0 2px 8px rgba(0, 0, 0, 0.35);
     border-radius: 12px;
     padding: 12px;
-    transition: height 0.5s;
+    transition: max-height 0.5s ease-in-out;
     overflow: hidden;
     top: 10px;
     background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #09161c 100%);
 }
+
+
 .synopsis{
     color: #e6e6e6;
     transition: height 0.5s;

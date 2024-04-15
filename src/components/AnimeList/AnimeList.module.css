@@ -1,35 +1,68 @@
+
 .center{
     background: #1c1c1c;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 1.5em;
+    gap: 2.5em 1em;
     padding: 50px 3em;
+
 }
 .card{
     overflow: hidden;
     border-radius: 0.5em;
-    height: 15em;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    background-color: #1c1c1c;
 }
-.card img{
+
+.image_wrapper{
+    overflow:  hidden;
+    height: 15em;
+    border-radius: 0.5em;
+    
+}
+
+.image_wrapper:hover img{
+    opacity: 0.3;
+
+}
+.image_wrapper:hover .pause_button{
+    opacity: 1;
+
+}
+
+.image_wrapper img{
     width: 100%;
     display: block;
+    transition: opacity 0.3s ease
 }
-.title{
+
+.pause_button {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, #000 0%, transparent 100%); 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    width: 80px; 
+    height: 50px;
+    background-color: rgb(31, 103, 105);
+    border-radius: 50px;
+    box-shadow: 0 0 7px 8px #064d4186;
+}
+
+
+
+.title{
     color: white;
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 600;
-    padding: 10px;
     text-align: center;
     overflow: hidden;
     white-space: nowrap; 
     text-overflow: ellipsis; 
-    padding-top: 7em;
 }
 .button{
     color: white;

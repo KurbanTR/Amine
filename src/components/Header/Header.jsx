@@ -9,6 +9,25 @@ const Header = ({tema, setTema}) => {
   const [value, setValue] = useState('')
   const dispatch = useDispatch()
   const nav = useNavigate()
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.pageYOffset > 0);
+    };
+
+    
+    window.addEventListener('scroll', handleScroll);
+
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+
 
   const onChange = (value) => {
     console.log(`selected ${value}`);
@@ -30,13 +49,13 @@ const filterOption = (input, option) =>
   }, [value, dispatch])
 
   return (
-    <header className={s.header}>
+    <header className={isScrolled ? s.header_scrolled : s.header}>
         <Link to='/' className={s.title}>
-          <h1>Milk</h1>
+          <h1 style={{fontSize: '50px'}}>Milk</h1>
         </Link>
 
         <div className={s.search}>
-          <input value={value} onChange={e => setValue(e.target.value)} className={s.input} placeholder="Поиск аниме..."/>
+          <input value={value} onChange={e => setValue(e.target.value)} className={isScrolled ? s.input_scrolled : s.input} placeholder="Поиск аниме..."/>
         </div>
 
         <nav className={s.nav}>        
@@ -69,6 +88,8 @@ const filterOption = (input, option) =>
         <div className={s.search_android}>
           <input value={value} onChange={e => setValue(e.target.value)} className={s.input} placeholder="Поиск аниме..."/>
         </div>
+
+
       </header>
   )
 }
