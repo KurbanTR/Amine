@@ -21,7 +21,7 @@ const Header = ({tema, setTema}) => {
   return (
     <header className={s.header}>
         <Link to='/' className={s.title}>
-          <h1>Anime Website</h1>
+          <h1>Milk</h1>
         </Link>
 
         <div className={s.search}>
