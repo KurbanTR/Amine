@@ -37,7 +37,7 @@ const AnimeDetails = () => {
                 <div className={s.info}>
                     <div className={s.megapon}>
                         <p className={s.pon}>Год выпуска:</p>
-                        <p className={s.pon_info}>{anime?.year}</p>
+                        <p className={s.pon_info}>{anime?.year ? anime.year : 'Куда лезем боже'}</p>
                     </div>
                     <div className={s.megapon}>
                         <p className={s.pon}>Жанр:</p>
@@ -45,7 +45,7 @@ const AnimeDetails = () => {
                     </div>
                     <div className={s.megapon}>
                         <p className={s.pon}>Студия:</p>
-                        <p className={s.pon_info}>{anime?.studios && anime?.studios[0].name}</p>
+                        <p className={s.pon_info}>{anime?.studios ? anime?.studios.name : 'Нету'}</p>
                     </div>
                 </div>
             </div>
