@@ -40,11 +40,6 @@ const Footers = () => {
                 <p className={s.title}>{item.title}</p>
               </div>
             </Link>
-            
-            
-            
-            
-
           )
         }
       </div>

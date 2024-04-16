@@ -97,5 +97,5 @@ const animeSlice = createSlice({
         },
     },
 })
-export const {setPersons, setPerson, setPages} = animeSlice.actions
+export const {setPersons, setPerson, setPages, setReckPersons} = animeSlice.actions
 export default animeSlice.reducer
