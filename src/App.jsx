@@ -16,10 +16,10 @@ function App() {
     <>
       <Header tema={theme} setTema={setTheme}/>
       <Routes>
-        <Route path='/anime' element={<div className='main'><Sort/><AnimeList/></div>}/>
-        <Route path='/anime/:id' element={<div className='main'><Sort/><AnimeDetails/></div>}/>
-        <Route path='/manga' element={<div className='main'><Sort/><MangaList/></div>}/>
-        <Route path='/manga/:id' element={<div className='main'><Sort/><MangaDetails/></div>}/>
+        <Route path='/anime' element={<div className='main'><AnimeList/><Sort/></div>}/>
+        <Route path='/anime/:id' element={<AnimeDetails/>}/>
+        <Route path='/manga' element={<div className='main'><MangaList/><Sort/></div>}/>
+        <Route path='/manga/:id' element={<MangaDetails/>}/>
       </Routes>
     </>
   );
