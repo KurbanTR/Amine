@@ -9,7 +9,7 @@
   position: relative;
   top: 140px;
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 4fr 1fr;
   border-radius: 1em;
   overflow: hidden;
   gap: 5px;

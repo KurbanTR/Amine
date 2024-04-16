@@ -5,6 +5,7 @@ import {useSelector} from 'react-redux'
 import {useDispatch} from 'react-redux'
 import { fetchMangas } from '../../store/mangaSlice';
 import { Pagination } from 'antd'
+import Sort from '../Sort/Sort';
 
 
 const Footers = () => {
@@ -40,15 +41,10 @@ const Footers = () => {
                 <p className={s.title}>{item.title}</p>
               </div>
             </Link>
-            
-            
-            
-            
-
           )
         }
       </div>
-      <p/>
+      <Sort/>
       <div className={s.character_btn}>
         <Pagination current={+page} onChange={onChange} total={pages * 10} className={s.pagination}/>
       </div>
