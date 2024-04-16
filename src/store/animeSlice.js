@@ -20,6 +20,24 @@ export const fetchPersons = createAsyncThunk(
     }
 )
 
+export const fetchReckPersons = createAsyncThunk(
+    'todos/fetchPersons',
+    async function(_, {rejectWithValue, dispatch}){
+        try{
+            const res = await fetch(`https://api.jikan.moe/v4/recommendations/anime`)
+            if(!res.ok) {
+                throw new Error('Server Error!')
+            }
+            const data = await res.json()
+            dispatch(setReckPersons(data.data));
+            dispatch(setPages(data.pagination.last_visible_page))
+        }catch(error){
+            return rejectWithValue(error.message)
+        }
+
+    }
+)
+
 export const fetchSearchPersons = createAsyncThunk(
     'todos/fetchSearchPersons',
     async function({title}, {rejectWithValue, dispatch}){
@@ -59,6 +77,7 @@ const animeSlice = createSlice({
     initialState: {
         persons: [],
         person: null,
+        reckPersons: [],
         pages: NaN,
         loading: false,
         error: false,
@@ -72,6 +91,9 @@ const animeSlice = createSlice({
         },
         setPages(state, action){
             state.pages = action.payload
+        },
+        setReckPersons(state, action){
+            state.reckPersons = action.payload
         },
     },
 })
