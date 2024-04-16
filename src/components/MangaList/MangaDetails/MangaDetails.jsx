@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux'
-import s from './AnimeDetails.module.css';
+import s from './MangaDetails.module.css';
 import { Rate } from 'antd';
-import { fetchPerson } from '../../../store/animeSlice';
+import { fetchManga } from '../../../store/mangaSlice';
 
 const AnimeDetails = () => {
     const [height, setHeight] = useState('7em')
@@ -12,9 +12,9 @@ const AnimeDetails = () => {
 
 
     useEffect(()=>{
-        dispatch(fetchPerson({id : params.id}))
+        dispatch(fetchManga({id : params.id}))
       },[params.id, dispatch])
-    const anime = useSelector(state => state.anime.person)
+    const anime = useSelector(state => state.manga.manga)
 
     const SetDescription = ()=>{
         height == '7em' ? setHeight('auto') : setHeight('7em')
@@ -45,7 +45,7 @@ const AnimeDetails = () => {
                     </div>
                     <div className={s.megapon}>
                         <p className={s.pon}>Студия:</p>
-                        <p className={s.pon_info}>{anime?.studios ? anime?.studios[0].name : 'Нету'}</p>
+                        <p className={s.pon_info}>{anime?.studios ? anime?.studios.name : 'Нету'}</p>
                     </div>
                 </div>
             </div>
@@ -54,14 +54,6 @@ const AnimeDetails = () => {
                     <p className={s.synopsis}>{anime?.synopsis}</p>
                 </div>
                 <span onClick={SetDescription} className={s.span}>{height == 'auto' ? 'Свернуть описание' : 'Показать...'}</span>
-                <div className={s.videoTreiler}>
-                    <iframe
-                    className={s.iframe}
-                    title='trailer'
-                    src={anime?.trailer.embed_url}
-                    allowFullScreen
-                    />
-                </div>
             </div>
         </div>
     );

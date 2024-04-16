@@ -30,7 +30,7 @@ const Header = ({tema, setTema}) => {
 
 
   const onChange = (value) => {
-    console.log(`selected ${value}`);
+    nav(`/${value}`)
   };
   const onSearch = (value) => {
     console.log('search:', value);
@@ -43,7 +43,6 @@ const filterOption = (input, option) =>
     if(value == ''|| value[1] == ' '){
       dispatch(fetchPersons())
     } else{
-      nav('/')
       dispatch(fetchSearchPersons({title: value}))
     }  
   }, [value, dispatch])
@@ -51,7 +50,7 @@ const filterOption = (input, option) =>
   return (
     <header className={isScrolled ? s.header_scrolled : s.header}>
         <Link to='/' className={s.title}>
-          <h1 style={{fontSize: '50px'}}>Milk</h1>
+          <h1 style={{fontSize: '50px'}}>Amine</h1>
         </Link>
 
         <div className={s.search}>
@@ -63,7 +62,8 @@ const filterOption = (input, option) =>
           {!tema && <img onClick={()=>setTema(true)} className={s.tema} src="https://cdn-icons-png.flaticon.com/512/14/14881.png" alt="" />}
           <Select
             showSearch
-            placeholder="Select a person"
+            defaultValue='Главгая'
+            placeholder="Select"
             optionFilterProp="children"
             onChange={onChange}
             onSearch={onSearch}

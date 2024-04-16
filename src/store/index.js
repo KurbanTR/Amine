@@ -1,8 +1,10 @@
 import {configureStore} from '@reduxjs/toolkit'
-import personReducer from './animeSlice'
+import animeReducer from './animeSlice'
+import mangaReducer from './mangaSlice'
 
 export default configureStore({
     reducer: {
-        anime: personReducer,
+        anime: animeReducer,
+        manga: mangaReducer, 
     }
 })
