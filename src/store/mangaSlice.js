@@ -1,56 +1,42 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
+import { mangaApi } from '../api/mangaApi';
 
 export const fetchMangas = createAsyncThunk(
     'manga/fetchMangas',
-    async function({page}, {rejectWithValue, dispatch}){
-        try{
-            const res = await fetch(`https://api.jikan.moe/v4/top/manga?page=${page}`)
-            if(!res.ok) {
-                throw new Error('Server Error!')
-            }
-            const data = await res.json()
-            dispatch(setMangas(data.data));
-            dispatch(setPages(data.pagination.last_visible_page))
-        }catch(error){
-            return rejectWithValue(error.message)
-        }
-
+    async function({page}, {dispatch}){
+            const data = await mangaApi.getAllManga({page})
+            dispatch(setMangas(data.data.data));
+            dispatch(setPages(data.data.pagination.last_visible_page))
     }
 )
+// Запрос на все манги
+
+export const fetchAnimeRank = createAsyncThunk(
+    'anime/fetchAnimeRank',
+    async function(_, {dispatch}){
+        const data = await mangaApi.getMangaRank()
+        dispatch(setReckMangas(data.data.data));
+    }
+)
+// Запрос на 25 манг по рангу
 
 export const fetchSearcMangas = createAsyncThunk(
     'manga/fetchSearcManga',
-    async function({title}, {rejectWithValue, dispatch}){
-        try{
-            const res = await fetch(`https://api.jikan.moe/v4/manga?q=${title}`)
-            if(!res.ok) {
-                throw new Error('Server Error!')
-            }
-            const data = await res.json()
-            dispatch(setMangas(data.data));
-        }catch(error){
-            return rejectWithValue(error.message)
-        }
-
+    async function({title}, {dispatch}){
+        const data = await mangaApi.getMangaSerch({q: title})
+            dispatch(setMangas(data.data.data));
     }
 )
+// Поиск манги по названию
 
 export const fetchManga = createAsyncThunk(
     'manga/fetchManga',
-    async function({id}, {rejectWithValue, dispatch}){
-        try{
-            const res = await fetch(`https://api.jikan.moe/v4/manga/${id}/full`)
-            if(!res.ok) {
-                throw new Error('Server Error!')
-            }
-            const data = await res.json()
-            dispatch(setManga(data.data));
-        }catch(error){
-            return rejectWithValue(error.message)
-        }
-
+    async function({id}, {dispatch}){
+        const data = await mangaApi.getManga(id)
+        dispatch(setManga(data.data.data));
     }
 )
+// Запрос на определённую мангу по айди
 
 const mangaSlice = createSlice({
     name: 'manga',
@@ -71,7 +57,10 @@ const mangaSlice = createSlice({
         setPages(state, action){
             state.pages = action.payload
         },
+        setReckMangas(state, action){
+            state.pages = action.payload
+        },
     },
 })
-export const {setMangas, setManga, setPages} = mangaSlice.actions
+export const {setMangas, setManga, setPages, setReckMangas} = mangaSlice.actions
 export default mangaSlice.reducer
