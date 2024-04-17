@@ -26,7 +26,7 @@ const Footers = () => {
       <div  className={s.body}>
         {
           data?.map((item) => 
-              <Link to={'/anime/' + item.mal_id} className={s.body__card} key={item.id}>
+            <Link to={'/anime/' + item.mal_id} className={s.body__card} key={item.id}>
               <div className={s.body__image_wrapper} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
                 <img src={item.images.jpg.image_url} alt="" />
                 {isHovered && 
