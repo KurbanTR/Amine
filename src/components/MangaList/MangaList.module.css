@@ -1,13 +1,11 @@
-
-.center{
+.body{
     background: #1c1c1c;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 2.5em 1em;
     padding: 50px 3em;
-
 }
-.card{
+.body__card{
     overflow: hidden;
     border-radius: 0.5em;
     position: relative;
@@ -16,30 +14,24 @@
     gap: 0.5em;
     background-color: #1c1c1c;
 }
-
-.image_wrapper{
+.body__image_wrapper{
     overflow:  hidden;
     height: 15em;
     border-radius: 0.5em;
     
 }
-
-.image_wrapper:hover img{
+.body__image_wrapper:hover img{
     opacity: 0.3;
-
 }
-.image_wrapper:hover .pause_button{
+.body__image_wrapper:hover .body__pause_button{
     opacity: 1;
-
 }
-
-.image_wrapper img{
+.body__image_wrapper img{
     width: 100%;
     display: block;
     transition: opacity 0.3s ease
 }
-
-.pause_button {
+.body__pause_button {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -52,10 +44,7 @@
     border-radius: 50px;
     box-shadow: 0 0 7px 8px #064d4186;
 }
-
-
-
-.title{
+.body__title{
     color: white;
     font-size: 20px;
     font-weight: 600;
@@ -64,69 +53,62 @@
     white-space: nowrap; 
     text-overflow: ellipsis; 
 }
-.button{
+.body__button{
     color: white;
     font-size: 20px;
     font-weight: 600;
     width: 100%;
 }
-.character_btn{
+.character{
     width: 100%;
     display: flex;
     justify-content: center;
 }
-.pagination{
+.character__pagination{
     background: white;
 }
-@media screen and (max-width: 1501px) and (min-width: 1051px) {
-    .footer{
-        width: 67em;
-    }
-}
 @media screen and (max-width: 1050px) and (min-width: 801px) {
-    .center{
+    .body{
         grid-template-columns: repeat(4, 1fr);
     }
 }
 @media screen and (max-width: 800px) and (min-width: 521px) {
-    .center{
+    .body{
         padding: 50px 0;
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
     }
-    .card{
+    .body__card{
         width: 13em;
         height: 19em;
     }
 }
 @media screen and (max-width: 520px) and (min-width: 341px){
-    .center{
+    .body{
         grid-template-columns: 1fr 1fr;
     }
-    .card{
+    .body__card{
         height: auto;
     }
-    .title{
+    .body__title{
         font-size: 17px;
     }
 }
 @media screen and (max-width: 400px) and (min-width: 341px){
-    .center{
+    .body{
         padding: 2em 1em;
     }
 }
 @media screen and (max-width: 340px){
-    .center{
+    .body{
         grid-template-columns: 1fr;
+        padding: 2em;
     }
-    .card{
+    .body__card{
         height: auto;
     }
-    .title{
+    .body__title{
         font-size: 25px;
-    }
-    .center{
-        padding: 2em;
     }
 }

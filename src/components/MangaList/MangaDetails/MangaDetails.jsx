@@ -13,6 +13,7 @@ const AnimeDetails = () => {
 
     useEffect(()=>{
         dispatch(fetchManga({id : params.id}))
+        window.scrollTo({top: 0, behavior: "smooth"})
       },[params.id, dispatch])
     const anime = useSelector(state => state.manga.manga)
 
@@ -37,15 +38,15 @@ const AnimeDetails = () => {
                 <div className={s.info}>
                     <div className={s.megapon}>
                         <p className={s.pon}>Год выпуска:</p>
-                        <p className={s.pon_info}>{anime?.year ? anime.year : 'Неизвестно'}</p>
+                        <p className={s.pon_info}>{anime?.published?.prop?.from?.year ? anime.published.prop.from.year : 'Неизвестно'}</p>
                     </div>
                     <div className={s.megapon}>
                         <p className={s.pon}>Жанр:</p>
                         <p className={s.pon_info}>{anime?.genres.map(genre => ` ${genre.name},`)}</p>
                     </div>
                     <div className={s.megapon}>
-                        <p className={s.pon}>Студия:</p>
-                        <p className={s.pon_info}>{anime?.studios ? anime?.studios.name : 'Нету'}</p>
+                        <p className={s.pon}>Издатель:</p>
+                        <p className={s.pon_info}>{anime?.serializations ? anime?.serializations[0].name : 'Нету'}</p>
                     </div>
                 </div>
             </div>

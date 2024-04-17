@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 
 const MainPage = () => {
   const data = useSelector(state => state.anime.reckPersons)
-  console.log(data);
 
   return (
     <>
