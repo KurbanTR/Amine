@@ -40,12 +40,23 @@ export const fetchAnime = createAsyncThunk(
 )
 // Запрос на определённое аниме по айди
 
+export const fetchRandAnime = createAsyncThunk(
+    'anime/fetchRandAnime',
+    async function(_, { dispatch }) {
+            const res = await fetch('https://api.jikan.moe/v4/random/anime');
+            const data = await res.json()
+            console.log(data.data);
+            dispatch(setRandAnime(data.data));
+    }
+);
+// Запрос на рандомное аниме
 const animeSlice = createSlice({
     name: 'anime',
     initialState: {
         persons: [],
         person: null,
         reckPersons: [],
+        randAnime: null,
         pages: null,
         loading: false,
         error: false,
@@ -63,7 +74,10 @@ const animeSlice = createSlice({
         setReckAnimes(state, action){
             state.reckPersons = action.payload
         },
+        setRandAnime(state, action){
+            state.randAnime = action.payload
+        }
     },
 })
-export const {setAnime, setAnimes, setPages, setReckAnimes} = animeSlice.actions
+export const {setAnime, setAnimes, setPages, setReckAnimes, setRandAnime} = animeSlice.actions
 export default animeSlice.reducer
