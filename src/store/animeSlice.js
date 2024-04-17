@@ -34,7 +34,6 @@ export const fetchAnime = createAsyncThunk(
     'anime/fetchAnime',
     async function({id}, {dispatch}){
             const data = await animeApi.getAnime(id)
-            console.log(id);
             dispatch(setAnime(data.data.data));
     }
 )
