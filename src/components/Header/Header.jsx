@@ -50,17 +50,22 @@ const filterOption = (input, option) =>
   return (
     <header className={isScrolled ? s.header_scrolled : s.header}>
         <Link to='/' className={s.title}>
-          <h1 style={{fontSize: '50px'}}>Amine</h1>
+          <h1 style={{fontSize: '50px'}}>JumCloud</h1>
         </Link>
 
         <div className={s.search}>
           <input value={value} onChange={e => setValue(e.target.value)} className={isScrolled ? s.input_scrolled : s.input} placeholder="Поиск аниме..."/>
         </div>
 
-        <nav className={s.nav}>        
+        <nav className={s.nav}>      
+
+          <Link className={s.catalog_link}>Anime</Link>
+          <Link className={s.catalog_link}>Manga</Link>
+
           {tema && <img onClick={()=>setTema(false)} className={s.tema} src="https://cdn-icons-png.flaticon.com/512/17/17768.png" alt="" />}
           {!tema && <img onClick={()=>setTema(true)} className={s.tema} src="https://cdn-icons-png.flaticon.com/512/14/14881.png" alt="" />}
           <Select
+            className={s.burger_menu}
             showSearch
             defaultValue='Главная'
             placeholder="Select"
