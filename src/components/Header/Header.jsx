@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import s from './Header.module.css'
-import { fetchSearchPersons, fetchPersons } from '../../store/animeSlice'
+import { fetchSearchAnimes, fetchAnimes } from '../../store/animeSlice'
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { Select } from 'antd';
@@ -41,9 +41,9 @@ const filterOption = (input, option) =>
 
   useEffect(()=>{
     if(value == ''|| value[1] == ' '){
-      dispatch(fetchPersons())
+      dispatch(fetchAnimes())
     } else{
-      dispatch(fetchSearchPersons({title: value}))
+      dispatch(fetchSearchAnimes({title: value}))
     }  
   }, [value, dispatch])
 
@@ -62,7 +62,7 @@ const filterOption = (input, option) =>
           {!tema && <img onClick={()=>setTema(true)} className={s.tema} src="https://cdn-icons-png.flaticon.com/512/14/14881.png" alt="" />}
           <Select
             showSearch
-            defaultValue='Главгая'
+            defaultValue='Главная'
             placeholder="Select"
             optionFilterProp="children"
             onChange={onChange}
@@ -76,10 +76,6 @@ const filterOption = (input, option) =>
               {
                 value: 'manga',
                 label: 'Manga',
-              },
-              {
-                value: 'remanga',
-                label: 'Remanga',
               },
             ]}
             />
