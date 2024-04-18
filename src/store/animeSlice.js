@@ -4,10 +4,9 @@ import { animeApi } from '../api/animeApi';
 export const fetchAnimes = createAsyncThunk(
     'anime/fetchAnimes',
     async function({ page }, { dispatch }) {
-            const data = await animeApi.getAllAnime({page});
-            console.log(data.data);
-            dispatch(setAnimes(data.data.data)); 
-            dispatch(setPages(data.data.pagination.last_visible_page)); 
+        const data = await animeApi.getAllAnime({page, genres_exclude: 12});
+        dispatch(setAnimes(data.data.data)); 
+        dispatch(setPages(data.data.pagination.last_visible_page)); 
     }
 );
 // Запрос на все аниме
@@ -16,7 +15,7 @@ export const fetchAnimeRank = createAsyncThunk(
     'anime/fetchAnimeRank',
     async function(_, {dispatch}){
         const data = await animeApi.getAnimeRank()
-        dispatch(setReckAnimes(data.data.data));
+        dispatch(setReckAnimes(data.data.data));    
     }
 )
 // Запрос на 25 аниме по рангу
@@ -24,7 +23,7 @@ export const fetchAnimeRank = createAsyncThunk(
 export const fetchSearchAnimes = createAsyncThunk(
     'anime/fetchSearchAnimes',
     async function({title}, {dispatch}){
-        const data = await animeApi.getAnimeSerch({q: title, rating: 'r17'})
+        const data = await animeApi.getAnimeSerch({q: title, genres_exclude: 12})
         dispatch(setAnimes(data.data.data));
     }
 )
@@ -33,8 +32,8 @@ export const fetchSearchAnimes = createAsyncThunk(
 export const fetchAnime = createAsyncThunk(
     'anime/fetchAnime',
     async function({id}, {dispatch}){
-            const data = await animeApi.getAnime(id)
-            dispatch(setAnime(data.data.data));
+        const data = await animeApi.getAnime(id)
+        dispatch(setAnime(data.data.data));
     }
 )
 // Запрос на определённое аниме по айди
@@ -42,10 +41,9 @@ export const fetchAnime = createAsyncThunk(
 export const fetchRandAnime = createAsyncThunk(
     'anime/fetchRandAnime',
     async function(_, { dispatch }) {
-            const res = await fetch('https://api.jikan.moe/v4/random/anime');
-            const data = await res.json()
-            console.log(data.data);
-            dispatch(setRandAnime(data.data));
+        const res = await fetch(`https://api.jikan.moe/v4/random/anime?genres_exclude=12`);
+        const data = await res.json()
+        data.data.rating === "Rx - Hentai" ? dispatch(fetchRandAnime) : dispatch(setRandAnime(data.data));
     }
 );
 // Запрос на рандомное аниме

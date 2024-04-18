@@ -11,24 +11,15 @@ const Header = ({tema, setTema}) => {
   const nav = useNavigate()
   const [isScrolled, setIsScrolled] = useState(false);
 
-  
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.pageYOffset > 0);
     };
-
-    
     window.addEventListener('scroll', handleScroll);
-
-    
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-
-
   const onChange = (value) => {
     nav(`/${value}`)
   };
@@ -36,8 +27,7 @@ const Header = ({tema, setTema}) => {
     console.log('search:', value);
   };
 
-const filterOption = (input, option) =>
-  (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+  const filterOption = (input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
   useEffect(()=>{
     if(value == ''|| value[1] == ' '){
@@ -58,12 +48,9 @@ const filterOption = (input, option) =>
         </div>
 
         <nav className={s.nav}>      
+          <Link to='/anime' className={s.catalog_link}>Anime</Link>
+          <Link to='/manga' className={s.catalog_link}>Manga</Link>
 
-          <Link className={s.catalog_link}>Anime</Link>
-          <Link className={s.catalog_link}>Manga</Link>
-
-          {tema && <img onClick={()=>setTema(false)} className={s.tema} src="https://cdn-icons-png.flaticon.com/512/17/17768.png" alt="" />}
-          {!tema && <img onClick={()=>setTema(true)} className={s.tema} src="https://cdn-icons-png.flaticon.com/512/14/14881.png" alt="" />}
           <Select
             className={s.burger_menu}
             showSearch
@@ -83,9 +70,10 @@ const filterOption = (input, option) =>
                 label: 'Manga',
               },
             ]}
-            />
-          </nav>
-
+          />
+          {tema && <img onClick={()=>setTema(false)} className={s.tema} src="https://cdn-icons-png.flaticon.com/512/17/17768.png" alt="" />}
+          {!tema && <img onClick={()=>setTema(true)} className={s.tema} src="https://cdn-icons-png.flaticon.com/512/14/14881.png" alt="" />}
+        </nav>
         <div className={s.search_android}>
           <input value={value} onChange={e => setValue(e.target.value)} className={s.input} placeholder="Поиск аниме..."/>
         </div>
