@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux'
 import s from './AnimeDetails.module.css';
 import { Rate } from 'antd';
-import { fetchPerson } from '../../../store/animeSlice';
+import { fetchAnime } from '../../../store/animeSlice';
 
 const AnimeDetails = () => {
     const [height, setHeight] = useState('7em')
@@ -12,7 +12,8 @@ const AnimeDetails = () => {
 
 
     useEffect(()=>{
-        dispatch(fetchPerson({id : params.id}))
+        dispatch(fetchAnime({id : params.id}))
+        window.scrollTo({top: 0, behavior: "smooth"})
       },[params.id, dispatch])
     const anime = useSelector(state => state.anime.person)
 

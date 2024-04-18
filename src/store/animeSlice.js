@@ -1,101 +1,80 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { animeApi } from '../api/animeApi';
 
-export const fetchPersons = createAsyncThunk(
-    'todos/fetchPersons',
-    async function({page}, {rejectWithValue, dispatch}){
-        const ratings = ['g', 'pg', 'pg13', 'r', 'r17'];
-        const ratingQueries = ratings.map(rating => `rated=${rating}`).join('&');
-        try{
-            const res = await fetch(`https://api.jikan.moe/v4/top/anime?page=${page}&${ratingQueries}`)
-            if(!res.ok) {
-                throw new Error('Server Error!')
-            }
-            const data = await res.json()
-            dispatch(setPersons(data.data));
-            dispatch(setPages(data.pagination.last_visible_page))
-        }catch(error){
-            return rejectWithValue(error.message)
-        }
+export const fetchAnimes = createAsyncThunk(
+    'anime/fetchAnimes',
+    async function({ page }, { dispatch }) {
+        const data = await animeApi.getAllAnime({page, genres_exclude: 12});
+        dispatch(setAnimes(data.data.data)); 
+        dispatch(setPages(data.data.pagination.last_visible_page)); 
+    }
+);
+// Запрос на все аниме
 
+export const fetchAnimeRank = createAsyncThunk(
+    'anime/fetchAnimeRank',
+    async function(_, {dispatch}){
+        const data = await animeApi.getAnimeRank()
+        dispatch(setReckAnimes(data.data.data));    
     }
 )
+// Запрос на 25 аниме по рангу
 
-export const fetchReckPersons = createAsyncThunk(
-    'todos/fetchPersons',
-    async function(_, {rejectWithValue, dispatch}){
-        try{
-            const res = await fetch(`https://api.jikan.moe/v4/recommendations/anime`)
-            if(!res.ok) {
-                throw new Error('Server Error!')
-            }
-            const data = await res.json()
-            dispatch(setReckPersons(data.data));
-            dispatch(setPages(data.pagination.last_visible_page))
-        }catch(error){
-            return rejectWithValue(error.message)
-        }
-
+export const fetchSearchAnimes = createAsyncThunk(
+    'anime/fetchSearchAnimes',
+    async function({title}, {dispatch}){
+        const data = await animeApi.getAnimeSerch({q: title, genres_exclude: 12})
+        dispatch(setAnimes(data.data.data));
     }
 )
+// Поиск аниме по названию
 
-export const fetchSearchPersons = createAsyncThunk(
-    'todos/fetchSearchPersons',
-    async function({title}, {rejectWithValue, dispatch}){
-        try{
-            const res = await fetch(`https://api.jikan.moe/v4/anime?q=${title}&rating=pg13`)
-            if(!res.ok) {
-                throw new Error('Server Error!')
-            }
-            const data = await res.json()
-            dispatch(setPersons(data.data));
-        }catch(error){
-            return rejectWithValue(error.message)
-        }
-
+export const fetchAnime = createAsyncThunk(
+    'anime/fetchAnime',
+    async function({id}, {dispatch}){
+        const data = await animeApi.getAnime(id)
+        dispatch(setAnime(data.data.data));
     }
 )
+// Запрос на определённое аниме по айди
 
-export const fetchPerson = createAsyncThunk(
-    'todos/fetchPerson',
-    async function({id}, {rejectWithValue, dispatch}){
-        try{
-            const res = await fetch(`https://api.jikan.moe/v4/anime/${id}/full`)
-            if(!res.ok) {
-                throw new Error('Server Error!')
-            }
-            const data = await res.json()
-            dispatch(setPerson(data.data));
-        }catch(error){
-            return rejectWithValue(error.message)
-        }
-
+export const fetchRandAnime = createAsyncThunk(
+    'anime/fetchRandAnime',
+    async function(_, { dispatch }) {
+        const res = await fetch(`https://api.jikan.moe/v4/random/anime?genres_exclude=12`);
+        const data = await res.json()
+        data.data.rating === "Rx - Hentai" ? dispatch(fetchRandAnime) : dispatch(setRandAnime(data.data));
     }
-)
-
+);
+// Запрос на рандомное аниме
 const animeSlice = createSlice({
     name: 'anime',
     initialState: {
         persons: [],
         person: null,
         reckPersons: [],
-        pages: NaN,
+        randAnime: null,
+        pages: null,
         loading: false,
         error: false,
     },
     reducers: {
-        setPersons(state, action){
+        setAnimes(state, action){
             state.persons = action.payload
         },
-        setPerson(state, action){
+        setAnime(state, action){
             state.person = action.payload
         },
         setPages(state, action){
             state.pages = action.payload
         },
-        setReckPersons(state, action){
+        setReckAnimes(state, action){
             state.reckPersons = action.payload
         },
+        setRandAnime(state, action){
+            state.randAnime = action.payload
+        }
     },
 })
-export const {setPersons, setPerson, setPages, setReckPersons} = animeSlice.actions
+export const {setAnime, setAnimes, setPages, setReckAnimes, setRandAnime} = animeSlice.actions
 export default animeSlice.reducer
