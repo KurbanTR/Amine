@@ -18,14 +18,15 @@ const Sort = () => {
         <Link className={s.sort_link}>НОВИНКИ</Link>
         <Link className={s.sort_link}>АНИМЕ ПО ЖАНРАМ</Link>
       </div>
-      <div className={s.sort__rand}>
-        <div className={s.body__image_wrapper}>
+      <Link to={'/anime/'+animeData?.mal_id} className={s.sort__rand}>
+        <p className={s.sort__rand_title}>Случайное аниме</p>
+        <div className={s.sort__image_wrapper}>
           <img src={animeData?.images.jpg.image_url} alt="" />
         </div>
-        <div className={s.body__title_wrapper}>
-          <p className={s.body__title}>{animeData?.title}</p>
+        <div className={s.sort__title_wrapper}>
+          <p className={s.sort__title}>{animeData?.title}</p>
         </div>
-      </div>
+      </Link>
     </div>
   )
 }
