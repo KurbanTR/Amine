@@ -61,7 +61,40 @@
     width: 100%;
 }
 
+.body__card{
+    border-radius: 1em;
+    overflow: hidden;
+}
 
+.body__card{
+    overflow: hidden;
+    border-radius: 0.5em;
+}
+.body__image_wrapper{
+    overflow: hidden;
+    height: 18em;
+}
+.body__image_wrapper img{
+    border-radius: 0.5em;
+}
+.body__title{
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
+}
+.body__button{
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    width: 100%;
+}   
+.body__slide{
+    padding: 0 1px;
+}
 @media screen and (max-width: 1145px) and (min-width: 1026px){
 
     .block1__main{
