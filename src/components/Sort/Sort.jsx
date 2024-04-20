@@ -12,6 +12,7 @@ const Sort = () => {
   useEffect(()=>{
     dispatch(fetchRandAnime())
   },[])
+
   return (
     <div className={s.sort}>
       <div className={s.sort_links}>

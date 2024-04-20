@@ -7,10 +7,13 @@ export const animeApi = {
     getAnime(id) {
         return instance.get(`anime/${id}/full`);
     },
-    getAnimeRank(){
-        return instance.get(`anime?order_by=rank`);
+    getAnimeRank(params){
+        return instance.get(`anime`, {params});
     },
     getAnimeSerch(params){
         return instance.get(`anime`, {params});
+    },
+    getAnimeRand(params){
+        return instance.get(`random/anime`, {params});
     },
 };
