@@ -4,9 +4,10 @@ import {useSelector, useDispatch} from 'react-redux'
 import s from './AnimeDetails.module.css';
 import { Rate } from 'antd';
 import { fetchAnime } from '../../../store/animeSlice';
+import { Tabs, TabList, TabPanels, Tab, TabPanel, TabIndicator } from '@chakra-ui/react'
 
 const AnimeDetails = () => {
-    const [height, setHeight] = useState('7em')
+    // const [height, setHeight] = useState('7em')
     const params = useParams()
     const dispatch = useDispatch()
 
@@ -17,13 +18,48 @@ const AnimeDetails = () => {
       },[params.id, dispatch])
     const anime = useSelector(state => state.anime.person)
 
-    const SetDescription = ()=>{
-        height == '7em' ? setHeight('auto') : setHeight('7em')
-    }
+    // const SetDescription = ()=>{
+    //     height == '7em' ? setHeight('auto') : setHeight('7em')
+    // }
 
     return (
         <div className={s.block_1}>
-        <div className={s.center}>
+            <div className={s.block_1__shapka}></div>
+            <div className={s.block_1__titles}>
+                <img src={anime?.images.jpg.image_url} alt="" />
+                <div>
+                    <p className={s.title}>{anime?.title}</p>
+                    <div className={s.ratings}>
+                        <Rate allowHalf disabled={true} count={5} character={({ index }) => {
+                            return index < Math.floor(anime?.score / 2) ? <span style={{color: '#fff', fontSize: '1.5em'}}>★</span> : <span style={{color: '#464646', fontSize: '1.7em'}}>★</span>;
+                        }}/>
+                        <p className={s.rating}>{anime?.score}</p>
+                        <div className={s.buttons}>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <Tabs position='relative' variant='unstyled' className='pl-[1.25em]'>
+                <TabList>
+                    <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500'}}>Overview</Tab>
+                    <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500'}}>Characters</Tab>
+                    <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500'}}>Relations</Tab>
+                </TabList>
+                <TabIndicator mt='-1.5px' height='2px' bg='white' borderRadius='1px'/>
+                <TabPanels>
+                    <TabPanel>
+                        <p>Overview</p>
+                    </TabPanel>
+                    <TabPanel>
+                        <p>Characters</p>
+                    </TabPanel>
+                    <TabPanel>
+                        <p>Relations</p>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
+        {/* <div className={s.center}>
                 <div className={s.card}><img className={s.image} src={anime?.images.jpg.image_url} alt="" /></div>
                 <div className={s.titles}>
                     <p className={s.title}>{anime?.title}</p>
@@ -63,7 +99,7 @@ const AnimeDetails = () => {
                     allowFullScreen
                     />
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };
