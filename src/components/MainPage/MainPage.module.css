@@ -61,7 +61,15 @@
     width: 100%;
 }
 
-
+.container{
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    overflow-x: auto;
+}
+.container::-webkit-scrollbar{
+    display: none
+}
 @media screen and (max-width: 1145px) and (min-width: 1026px){
 
     .block1__main{

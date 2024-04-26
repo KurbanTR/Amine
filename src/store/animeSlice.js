@@ -23,7 +23,7 @@ export const fetchAnimeRank = createAsyncThunk(
 export const fetchSearchAnimes = createAsyncThunk(
     'anime/fetchSearchAnimes',
     async function({title}, {dispatch}){
-        const data = await animeApi.getAnimeSerch({q: title, genres_exclude: [12, 49]})
+        const data = await animeApi.getAnimeSerch({q: title, genres_exclude: 12})
         dispatch(setAnimes(data.data.data));
     }
 )

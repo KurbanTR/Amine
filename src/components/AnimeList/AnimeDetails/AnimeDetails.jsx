@@ -5,6 +5,11 @@ import s from './AnimeDetails.module.css';
 import { Rate } from 'antd';
 import { fetchAnime } from '../../../store/animeSlice';
 import { Tabs, TabList, TabPanels, Tab, TabPanel, TabIndicator } from '@chakra-ui/react'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+import 'swiper/css/pagination';
+import 'swiper/css';
+
 
 const AnimeDetails = () => {
     const [height, setHeight] = useState('7em')
@@ -40,58 +45,58 @@ const AnimeDetails = () => {
                     </div>
                 </div>
             </div>
-            <Tabs position='relative' variant='unstyled' className='pl-[1.25em]'>
+            <Tabs position='relative' variant='unstyled' className='pl-[1.25em] w-full'>
                 <TabList>
                     <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em'}}>Overview</Tab>
                     <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em'}}>Characters</Tab>
                     <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em'}}>Relations</Tab>
                 </TabList>
-                <TabIndicator mt='-1.5px' height='2px' bg='white' borderRadius='1px'/>
+                <TabIndicator mt='-1.5px' height='2px' width='100%' bg='white' borderRadius='1px'/>
                 <TabPanels>
                     <TabPanel>
-                        <div className='py-[2em] flex gap-[7em]'>
-                            <div>
-                                <p className='text-3xl font-medium w-[12em]'>Details</p>
-                                <div>
-                                    {anime?.type && <div className='flex gap-10 pt-7 w-[10em]'>
-                                        <p className='text-[#7c7c7c] text-lg'>Type</p>
-                                        <p className='text-lg'>{anime?.type}</p>
+                        <div className='py-[2em] flex gap-[1em] w-full'>
+                            <div className='w-[170em]'>
+                                <p className='text-3xl font-medium'>Details</p>
+                                <div className='w-full'>
+                                    {anime?.type && <div className='flex pt-7 w-full'>
+                                        <p className='text-[#7c7c7c] text-lg w-[35%]'>Type</p>
+                                        <p className='text-base'>{anime?.type}</p>
                                     </div>}
-                                    {anime?.episodes && <div className='flex gap-10 pt-7'>
-                                        <p className='text-[#7c7c7c] text-lg'>Episodes</p>
-                                        <p className='text-lg'>{anime?.episodes}</p>
+                                    {anime?.episodes && <div className='flex pt-7 w-full'>
+                                        <p className='text-[#7c7c7c] text-lg w-[35%]'>Episodes</p>
+                                        <p className='text-base'>{anime?.episodes}</p>
                                     </div>}
-                                    {anime?.genres.length !== 0 && <div className='flex gap-10 pt-7'>
-                                        <p className='text-[#7c7c7c] text-lg'>Genres</p>
-                                        <p className='text-lg'>{anime?.genres.map(genre => genre.name).join(", ")}</p>
+                                    {anime?.genres.length !== 0 && <div className='flex pt-7 w-full'>
+                                        <p className='text-[#7c7c7c] text-lg w-[35%]'>Genres</p>
+                                        <p className='tetext-base'>{anime?.genres.map(genre => genre.name).join(", ")}</p>
                                     </div>}
-                                    {anime?.aired?.string && <div className='flex gap-10 pt-7'>
-                                        <p className='text-[#7c7c7c] text-lg'>Aired</p>
-                                        <p className='text-lg'>{anime?.aired.string}</p>
+                                    {anime?.aired?.string && <div className='flex pt-7 w-full'>
+                                        <p className='text-[#7c7c7c] text-lg w-[35%]'>Aired</p>
+                                        <p className='text-base'>{anime?.aired.string}</p>
                                     </div>}
-                                    {anime?.status && <div className='flex gap-10 pt-7'>
-                                        <p className='text-[#7c7c7c] text-lg'>Status</p>
-                                        <p className='text-lg'>{anime?.status}</p>
+                                    {anime?.status && <div className='flex pt-7 w-full'>
+                                        <p className='text-[#7c7c7c] text-lg w-[35%]'>Status</p>
+                                        <p className='text-base'>{anime?.status}</p>
                                     </div>}
-                                    {anime?.season && <div className='flex gap-10 pt-7'>
-                                        <p className='text-[#7c7c7c] text-lg'>Season</p>
-                                        <p className='text-lg'>{anime?.season}</p>
+                                    {anime?.season && <div className='flex pt-7 w-full'>
+                                        <p className='text-[#7c7c7c] text-lg w-[35%]'>Season</p>
+                                        <p className='text-base'>{anime?.season}</p>
                                     </div>}
-                                    {anime?.studios[0]?.name && <div className='flex gap-10 pt-7'>
-                                        <p className='text-[#7c7c7c] text-lg'>Studios</p>
-                                        <p className='text-lg'>{anime?.studios[0].name}</p>
+                                    {anime?.studios[0]?.name && <div className='flex pt-7 w-full'>
+                                        <p className='text-[#7c7c7c] text-lg w-[35%]'>Studios</p>
+                                        <p className='text-base'>{anime?.studios[0].name}</p>
                                     </div>}
-                                    {anime?.source && <div className='flex gap-10 pt-7'>
-                                        <p className='text-[#7c7c7c] text-lg'>Source</p>
-                                        <p className='text-lg'>{anime?.source}</p>
+                                    {anime?.source && <div className='flex pt-7 w-full'>
+                                        <p className='text-[#7c7c7c] text-lg w-[35%]'>Source</p>
+                                        <p className='text-base'>{anime?.source}</p>
                                     </div>}
-                                    {anime?.rating && <div className='flex gap-10 pt-7'>
-                                        <p className='text-[#7c7c7c] text-lg'>Rating</p>
-                                        <p className='text-lg'>{anime?.rating}</p>
+                                    {anime?.rating && <div className='flex pt-7 w-full'>
+                                        <p className='text-[#7c7c7c] text-lg w-[35%]'>Rating</p>
+                                        <p className='text-base'>{anime?.rating}</p>
                                     </div>}
-                                    {anime?.duration && <div className='flex gap-10 pt-7'>
-                                        <p className='text-[#7c7c7c] text-lg'>Duration</p>
-                                        <p className='text-lg'>{anime?.duration}</p>
+                                    {anime?.duration && <div className='flex pt-7 w-full'>
+                                        <p className='text-[#7c7c7c] text-lg w-[35%]'>Duration</p>
+                                        <p className='text-base'>{anime?.duration}</p>
                                     </div>}
                                 </div>
                             </div>
@@ -107,7 +112,10 @@ const AnimeDetails = () => {
                         </div>
                     </TabPanel>
                     <TabPanel>
-                        <p>Characters</p>
+                        <div className='py-[2em] gap-[1em] flex flex-col'>
+                            <p className='text-3xl font-medium'>Characters</p>
+                            
+                        </div>
                     </TabPanel>
                     <TabPanel>
                         <p>Relations</p>
