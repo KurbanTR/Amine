@@ -61,6 +61,8 @@
     width: 100%;
 }
 
+
+
 .container{
     width: 100%;
     display: flex;
@@ -69,6 +71,18 @@
 }
 .container::-webkit-scrollbar{
     display: none
+}
+.animeTitle{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 60%;
+    display: flex;
+    align-items: end;
+    width: 100%;
+    background: linear-gradient(to top, #000 0%, transparent 100%);
+    opacity: .8;
+    padding: 15px;
 }
 @media screen and (max-width: 1145px) and (min-width: 1026px){
 

@@ -3,25 +3,23 @@ import { useParams } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux'
 import s from './AnimeDetails.module.css';
 import { Rate } from 'antd';
-import { fetchAnime } from '../../../store/animeSlice';
+import { fetchAnime, fetchCharacters } from '../../../store/animeSlice';
 import { Tabs, TabList, TabPanels, Tab, TabPanel, TabIndicator } from '@chakra-ui/react'
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
-import 'swiper/css/pagination';
-import 'swiper/css';
-
 
 const AnimeDetails = () => {
     const [height, setHeight] = useState('7em')
+    const [isHovered, setIsHovered] = useState(false);
+
     const params = useParams()
     const dispatch = useDispatch()
 
-
     useEffect(()=>{
-        dispatch(fetchAnime({id : params.id}))
+        dispatch(fetchAnime({id: params.id}))
+        dispatch(fetchCharacters({id: params.id}))
         window.scrollTo({top: 0, behavior: "smooth"})
-      },[params.id, dispatch])
+    },[params.id, dispatch])
     const anime = useSelector(state => state.anime.person)
+    const characters = useSelector(state => state.anime.characters)
 
     const SetDescription = ()=>{
         height == '7em' ? setHeight('auto') : setHeight('7em')
@@ -114,7 +112,22 @@ const AnimeDetails = () => {
                     <TabPanel>
                         <div className='py-[2em] gap-[1em] flex flex-col'>
                             <p className='text-3xl font-medium'>Characters</p>
-                            
+                            <div className={s.container}>
+                                {
+                                    characters?.map((item, index) => 
+                                        <div key={index} onMouseEnter={()=>setIsHovered(index)} onMouseLeave={()=>setIsHovered(false)} className='min-w-[13em] m-4 rounded-lg overflow-hidden'>
+                                            <div className='relative'>
+                                                <div className='h-[17em]'>
+                                                    <img src={isHovered === index ? (item.voice_actors.length == 0 ? item.character.images.jpg.image_url : item.voice_actors[0]?.person.images.jpg.image_url) : item.character.images.jpg.image_url} className='w-full' alt="" />
+                                                </div>                      
+                                                <div className={s.animeTitle}>
+                                                    <p className='line-clamp-1 overflow-hidden text-[1.2em] text-white'>{isHovered === index ? (item.voice_actors.length == 0 ? item.character.name : item.voice_actors[0]?.person.name) : item.character.name}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            </div>
                         </div>
                     </TabPanel>
                     <TabPanel>

@@ -16,4 +16,7 @@ export const animeApi = {
     getAnimeRand(params){
         return instance.get(`random/anime`, {params});
     },
+    getCharacters(id){
+        return instance.get(`anime/${id}/characters`);
+    },
 };

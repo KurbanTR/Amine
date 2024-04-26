@@ -46,6 +46,14 @@ export const fetchRandAnime = createAsyncThunk(
     }
 );
 // Запрос на рандомное аниме
+
+export const fetchCharacters = createAsyncThunk(
+    'anime/fetchCharacters',
+    async function({id}, { dispatch }) {
+        const data = await animeApi.getCharacters(id)
+        dispatch(setCharacters(data.data.data))
+    }
+);
 const animeSlice = createSlice({
     name: 'anime',
     initialState: {
@@ -53,6 +61,7 @@ const animeSlice = createSlice({
         person: null,
         reckPersons: [],
         randAnime: null,
+        characters: [],
         pages: null,
         loading: false,
         error: false,
@@ -72,8 +81,11 @@ const animeSlice = createSlice({
         },
         setRandAnime(state, action){
             state.randAnime = action.payload
-        }
+        },
+        setCharacters(state, action){
+            state.characters = action.payload
+        },
     },
 })
-export const {setAnime, setAnimes, setPages, setReckAnimes, setRandAnime} = animeSlice.actions
+export const {setAnime, setAnimes, setPages, setReckAnimes, setRandAnime, setCharacters} = animeSlice.actions
 export default animeSlice.reducer
