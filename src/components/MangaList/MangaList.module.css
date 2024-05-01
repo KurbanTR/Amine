@@ -1,9 +1,21 @@
 .body{
     background: #1c1c1c;
+}
+.carts{
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 2.5em 1em;
-    padding: 50px 3em;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1em;
+    padding: 1em 3em;
+}
+.inputBlock{
+    display: flex;   
+    gap: .7em; 
+    width: 30em;
+    padding: 10px 15px;
+    border-radius: .5em;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.226);
 }
 .body__card{
     overflow: hidden;

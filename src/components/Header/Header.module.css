@@ -3,21 +3,21 @@
 }
 .header{
     position: fixed;
-    padding: 2em 40px;
+    padding: 1em;
     width: 100%;
-    border-radius: 0 0 8px 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     z-index: 1;
+    background: linear-gradient(to bottom, #000 0%, transparent 100%);
+    opacity: .8;
     backdrop-filter: blur(0px);
     transition: all 0.4s ease-in-out;
 }
 .header_scrolled {
     position: fixed;
-    padding: 1em 40px;
+    padding: .3em 40px;
     width: 100%;
-    border-radius: 0 0 8px 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -37,7 +37,7 @@
 
 .title h1{
     color: #fff;
-    font-size: 20px;
+    font-size: 2.5em;
     font-weight: 600;
 }
 .link{

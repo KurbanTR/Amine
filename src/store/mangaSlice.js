@@ -11,8 +11,8 @@ export const fetchMangas = createAsyncThunk(
 )
 // Запрос на все манги
 
-export const fetchAnimeRank = createAsyncThunk(
-    'anime/fetchAnimeRank',
+export const fetchMangaRank = createAsyncThunk(
+    'anime/fetchMangaRank',
     async function(_, {dispatch}){
         const data = await mangaApi.getMangaRank()
         dispatch(setReckMangas(data.data.data));
@@ -34,15 +34,46 @@ export const fetchManga = createAsyncThunk(
     async function({id}, {dispatch}){
         const data = await mangaApi.getManga(id)
         dispatch(setManga(data.data.data));
+        console.log(data.data.data);
     }
 )
 // Запрос на определённую мангу по айди
+
+export const fetchCharacters = createAsyncThunk(
+    'anime/fetchCharacters',
+    async function({id}, { dispatch }) {
+        const data = await mangaApi.getCharacters(id)
+        dispatch(setCharacters(data.data.data))
+    }
+);
+
+export const fetchRecommendations = createAsyncThunk(
+    'anime/fetchRecommendations',
+    async function({id}, { dispatch }) {
+        const data = await mangaApi.getRecommendations(id)
+        dispatch(setRecommendations(data.data.data))
+    }
+);
+
+export const fetchRandManga = createAsyncThunk(
+    'anime/fetchRandManga',
+    async function(_, { dispatch }) {
+        const data = await mangaApi.getRand();
+        const hasHentai = await data.data.data.genres.some(genre => genre.name === "Hentai" || genre.name === "Erotica");
+        !hasHentai ? dispatch(setRandManga(data.data.data)) : dispatch(fetchRandManga());
+
+    }
+);
+// Запрос на рандомное аниме
 
 const mangaSlice = createSlice({
     name: 'manga',
     initialState: {
         mangas: [],
         manga: null,
+        randManga: null,
+        characters: [],
+        recommendations: [],
         pages: 1,
         loading: false,
         error: false,
@@ -60,7 +91,16 @@ const mangaSlice = createSlice({
         setReckMangas(state, action){
             state.pages = action.payload
         },
+        setCharacters(state, action){
+            state.characters = action.payload
+        },
+        setRecommendations(state, action){
+            state.recommendations = action.payload
+        },
+        setRandManga(state, action){
+            state.randManga = action.payload
+        }
     },
 })
-export const {setMangas, setManga, setPages, setReckMangas} = mangaSlice.actions
+export const {setMangas, setManga, setPages, setReckMangas, setCharacters, setRecommendations, setRandManga} = mangaSlice.actions
 export default mangaSlice.reducer
