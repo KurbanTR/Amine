@@ -23,7 +23,7 @@ export const fetchAnime = createAsyncThunk(
 export const fetchSearchAnimes = createAsyncThunk(
     'anime/fetchSearchAnimes',
     async function({title}, {dispatch}){
-        const data = await animeApi.getSerch({q: title, genres_exclude: 12, limit: 24})
+        const data = await animeApi.getSerch({q: title, genres_exclude: '12, 49, 28', limit: 24})
         dispatch(setAnimes(data.data.data));
     }
 )
@@ -46,14 +46,6 @@ export const fetchCharacters = createAsyncThunk(
         dispatch(setCharacters(data.data.data))
     }
 );
-
-export const fetchCharacter = createAsyncThunk(
-    'anime/fetchCharacter',
-    async function({id}, {dispatch}){
-        const data = await animeApi.getCharacter(id)
-        dispatch(setCharacter(data.data.data));
-    }
-)
 
 export const fetchRecommendations = createAsyncThunk(
     'anime/fetchRecommendations',
@@ -78,15 +70,33 @@ export const fetchAnimeNow = createAsyncThunk(
         dispatch(setNow(data.data.data))
     }
 );
+
+export const fetchCharacter = createAsyncThunk(
+    'anime/fetchCharacter',
+    async function({id}, {dispatch}){
+        const data = await animeApi.getCharacter(id)
+        dispatch(setCharacter(data.data.data));
+    }
+)
+
+export const fetchPerson = createAsyncThunk(
+    'anime/fetchPerson',
+    async function({id}, {dispatch}){
+        const data = await animeApi.getPerson(id)
+        dispatch(setPerson(data.data.data));
+    }
+)
+
 const animeSlice = createSlice({
     name: 'anime',
     initialState: {
-        persons: [],
-        person: null,
+        animes: [],
+        anime: null,
         randAnime: null,
         characters: [],
-        character: null,
         recommendations: [],
+        character: null,
+        person: null,
         score: [],
         now: null,
         pages: null,
@@ -95,10 +105,10 @@ const animeSlice = createSlice({
     },
     reducers: {
         setAnimes(state, action){
-            state.persons = action.payload
+            state.animes = action.payload
         },
         setAnime(state, action){
-            state.person = action.payload
+            state.anime = action.payload
         },
         setPages(state, action){
             state.pages = action.payload
@@ -121,7 +131,10 @@ const animeSlice = createSlice({
         setCharacter(state, action){
             state.character = action.payload
         },
+        setPerson(state, action){
+            state.person = action.payload
+        },
     },
 })
-export const {setAnime, setAnimes, setPages, setRandAnime, setCharacters, setCharacter, setRecommendations, setScore, setNow} = animeSlice.actions
+export const {setAnime, setAnimes, setPages, setRandAnime, setCharacters, setRecommendations, setScore, setNow, setCharacter, setPerson} = animeSlice.actions
 export default animeSlice.reducer

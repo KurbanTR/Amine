@@ -8,7 +8,7 @@ export const mangaApi = {
         return instance.get(`manga/${id}/full`);
     },
     getMangaRank(){
-        return instance.get(`manga/order_by=rank`);
+        return instance.get(`manga?order_by=rank`);
     },
     getMangaSerch(params){
         return instance.get(`manga`, {params});

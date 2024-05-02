@@ -20,7 +20,7 @@ const AnimeDetails = () => {
         dispatch(fetchRecommendations({id: params.id}))
         window.scrollTo({top: 0, behavior: "smooth"})
     },[params.id, dispatch])
-    const anime = useSelector(state => state.anime.person)
+    const anime = useSelector(state => state.anime.anime)
     const recommendations = useSelector(state => state.anime.recommendations)
     const characters = useSelector(state => state.anime.characters)
 
@@ -61,6 +61,9 @@ const AnimeDetails = () => {
                     </TabPanel>}
                 </TabPanels>
             </Tabs>
+            {anime?.trailer.embed_url&&<div className='w-[70%] mx-auto'>
+                <iframe className='w-full h-[28em] rounded-xl' src={anime?.trailer.embed_url} allow="encrypted-media" allowFullScreen></iframe>
+            </div>}
         </div>
     );
 };

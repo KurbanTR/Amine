@@ -22,10 +22,13 @@ export const animeApi = {
     getCharacters(id){
         return instance.get(`anime/${id}/characters`);
     },
+    getRecommendations(id){
+        return instance.get(`anime/${id}/recommendations`);
+    },
     getCharacter(id){
         return instance.get(`characters/${id}/full`);
     },
-    getRecommendations(id){
-        return instance.get(`anime/${id}/recommendations`);
+    getPerson(id){
+        return instance.get(`people/${id}/full`);
     },
 };

@@ -13,7 +13,7 @@ const Footers = () => {
   const [page, setPage] = useState(1)
   const [value, setValue] = useState('')
 
-  const data = useSelector(state => state.anime.persons)
+  const data = useSelector(state => state.anime.animes)
   const {pages} = useSelector(state => state.anime)
   const dispatch = useDispatch()
   useEffect(()=>{

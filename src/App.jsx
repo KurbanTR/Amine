@@ -8,6 +8,7 @@ import MangaDetails from './components/MangaList/MangaDetails/MangaDetails'
 import {Routes, Route} from 'react-router-dom'
 import MainPage from './components/MainPage/MainPage';
 import CharacterAnime from './components/Characters/CharacterAnime';
+import Person from './components/Voices/Voices';
 
 function App() {
   const [theme, setTheme] = useState(false);
@@ -24,6 +25,7 @@ function App() {
         <Route path='/manga' element={<div className='main'><MangaList/></div>}/>
         <Route path='/manga/:id' element={<MangaDetails/>}/>
         <Route path='/character/:id' element={<CharacterAnime/>}/>
+        <Route path='/voices/:id' element={<Person/>}/>
       </Routes>
     </>
   );
