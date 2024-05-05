@@ -1,20 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import s from './Sort.module.css'
 import expand from '../../assets/Expand_up-1.svg'
 import calendar from '../../assets/calendar-empty.svg'
 import icon from '../../assets/icons8.svg'
+import { useDispatch } from 'react-redux'
+import {animeApi} from '../../api/animeApi'
+import {setAnimes} from '../../store/animeSlice'
 
 const Sort = () => {
   const [year, setYear] = useState(false)
-  const [season, setSeason] = useState(true)
+  // const [season, setSeason] = useState(true)
   const [genres, setGenres] = useState(true)
   const [formats, setFormats] = useState(true)
-  const [airingStatus, setAiringStatus] = useState(false)
+  const [status, setStatus] = useState(false)
 
-  const [winter, setWinter] = useState(false)
-  const [sprint, setSprint] = useState(false)
-  const [summer, setSummer] = useState(false)
-  const [fall, setFall] = useState(false)
+  const [date, setDate] = useState('')
+  const [mainDate, setMainDate] = useState('')
+
+  // const [winter, setWinter] = useState(false)
+  // const [sprint, setSprint] = useState(false)
+  // const [summer, setSummer] = useState(false)
+  // const [fall, setFall] = useState(false)
 
   const [action, setAction] = useState(false)
   const [adventure, setAdventyre] = useState(false)
@@ -43,11 +49,68 @@ const Sort = () => {
   const [special, setSpecial] = useState(false)
   const [music1, setMusic1] = useState(false)
 
-  const [releasing, setReleasing] = useState(false)
-  const [notYetReleased, setNotYetReleased] = useState(false)
-  const [finished, setFinished] = useState(false)
-  const [cancelled, setCancelled] = useState(false)
-  const [hiatus, setHiatus] = useState(false)
+  const [airing, setAiring] = useState(false)
+  const [complete, setComplete] = useState(false)
+  const [upcoming, setUpcoming] = useState(false)
+
+  const dispatch = useDispatch();
+
+const filters = useMemo(() => ({
+  genres: [
+    action ? '1' : '',
+    adventure && '2',
+    comedy && '4',
+    drama && '8',
+    fantasy && '10',
+    horror && '14',
+    mahouShoujo && '66',
+    mecha && '18',
+    music && '19',
+    mystery && '7',
+    psychologica && '40',
+    romance && '22',
+    sciFi && '24',
+    sliceOfLife && '36',
+    sports && '30',
+    supernatural && '37'
+  ]
+    .filter(Boolean)
+    .join(','),
+  type: [
+    tv ? 'tv' : '',
+    ova && 'ova',
+    ona && 'ona',
+    movie && 'movie',
+    special && 'special',
+    music1 && 'music'
+  ]
+    .filter(Boolean)
+    .join(','),
+  status: [
+    airing ? 'airing' : '',
+    complete && 'complete',
+    upcoming && 'upcoming'
+  ]
+    .filter(Boolean)
+    .join(','),
+  start_date: date
+}), [mainDate, action, adventure, comedy, drama, fantasy, horror, mahouShoujo, mecha, music, mystery, psychologica, romance, sciFi, sliceOfLife, sports, supernatural, tv, ova, ona, movie, special, music1, airing, complete, upcoming]);
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const data = await animeApi.getSerch(filters);
+      dispatch(setAnimes(data.data.data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchData();
+
+}, [filters, dispatch]);
+
+  
 
   return (
     <div className={s.sort}>
@@ -58,12 +121,12 @@ const Sort = () => {
           <span><img className={`${year?'rotate-180':false} w-5 h-5 duration-300`} src={expand} alt=""/></span>          
         </div>
         <div className={`relative overflow-hidden duration-300 flex gap-3 items-start`} style={{ height: year ? 0 : '74px', visibility: year === 0 ? 'hidden' : 'visible'}}>
-          <span className='h-[44px] flex items-center'><img className='w-8' src={calendar} alt="" /></span>
-          <input className='outline-none border-2 focus:border-white/80 border-white/30 bg-def-black appearance-none w-[110px] px-3 py-2 rounded-xl' type="number" min="1960" max="2026" maxLength="4" step="1" placeholder="1960-2026" />
+          <span className='h-[44px] flex items-center cursor-pointer'><img onClick={()=>setMainDate(date)} className='w-8' src={calendar} alt="" /></span>
+          <input value={date} onChange={e => setDate(e.target.value)} className='outline-none border-2 focus:border-white/80 border-white/30 bg-def-black appearance-none w-[110px] px-3 py-2 rounded-xl' type="text" min="1960" max="2026" step="1" placeholder="2007-12-17"/>
         </div>
 
 
-        <div onClick={()=>setSeason(!season)} className='flex justify-between pb-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
+        {/* <div onClick={()=>setSeason(!season)} className='flex justify-between pb-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
           <span className='font-medium'>Season</span>
           <span><img className={`${season?'rotate-180':false} w-5 h-5 duration-300`} src={expand} alt=""/></span>          
         </div>
@@ -95,7 +158,7 @@ const Sort = () => {
             </div>
             <span className={fall&&'text-white font-medium'}>Fall</span>
           </div>
-        </div>
+        </div> */}
 
 
         <div onClick={()=>setGenres(!genres)} className='flex justify-between pb-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
@@ -135,7 +198,7 @@ const Sort = () => {
             <div className={(drama?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={drama&&'text-white font-medium'}>rama</span>
+            <span className={drama&&'text-white font-medium'}>Drama</span>
           </div>
 
           <div onClick={()=>setFantasy(!fantasy)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
@@ -287,44 +350,30 @@ const Sort = () => {
         </div>
         
 
-        <div onClick={()=>setAiringStatus(!airingStatus)} className='flex justify-between pb-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
-          <span className='font-medium'>Airing Status</span>
+        <div onClick={()=>setStatus(!status)} className='flex justify-between pb-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
+          <span className='font-medium'>Status</span>
           <span><img className={`${formats?'rotate-180':false} w-5 h-5 duration-300`} src={expand} alt=""/></span>          
         </div>
-        <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start`} style={{ height: airingStatus ? 0 : '270px', visibility: airingStatus === 0 ? 'hidden' : 'visible'}}>
-          <div onClick={()=>{setReleasing(!releasing); setNotYetReleased(false); setFinished(false); setCancelled(false); setHiatus(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(releasing?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+        <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start`} style={{ height: status ? 0 : '270px', visibility: status === 0 ? 'hidden' : 'visible'}}>
+          <div onClick={()=>{setAiring(!airing); setComplete(false); setUpcoming(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(airing?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={releasing&&'text-white font-medium'}>Releasing</span>
+            <span className={airing&&'text-white font-medium'}>Airing</span>
           </div>
 
-          <div onClick={()=>{setNotYetReleased(!notYetReleased); setReleasing(false); setFinished(false); setCancelled(false); setHiatus(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(notYetReleased?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+          <div onClick={()=>{setComplete(!complete); setAiring(false); setUpcoming(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(complete?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={notYetReleased&&'text-white font-medium'}>Not Yet Released</span>
+            <span className={complete&&'text-white font-medium'}>Complete</span>
           </div>
 
-          <div onClick={()=>{setFinished(!finished); setReleasing(false); setNotYetReleased(false); setCancelled(false); setHiatus(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(finished?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+          <div onClick={()=>{setUpcoming(!upcoming); setAiring(false); setComplete(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+          <div className={(upcoming?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={finished&&'text-white font-medium'}>Finished</span>
-          </div>
-
-          <div onClick={()=>{setCancelled(!cancelled); setReleasing(false); setNotYetReleased(false); setFinished(false); setHiatus(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(cancelled?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={cancelled&&'text-white font-medium'}>Cancelled</span>
-          </div>
-
-          <div onClick={()=>{setHiatus(!hiatus); setReleasing(false); setNotYetReleased(false); setFinished(false); setCancelled(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(hiatus?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={hiatus&&'text-white font-medium'}>Hiatus</span>
+            <span className={upcoming&&'text-white font-medium'}>Upcoming</span>
           </div>
         </div>
       </div>

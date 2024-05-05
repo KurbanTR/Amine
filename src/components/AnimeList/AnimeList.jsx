@@ -32,7 +32,7 @@ const Footers = () => {
       <div className={s.body}>
         <form onSubmit={onSubmit} className="flex justify-center gap-[2em]">
           <div className={s.inputBlock}>
-          <img src={coolicon1} className="w-4" alt="?" /><input value={value} required className="text-[#fafafa] font-medium text-[1.1em] w-full" onChange={e => setValue(e.target.value)} placeholder="Search..." />
+            <img src={coolicon1} className="w-4" alt="?" /><input value={value} required className="text-[#fafafa] font-medium text-[1.1em] w-full" onChange={e => setValue(e.target.value)} placeholder="Search..." />
           </div>
           <button type="submit" className={s.coolicon} >
             <img src={coolicon} className="w-4" alt="?" />
