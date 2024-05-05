@@ -13,6 +13,7 @@
   border-radius: 1em;
   overflow: hidden;
   gap: 5px;
+  padding: 0 1.5em;
 }
 @media screen and (max-width: 1501px) and (min-width: 1251px) {
   .main{
@@ -42,4 +43,7 @@
 }
 .container::-webkit-scrollbar{
   display: none
+}
+.container div{
+  width: 100%;
 }

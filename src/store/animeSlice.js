@@ -14,8 +14,8 @@ export const fetchAnimes = createAsyncThunk(
 export const fetchAnime = createAsyncThunk(
     'anime/fetchAnime',
     async function({id}, {dispatch}){
-        const data = await animeApi.getAnime(id)
-        dispatch(setAnime(data.data.data));
+        const data = await animeApi.getAnime(id);
+        dispatch(setAnime(data.data.data)); 
     }
 )
 // Запрос на определённое аниме по айди
@@ -24,7 +24,8 @@ export const fetchSearchAnimes = createAsyncThunk(
     'anime/fetchSearchAnimes',
     async function({title}, {dispatch}){
         const data = await animeApi.getSerch({q: title, genres_exclude: '12, 49, 28', limit: 24})
-        dispatch(setAnimes(data.data.data));
+        const filteredAnime = data.data.data.filter(anime => !anime.title.toLowerCase().includes("hentai"));
+        dispatch(setAnimes(filteredAnime));
     }
 )
 // Поиск аниме по названию

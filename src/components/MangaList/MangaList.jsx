@@ -7,7 +7,8 @@ import { fetchMangas } from '../../store/mangaSlice';
 import { Pagination } from 'antd'
 import Sort from '../Sort/Sort';
 import { fetchSearcMangas } from '../../store/mangaSlice'
-import coolicon from '../../assets/coolicon.svg'
+import coolicon from '../../assets/Search.svg'
+import coolicon1 from '../../assets/Search1.svg'
 
 const Footers = () => {
   const [page, setPage] = useState(1)
@@ -22,15 +23,21 @@ const Footers = () => {
     window.scrollTo({top: 0, behavior: "smooth"})
   },[page, dispatch])
 
+  const onSubmit = ()=>(value !== '' || value[0] !== ' ') && dispatch(fetchSearcMangas({title: value}))    
+
   const onChange = (page) => setPage(page)
   return (
     <>
       <div className={s.body}>
-        <div className="flex justify-center">
+      <form onSubmit={onSubmit} className="flex justify-center gap-[2em]">
           <div className={s.inputBlock}>
-            <img src={coolicon} onClick={() => dispatch(fetchSearcMangas({title: value}))} className="w-5 cursor-pointer" alt="?" /><input value={value} className="text-white font-medium text-[1.2em]" onChange={e => setValue(e.target.value)} placeholder="Search..."/>
+          <img src={coolicon1} className="w-4" alt="?" /><input value={value} required className="text-[#fafafa] font-medium text-[1.1em] w-full" onChange={e => setValue(e.target.value)} placeholder="Search..." />
           </div>
-        </div>
+          <button type="submit" className={s.coolicon} >
+            <img src={coolicon} className="w-4" alt="?" />
+            Submit
+          </button>
+        </form>
         <div className={s.carts}>
         {
           data?.map((item, index) => 

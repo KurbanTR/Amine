@@ -8,6 +8,7 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel, TabIndicator } from '@chakra-u
 import Details from './Details/Details';
 import Characters from './Characters/Characters';
 import Recommendations from './Recommendations/Recommendations';
+import YouTube from 'react-youtube';
 
 const AnimeDetails = () => {
 
@@ -61,8 +62,8 @@ const AnimeDetails = () => {
                     </TabPanel>}
                 </TabPanels>
             </Tabs>
-            {anime?.trailer.embed_url&&<div className='w-[70%] mx-auto'>
-                <iframe className='w-full h-[28em] rounded-xl' src={anime?.trailer.embed_url} allow="encrypted-media" allowFullScreen></iframe>
+            {anime?.trailer.youtube_id && <div className='w-[70%] mx-auto'>
+                <YouTube className={s.video} videoId={anime?.trailer.youtube_id}/>
             </div>}
         </div>
     );

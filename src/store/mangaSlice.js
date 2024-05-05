@@ -24,7 +24,8 @@ export const fetchSearcMangas = createAsyncThunk(
     'manga/fetchSearcManga',
     async function({title}, {dispatch}){
         const data = await mangaApi.getMangaSerch({q: title, genres_exclude: '12, 49, 28', limit: 24})
-            dispatch(setMangas(data.data.data));
+        const filteredManga = data.data.data.filter(manga => !manga.title.toLowerCase().includes("hentai"));
+        dispatch(setMangas(filteredManga));
     }
 )
 // Поиск манги по названию
@@ -34,7 +35,6 @@ export const fetchManga = createAsyncThunk(
     async function({id}, {dispatch}){
         const data = await mangaApi.getManga(id)
         dispatch(setManga(data.data.data));
-        console.log(data.data.data);
     }
 )
 // Запрос на определённую мангу по айди

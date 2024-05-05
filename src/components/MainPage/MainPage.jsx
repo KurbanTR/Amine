@@ -3,6 +3,10 @@ import { Link } from "react-router-dom"
 import s from './MainPage.module.css'
 import { fetchAnimeNow, fetchAnimeScore } from '../../store/animeSlice' 
 import { useSelector, useDispatch } from 'react-redux'
+import { SwiperSlide, Swiper} from "swiper/react"
+import { Keyboard } from 'swiper/modules';
+import 'swiper/css'
+import ss from '../swiper.module.css'
 
 const MainPage = () => {
   const {now} = useSelector(state => state.anime)
@@ -41,49 +45,70 @@ const MainPage = () => {
               </div>
             </div>
         </div>
-        <div className='flex flex-col gap-16'>
+        <div className='flex flex-col gap-16 mt-16'>
           <div className='px-[2em]'>
             <p className='text-[1.6em] font-medium mb-4'>Trending now</p>
-            <div className='container w-full flex overflow-hidden overflow-x-auto scrollbar-hidden'>
-              {
-                now?.map((item, index) => 
-                  <Link to={'/anime/' + item.mal_id} key={index} className=' min-w-[12em] mr-5 rounded-lg overflow-hidden'>
-                    <div className='relative'>
-                      <div className='h-[17em]'>
-                        <img src={item.images.jpg.image_url} className='w-full' alt="" />
-                      </div>                      
-                      <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black to-transparent opacity-80 p-4'>
-                        <div className='flex flex-col'>
-                          <p className='line-clamp-1 overflow-hidden text-[1.2em] text-white'>{item.title}</p>
-                          <p className='text-[#ababab] font-medium'>{item.aired.prop.from.year ? item.aired.prop.from.year+(!item.genres.length==0 ? ', '+item.genres[0].name : '') : !item.genres.length==0 ? item.genres[0].name : ''}</p>
+            <div className='container w-full flex overflow-hidden'>
+              <Swiper
+                grabCursor={true} 
+                spaceBetween={20}
+                keyboard={{
+                  enabled: true,
+                }}
+                modules={[Keyboard]}
+                slidesPerView={'auto'}
+              >
+                {
+                  now?.map((item, index) => 
+                    <SwiperSlide className={ss.swiper__slide} key={index}>
+                    <Link to={'/anime/' + item.mal_id}>
+                      <div className='relative overflow-hidden rounded-lg h-[90%]'>
+                        <div>
+                          <img src={item.images.jpg.image_url} className='w-full' alt=""/>
+                        </div>                      
+                        <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black to-transparent opacity-80 p-4'>
+                          <div className='flex flex-col'>
+                            <p className='line-clamp-1 text-[1.2em] text-white'>{item.title}</p>
+                            <p className='text-[#ababab] font-medium'>{item.aired.prop.from.year ? item.aired.prop.from.year+(!item.genres.length==0 ? ', '+item.genres[0].name : '') : !item.genres.length==0 ? item.genres[0].name : ''}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                )
-              }
+                    </Link>
+                    </SwiperSlide>
+                  )
+                }
+              </Swiper>
             </div>
           </div>
           <div className='px-[2em]'>
             <p className='text-[1.6em] font-medium mb-4'>Best Score</p>
-            <div className='container w-full flex overflow-hidden overflow-x-auto scrollbar-hidden'>
-              {
-                score?.map((item, index) => 
-                  <Link to={'/anime/' + item.mal_id} key={index} className='min-w-[12em] mr-5 rounded-lg overflow-hidden'>
-                    <div className='relative'>
-                      <div className='h-[17em]'>
-                        <img src={item.images.jpg.image_url} className='w-full' alt="" />
-                      </div>                      
-                      <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black to-transparent opacity-80 p-4'>
-                        <div className='flex flex-col'>
-                          <p className='line-clamp-1 overflow-hidden text-[1.2em] text-white'>{item.title}</p>
-                          <p className='text-[#ababab] font-medium'>{item.aired.prop.from.year ? item.aired.prop.from.year+(!item.genres.length==0 ? ', '+item.genres[0].name : '') : !item.genres.length==0 ? item.genres[0].name : ''}</p>
+            <div className='container w-full flex overflow-hidden'>
+              <Swiper
+              className={ss.swipers}
+              grabCursor={true} 
+              spaceBetween={20}
+              slidesPerView={'auto'}
+              >
+                {
+                  score?.map((item, index) => 
+                    <SwiperSlide className={ss.swiper__slide} key={index}>
+                      <Link to={'/anime/' + item.mal_id}>
+                        <div className='relative overflow-hidden rounded-lg h-[90%]'>
+                          <div>
+                            <img src={item.images.jpg.image_url} className='w-full' alt=""/>
+                          </div>                      
+                          <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black to-transparent opacity-80 p-4'>
+                            <div className='flex flex-col'>
+                              <p className='line-clamp-1 text-[1.2em] text-white'>{item.title}</p>
+                              <p className='text-[#ababab] font-medium'>{item.aired.prop.from.year ? item.aired.prop.from.year+(!item.genres.length==0 ? ', '+item.genres[0].name : '') : !item.genres.length==0 ? item.genres[0].name : ''}</p>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </Link>
-                )
-              }
+                      </Link>
+                    </SwiperSlide>
+                  )
+                }
+              </Swiper>
             </div>
           </div>
       </div>

@@ -6,8 +6,8 @@ import {useDispatch} from 'react-redux'
 import { fetchAnimes, fetchSearchAnimes } from '../../store/animeSlice';
 import { Pagination } from 'antd'
 import Sort from '../Sort/Sort';
-import coolicon from '../../assets/coolicon.svg'
-
+import coolicon from '../../assets/Search.svg'
+import coolicon1 from '../../assets/Search1.svg'
 
 const Footers = () => {
   const [page, setPage] = useState(1)
@@ -21,21 +21,30 @@ const Footers = () => {
     window.scrollTo({top: 0, behavior: "smooth"})
   },[page, dispatch])
 
+  const onSubmit = (e)=>{ 
+
+    e.preventDefault()
+    dispatch(fetchSearchAnimes({title: value}))
+   }
   const onChange = (page) => setPage(page)
   return (
     <>
       <div className={s.body}>
-        <div className="flex justify-center">
+        <form onSubmit={onSubmit} className="flex justify-center gap-[2em]">
           <div className={s.inputBlock}>
-            <img src={coolicon} onClick={() => dispatch(fetchSearchAnimes({title: value}))} className="w-5 cursor-pointer" alt="?" /><input value={value} className="text-white font-medium text-[1.2em]" onChange={e => setValue(e.target.value)} placeholder="Search..."/>
+          <img src={coolicon1} className="w-4" alt="?" /><input value={value} required className="text-[#fafafa] font-medium text-[1.1em] w-full" onChange={e => setValue(e.target.value)} placeholder="Search..." />
           </div>
-        </div>
+          <button type="submit" className={s.coolicon} >
+            <img src={coolicon} className="w-4" alt="?" />
+            Submit
+          </button>
+        </form>
         <div className={s.carts}>
         {
           data?.map((item, index) => 
-            <Link to={'/anime/'+item.mal_id} key={index} className='rounded-xl overflow-hidden'>
-              <div className='relative w-full'>
-                <div className='h-[15em] w-full'>
+              <Link to={'/anime/'+item.mal_id} key={index}>
+              <div className='relative h-[90%] rounded-xl overflow-hidden'>
+                <div>
                   <img src={item.images.jpg.image_url} alt="" />
                 </div>                      
                 <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black to-transparent opacity-80 p-4'>

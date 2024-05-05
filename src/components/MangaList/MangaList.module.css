@@ -5,17 +5,41 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1em;
-    padding: 1em 3em;
+    padding: 2em 3em;
 }
 .inputBlock{
     display: flex;   
     gap: .7em; 
-    width: 30em;
+    width: 25em;
     padding: 10px 15px;
     border-radius: .5em;
     background: rgba(255, 255, 255, 0.2);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     border: 2px solid rgba(255, 255, 255, 0.226);
+}
+.coolicon{
+    display: flex;
+    gap: .6em;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding-left: .7em;
+    padding-right: .7em;
+    border-radius: .4em;
+    transition: all 1s;
+    font-size: 1.1em;
+    font-weight: 500;
+}
+.coolicon:hover{
+    background: rgba(255, 255, 255, 0.3);
+}
+.coolicon img{
+    transition: transform 0.3s ease;
+    position: relative;
+    top: 1px;
+}
+.coolicon:hover img{
+    transform: scale(1.2);
 }
 .body__card{
     overflow: hidden;
