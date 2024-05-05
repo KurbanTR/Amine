@@ -4,12 +4,11 @@ import expand from '../../assets/Expand_up-1.svg'
 import calendar from '../../assets/calendar-empty.svg'
 import icon from '../../assets/icons8.svg'
 import { useDispatch } from 'react-redux'
-import {animeApi} from '../../api/animeApi'
-import {setAnimes} from '../../store/animeSlice'
+import {mangaApi} from '../../api/mangaApi'
+import {setMangas} from '../../store/mangaSlice'
 
 const Sort = () => {
   const [year, setYear] = useState(false)
-  // const [season, setSeason] = useState(true)
   const [genres, setGenres] = useState(true)
   const [formats, setFormats] = useState(true)
   const [status, setStatus] = useState(false)
@@ -17,14 +16,9 @@ const Sort = () => {
   const [date, setDate] = useState('')
   const [mainDate, setMainDate] = useState('')
 
-  // const [winter, setWinter] = useState(false)
-  // const [sprint, setSprint] = useState(false)
-  // const [summer, setSummer] = useState(false)
-  // const [fall, setFall] = useState(false)
-
   const [action, setAction] = useState(false)
   const [adventure, setAdventyre] = useState(false)
-  const [cars, setCars] = useState(false)
+  const [school, setSchool] = useState(false)
   const [comedy, setComedy] = useState(false)
   const [drama, setDrama] = useState(false)
   const [fantasy, setFantasy] = useState(false)
@@ -33,24 +27,26 @@ const Sort = () => {
   const [mecha, setMecha] = useState(false)
   const [music, setMusic] = useState(false)
   const [mystery, setMystery] = useState(false)
-  const [psychologica, setPsychologica] = useState(false)
+  const [psychological, setPsychological] = useState(false)
   const [romance, setRomance] = useState(false)
   const [sciFi, setSciFi] = useState(false)
   const [sliceOfLife, setSliceOfLife] = useState(false)
   const [sports, setSports] = useState(false)
   const [supernatural, setSupernatural] = useState(false)
-  const [thriller, setThriller] = useState(false)
+  const [survival, setSurvival] = useState(false)
 
-  const [tv, setTv] = useState(false)
-  const [tvShort, setTvShort] = useState(false)
-  const [ova, setOva] = useState(false)
-  const [ona, setOna] = useState(false)
-  const [movie, setMovie] = useState(false)
-  const [special, setSpecial] = useState(false)
-  const [music1, setMusic1] = useState(false)
+  const [manga, setManga] = useState(false)
+  const [novel, setNovel] = useState(false)
+  const [lightNovel, setLightNovel] = useState(false)
+  const [oneshot, setOneshot] = useState(false)
+  const [doujin, setDoujin] = useState(false)
+  const [manhwa, setManhwa] = useState(false)
+  const [manhua, setManhua] = useState(false)
 
-  const [airing, setAiring] = useState(false)
+  const [publishing, setPublishing] = useState(false)
   const [complete, setComplete] = useState(false)
+  const [hiatus, setHiatus] = useState(false)
+  const [discontinued, setDiscontinued] = useState(false)
   const [upcoming, setUpcoming] = useState(false)
 
   const dispatch = useDispatch();
@@ -59,6 +55,7 @@ const filters = useMemo(() => ({
   genres: [
     action ? '1' : '',
     adventure && '2',
+    school && '23',
     comedy && '4',
     drama && '8',
     fantasy && '10',
@@ -67,40 +64,44 @@ const filters = useMemo(() => ({
     mecha && '18',
     music && '19',
     mystery && '7',
-    psychologica && '40',
+    psychological && '40',
     romance && '22',
     sciFi && '24',
     sliceOfLife && '36',
     sports && '30',
-    supernatural && '37'
+    supernatural && '37',
+    survival && '77',
   ]
     .filter(Boolean)
     .join(','),
   type: [
-    tv ? 'tv' : '',
-    ova && 'ova',
-    ona && 'ona',
-    movie && 'movie',
-    special && 'special',
-    music1 && 'music'
+    manga ? 'manga' : '',
+    novel && 'novel',
+    lightNovel && 'lightNovel',
+    oneshot && 'oneshot',
+    doujin && 'doujin',
+    manhwa && 'manhwa',
+    manhua && 'manhua',
   ]
     .filter(Boolean)
     .join(','),
   status: [
-    airing ? 'airing' : '',
+    publishing ? 'publishing' : '',
     complete && 'complete',
+    hiatus && 'hiatus',
+    discontinued && 'discontinued',
     upcoming && 'upcoming'
   ]
     .filter(Boolean)
     .join(','),
   start_date: date
-}), [mainDate, action, adventure, comedy, drama, fantasy, horror, mahouShoujo, mecha, music, mystery, psychologica, romance, sciFi, sliceOfLife, sports, supernatural, tv, ova, ona, movie, special, music1, airing, complete, upcoming]);
+}), [mainDate, action, adventure, school, comedy, drama, fantasy, horror, mahouShoujo, mecha, music, mystery, psychological, romance, sciFi, sliceOfLife, sports, supernatural, survival, manga, novel, lightNovel, oneshot, doujin, manhwa, manhua, publishing, complete, hiatus, discontinued, upcoming]);
 
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const data = await animeApi.getSerch(filters);
-      dispatch(setAnimes(data.data.data));
+      const data = await mangaApi.getSerch(filters);
+      dispatch(setMangas(data.data.data));
     } catch (error) {
       console.error(error);
     }
@@ -126,41 +127,6 @@ useEffect(() => {
         </div>
 
 
-        {/* <div onClick={()=>setSeason(!season)} className='flex justify-between pb-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
-          <span className='font-medium'>Season</span>
-          <span><img className={`${season?'rotate-180':false} w-5 h-5 duration-300`} src={expand} alt=""/></span>          
-        </div>
-        <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start`} style={{ height: season ? 0 : '162px', visibility: season === 0 ? 'hidden' : 'visible'}}>
-          <div onClick={()=>{setWinter(!winter); setSprint(false); setSummer(false); setFall(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(winter?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={winter&&'text-white font-medium'}>Winter</span>
-          </div>
-
-          <div onClick={()=>{setSprint(!sprint); setWinter(false); setSummer(false); setFall(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(sprint?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={sprint&&'text-white font-medium'}>Sprint</span>
-          </div>
-
-          <div onClick={()=>{setSummer(!summer); setWinter(false); setSprint(false); setFall(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(summer?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={summer&&'text-white font-medium'}>Summer</span>
-          </div>
-
-          <div onClick={()=>{setFall(!fall); setWinter(false); setSprint(false); setSummer(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(fall?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={fall&&'text-white font-medium'}>Fall</span>
-          </div>
-        </div> */}
-
-
         <div onClick={()=>setGenres(!genres)} className='flex justify-between pb-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
           <span className='font-medium'>Genres</span>
           <span><img className={`${genres?'rotate-180':false} w-5 h-5 duration-300`} src={expand} alt=""/></span>          
@@ -180,11 +146,11 @@ useEffect(() => {
             <span className={adventure&&'text-white font-medium'}>Adventure</span>
           </div>
 
-          <div onClick={()=>setCars(!cars)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(cars?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+          <div onClick={()=>setSchool(!school)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(school?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={cars&&'text-white font-medium'}>Cars</span>
+            <span className={school&&'text-white font-medium'}>School</span>
           </div>
 
           <div onClick={()=>setComedy(!comedy)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
@@ -243,11 +209,11 @@ useEffect(() => {
             <span className={mystery&&'text-white font-medium'}>Mystery</span>
           </div>
 
-          <div onClick={()=>setPsychologica(!psychologica)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(psychologica?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+          <div onClick={()=>setPsychological(!psychological)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(psychological?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={psychologica&&'text-white font-medium'}>Psychologica</span>
+            <span className={psychological&&'text-white font-medium'}>Psychologica</span>
           </div>
 
           <div onClick={()=>setRomance(!romance)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
@@ -285,11 +251,11 @@ useEffect(() => {
             <span className={supernatural&&'text-white font-medium'}>Supernatural</span>
           </div>
 
-          <div onClick={()=>setThriller(!thriller)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(thriller?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+          <div onClick={()=>setSurvival(!survival)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(survival?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={thriller&&'text-white font-medium'}>Thriller</span>
+            <span className={survival&&'text-white font-medium'}>Survival</span>
           </div>
         </div>
 
@@ -299,53 +265,53 @@ useEffect(() => {
           <span><img className={`${formats?'rotate-180':false} w-5 h-5 duration-300`} src={expand} alt=""/></span>          
         </div>
         <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start`} style={{ height: formats ? 0 : '270px', visibility: formats === 0 ? 'hidden' : 'visible'}}>
-          <div onClick={()=>{setTv(!tv); setTvShort(false); setOva(false); setOna(false); setMovie(false); setSpecial(false); setMusic1(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(tv?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+          <div onClick={()=>{setManga(!manga); setNovel(false); setLightNovel(false); setOneshot(false); setDoujin(false); setManhwa(false); setManhua(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(manga?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={tv&&'text-white font-medium'}>TV</span>
+            <span className={manga&&'text-white font-medium'}>Manga</span>
           </div>
 
-          <div onClick={()=>{setTvShort(!tvShort); setTv(false); setOva(false); setOna(false); setMovie(false); setSpecial(false); setMusic1(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(tvShort?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+          <div onClick={()=>{setNovel(!novel); setManga(false); setLightNovel(false); setOneshot(false); setDoujin(false); setManhwa(false); setManhua(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(novel?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={tvShort&&'text-white font-medium'}>TV Short</span>
+            <span className={novel&&'text-white font-medium'}>Novel</span>
           </div>
 
-          <div onClick={()=>{setOva(!ova); setTv(false); setTvShort(false); setOna(false); setMovie(false); setSpecial(false); setMusic1(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(ova?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+          <div onClick={()=>{setLightNovel(!lightNovel); setNovel(false); setManga(false); setOneshot(false); setDoujin(false); setManhwa(false); setManhua(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(lightNovel?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={ova&&'text-white font-medium'}>OVA</span>
+            <span className={lightNovel&&'text-white font-medium'}>Light Novel</span>
           </div>
 
-          <div onClick={()=>{setOna(!ona); setTv(false); setTvShort(false); setOva(false); setMovie(false); setSpecial(false); setMusic1(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(ona?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+          <div onClick={()=>{setOneshot(!oneshot); setNovel(false); setLightNovel(false); setManga(false); setDoujin(false); setManhwa(false); setManhua(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(oneshot?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={ona&&'text-white font-medium'}>ONA</span>
+            <span className={oneshot&&'text-white font-medium'}>Oneshot</span>
           </div>
 
-          <div onClick={()=>{setMovie(!movie); setTv(false); setTvShort(false); setOva(false); setOna(false); setSpecial(false); setMusic1(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(movie?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+          <div onClick={()=>{setDoujin(!doujin); setNovel(false); setLightNovel(false); setOneshot(false); setManga(false); setManhwa(false); setManhua(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(doujin?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={movie&&'text-white font-medium'}>Movie</span>
+            <span className={doujin&&'text-white font-medium'}>Doujin</span>
           </div>
 
-          <div onClick={()=>{setSpecial(!special); setTv(false); setTvShort(false); setOva(false); setOna(false); setMovie(false); setMusic1(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(special?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+          <div onClick={()=>{setManhwa(!manhwa);  setNovel(false); setLightNovel(false); setOneshot(false); setDoujin(false); setManga(false); setManhua(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(manhwa?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={special&&'text-white font-medium'}>Special</span>
+            <span className={manhwa&&'text-white font-medium'}>Manhwa</span>
           </div>
 
-          <div onClick={()=>{setMusic1(!music1); setTv(false); setTvShort(false); setOva(false); setOna(false); setMovie(false); setSpecial(false);}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(music1?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+          <div onClick={()=>{setManhua(!manhua); setNovel(false); setLightNovel(false); setOneshot(false); setDoujin(false); setManhwa(false); setManga(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(manhua?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={music1&&'text-white font-medium'}>Music</span>
+            <span className={manhua&&'text-white font-medium'}>Manhua</span>
           </div>
         </div>
         
@@ -355,21 +321,35 @@ useEffect(() => {
           <span><img className={`${formats?'rotate-180':false} w-5 h-5 duration-300`} src={expand} alt=""/></span>          
         </div>
         <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start`} style={{ height: status ? 0 : '270px', visibility: status === 0 ? 'hidden' : 'visible'}}>
-          <div onClick={()=>{setAiring(!airing); setComplete(false); setUpcoming(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(airing?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+          <div onClick={()=>{setPublishing(!publishing); setComplete(false); setUpcoming(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(publishing?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
-            <span className={airing&&'text-white font-medium'}>Airing</span>
+            <span className={publishing&&'text-white font-medium'}>Publishing</span>
           </div>
 
-          <div onClick={()=>{setComplete(!complete); setAiring(false); setUpcoming(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+          <div onClick={()=>{setComplete(!complete); setPublishing(false); setHiatus(false); setDiscontinued(false); setUpcoming(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
             <div className={(complete?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>
             <span className={complete&&'text-white font-medium'}>Complete</span>
           </div>
 
-          <div onClick={()=>{setUpcoming(!upcoming); setAiring(false); setComplete(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+          <div onClick={()=>{setHiatus(!hiatus); setPublishing(false); setComplete(false); setDiscontinued(false); setUpcoming(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(hiatus?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+              <img src={icon} alt="" />
+            </div>
+            <span className={hiatus&&'text-white font-medium'}>Hiatus</span>
+          </div>
+
+          <div onClick={()=>{setDiscontinued(!discontinued); setPublishing(false); setComplete(false); setHiatus(false); setUpcoming(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+            <div className={(discontinued?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+              <img src={icon} alt="" />
+            </div>
+            <span className={discontinued&&'text-white font-medium'}>Discontinued</span>
+          </div>
+
+          <div onClick={()=>{setUpcoming(!upcoming); setPublishing(false); setComplete(false); setHiatus(false); setDiscontinued(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
           <div className={(upcoming?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
               <img src={icon} alt="" />
             </div>

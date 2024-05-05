@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux'
 import {useDispatch} from 'react-redux'
 import { fetchMangas } from '../../store/mangaSlice';
 import { Pagination } from 'antd'
-import Sort from '../Sort/Sort';
+import Sort from '../SortManga/Sort';
 import { fetchSearcMangas } from '../../store/mangaSlice'
 import coolicon from '../../assets/Search.svg'
 import coolicon1 from '../../assets/Search1.svg'

@@ -34,6 +34,7 @@ const Header = () => {
         <nav className={s.nav}>      
           <Link to='/anime' className={s.catalog_link}>Anime</Link>
           <Link to='/manga' className={s.catalog_link}>Manga</Link>
+          <Link to='/character' className={s.catalog_link}>Character</Link>
 
           <Select
             className={s.burger_menu}

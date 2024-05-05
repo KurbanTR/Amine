@@ -25,9 +25,6 @@ export const animeApi = {
     getRecommendations(id){
         return instance.get(`anime/${id}/recommendations`);
     },
-    getCharacter(id){
-        return instance.get(`characters/${id}/full`);
-    },
     getPerson(id){
         return instance.get(`people/${id}/full`);
     },

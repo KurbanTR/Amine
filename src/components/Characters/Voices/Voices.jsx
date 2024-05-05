@@ -7,7 +7,7 @@ import 'swiper/css'
 import ss from '../../swiper.module.css'
 
 const Voices = () => {
-    const character = useSelector(state => state.anime.character)
+    const character = useSelector(state => state.character.character)
 
   return (
     <div className='py-[2em] gap-[1em] flex flex-col'>

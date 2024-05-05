@@ -23,7 +23,7 @@ export const fetchMangaRank = createAsyncThunk(
 export const fetchSearcMangas = createAsyncThunk(
     'manga/fetchSearcManga',
     async function({title}, {dispatch}){
-        const data = await mangaApi.getMangaSerch({q: title, genres_exclude: '12, 49, 28', limit: 24})
+        const data = await mangaApi.getSerch({q: title, genres_exclude: '12, 49, 28', limit: 24})
         const filteredManga = data.data.data.filter(manga => !manga.title.toLowerCase().includes("hentai"));
         dispatch(setMangas(filteredManga));
     }

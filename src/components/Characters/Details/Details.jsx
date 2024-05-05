@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {useSelector} from 'react-redux'
 
 const Details = () => {
-    const anime = useSelector(state => state.anime.character)
+    const anime = useSelector(state => state.character.character)
     const [limit, setLimit] = useState(true)
     return (
         <div className='py-[2em] flex gap-[1em] w-full'>

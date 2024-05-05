@@ -6,7 +6,7 @@ import 'swiper/css'
 import ss from '../../swiper.module.css'
 
 const Anime = () => {
-    const character = useSelector(state => state.anime.character)
+    const character = useSelector(state => state.character.character)
 
   return (
     <div className='px-[2em]'>
