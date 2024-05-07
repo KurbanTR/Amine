@@ -2,7 +2,7 @@ import { instance } from './instance';
 
 export const mangaApi = {
     searchMangaWithPagination(params) {
-        return instance.get(`anime`, {params});
+        return instance.get(`manga`, {params});
     },
     getAllManga(params) {
         return instance.get(`top/manga`, { params });

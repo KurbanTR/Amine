@@ -19,19 +19,20 @@ const Footers = () => {
   useEffect(()=>{
     const filters = JSON.parse(localStorage.getItem('filtersManga'))
     const mergedObj = Object.assign({}, filters, {q: value, page});
-    value && dispatch(searchMangaWithPagination(mergedObj)) 
-    !value && dispatch(fetchMangas({page}))   
+    const allKeysEmpty = Object.keys(filters).every(key => filters[key] === '');
+    (value || !allKeysEmpty) && dispatch(searchMangaWithPagination(mergedObj));
+    (!value && allKeysEmpty) && dispatch(fetchMangas({page}))   
     window.scrollTo({top: 0, behavior: "smooth"})
   },[page, dispatch])
 
   const onSubmit = (e)=>{ 
-    const filters = JSON.parse(localStorage.getItem('filtersManga'))
-    const mergedObj = Object.assign({}, filters, {q: value, page});
     e.preventDefault()
-    value && dispatch(searchMangaWithPagination(mergedObj))
-    !value && dispatch(fetchMangas({page}))
-    console.log(filters);
     setPage(1)
+    const filters = JSON.parse(localStorage.getItem('filtersManga'))
+    const mergedObj = Object.assign({}, filters, {q: value})
+    const allKeysEmpty = Object.keys(filters).every(key => filters[key] === '');
+    (value || !allKeysEmpty) && dispatch(searchMangaWithPagination(mergedObj));
+    (!value && allKeysEmpty) && dispatch(fetchMangas({page}))  
    }
   const onChange = (page) => setPage(page)
   return (

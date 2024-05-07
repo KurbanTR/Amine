@@ -18,20 +18,21 @@ const Footers = () => {
   const dispatch = useDispatch()
   useEffect(()=>{
     const filters = JSON.parse(localStorage.getItem('filtersAnime'))
-    const mergedObj = Object.assign({}, filters, {q: value})
-    value && dispatch(searchAnimeWithPagination(mergedObj)) 
-    !value && dispatch(fetchAnimes({page}))   
+    const mergedObj = Object.assign({}, filters, {q: value, page})
+    const allKeysEmpty = Object.keys(filters).every(key => filters[key] === '');
+    (value || !allKeysEmpty) && dispatch(searchAnimeWithPagination(mergedObj));
+    (!value && allKeysEmpty) && dispatch(fetchAnimes({page}))
     window.scrollTo({top: 0, behavior: "smooth"})
   },[page, dispatch])
   
   const onSubmit = (e)=>{ 
+    e.preventDefault()
+    setPage(1)
     const filters = JSON.parse(localStorage.getItem('filtersAnime'))
     const mergedObj = Object.assign({}, filters, {q: value})
-    e.preventDefault()
-    value && dispatch(searchAnimeWithPagination(mergedObj))
-    !value && dispatch(fetchAnimes({page}))
-    console.log(filters);
-    setPage(1)
+    const allKeysEmpty = Object.keys(filters).every(key => filters[key] === '');
+    (value || !allKeysEmpty) && dispatch(searchAnimeWithPagination(mergedObj));
+    (!value && allKeysEmpty) && dispatch(fetchAnimes({page}))    
    }
 
   const onChange = (pagee) => setPage(pagee)
