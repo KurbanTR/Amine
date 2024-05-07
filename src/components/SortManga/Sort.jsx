@@ -3,9 +3,6 @@ import s from './Sort.module.css'
 import expand from '../../assets/Expand_up-1.svg'
 import calendar from '../../assets/calendar-empty.svg'
 import icon from '../../assets/icons8.svg'
-import { useDispatch } from 'react-redux'
-import {mangaApi} from '../../api/mangaApi'
-import {setMangas} from '../../store/mangaSlice'
 
 const Sort = () => {
   const [year, setYear] = useState(false)
@@ -49,67 +46,55 @@ const Sort = () => {
   const [discontinued, setDiscontinued] = useState(false)
   const [upcoming, setUpcoming] = useState(false)
 
-  const dispatch = useDispatch();
+  const filters = useMemo(() => ({
+    genres: [
+      action ? '1' : '',
+      adventure && '2',
+      school && '23',
+      comedy && '4',
+      drama && '8',
+      fantasy && '10',
+      horror && '14',
+      mahouShoujo && '66',
+      mecha && '18',
+      music && '19',
+      mystery && '7',
+      psychological && '40',
+      romance && '22',
+      sciFi && '24',
+      sliceOfLife && '36',
+      sports && '30',
+      supernatural && '37',
+      survival && '77',
+    ]
+      .filter(Boolean)
+      .join(','),
+    type: [
+      manga ? 'manga' : '',
+      novel && 'novel',
+      lightNovel && 'lightNovel',
+      oneshot && 'oneshot',
+      doujin && 'doujin',
+      manhwa && 'manhwa',
+      manhua && 'manhua',
+    ]
+      .filter(Boolean)
+      .join(','),
+    status: [
+      publishing ? 'publishing' : '',
+      complete && 'complete',
+      hiatus && 'hiatus',
+      discontinued && 'discontinued',
+      upcoming && 'upcoming'
+    ]
+      .filter(Boolean)
+      .join(','),
+    start_date: date
+  }), [mainDate, action, adventure, school, comedy, drama, fantasy, horror, mahouShoujo, mecha, music, mystery, psychological, romance, sciFi, sliceOfLife, sports, supernatural, survival, manga, novel, lightNovel, oneshot, doujin, manhwa, manhua, publishing, complete, hiatus, discontinued, upcoming]);
 
-const filters = useMemo(() => ({
-  genres: [
-    action ? '1' : '',
-    adventure && '2',
-    school && '23',
-    comedy && '4',
-    drama && '8',
-    fantasy && '10',
-    horror && '14',
-    mahouShoujo && '66',
-    mecha && '18',
-    music && '19',
-    mystery && '7',
-    psychological && '40',
-    romance && '22',
-    sciFi && '24',
-    sliceOfLife && '36',
-    sports && '30',
-    supernatural && '37',
-    survival && '77',
-  ]
-    .filter(Boolean)
-    .join(','),
-  type: [
-    manga ? 'manga' : '',
-    novel && 'novel',
-    lightNovel && 'lightNovel',
-    oneshot && 'oneshot',
-    doujin && 'doujin',
-    manhwa && 'manhwa',
-    manhua && 'manhua',
-  ]
-    .filter(Boolean)
-    .join(','),
-  status: [
-    publishing ? 'publishing' : '',
-    complete && 'complete',
-    hiatus && 'hiatus',
-    discontinued && 'discontinued',
-    upcoming && 'upcoming'
-  ]
-    .filter(Boolean)
-    .join(','),
-  start_date: date
-}), [mainDate, action, adventure, school, comedy, drama, fantasy, horror, mahouShoujo, mecha, music, mystery, psychological, romance, sciFi, sliceOfLife, sports, supernatural, survival, manga, novel, lightNovel, oneshot, doujin, manhwa, manhua, publishing, complete, hiatus, discontinued, upcoming]);
-
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const data = await mangaApi.getSerch(filters);
-      dispatch(setMangas(data.data.data));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  fetchData();
-
-}, [filters, dispatch]);
+  useEffect(() => {
+    localStorage.setItem('filtersManga', JSON.stringify(filters))
+  }, [filters]);
 
   
 

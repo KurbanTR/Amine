@@ -1,6 +1,9 @@
 import { instance } from './instance';
 
 export const animeApi = {
+    searchAnimeWithPagination(params) {
+        return instance.get(`anime`, {params});
+    },
     getAllAnime(params) {
         return instance.get(`top/anime`, {params});
     },

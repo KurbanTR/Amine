@@ -3,11 +3,9 @@ import s from './Sort.module.css'
 import expand from '../../assets/Expand_up-1.svg'
 import calendar from '../../assets/calendar-empty.svg'
 import icon from '../../assets/icons8.svg'
-import { useDispatch } from 'react-redux'
-import {animeApi} from '../../api/animeApi'
-import {setAnimes} from '../../store/animeSlice'
 
 const Sort = () => {
+
   const [year, setYear] = useState(false)
   const [genres, setGenres] = useState(true)
   const [formats, setFormats] = useState(true)
@@ -47,66 +45,52 @@ const Sort = () => {
   const [complete, setComplete] = useState(false)
   const [upcoming, setUpcoming] = useState(false)
 
-  const dispatch = useDispatch();
-
-const filters = useMemo(() => ({
-  genres: [
-    action ? '1' : '',
-    adventure && '2',
-    school && '23',
-    comedy && '4',
-    drama && '8',
-    fantasy && '10',
-    horror && '14',
-    mahouShoujo && '66',
-    mecha && '18',
-    music && '19',
-    mystery && '7',
-    psychological && '40',
-    romance && '22',
-    sciFi && '24',
-    sliceOfLife && '36',
-    sports && '30',
-    supernatural && '37',
-    survival && '76',
-  ]
-    .filter(Boolean)
-    .join(','),
-  type: [
-    tv ? 'tv' : '',
-    ova && 'ova',
-    ona && 'ona',
-    movie && 'movie',
-    special && 'special',
-    music1 && 'music'
-  ]
-    .filter(Boolean)
-    .join(','),
-  status: [
-    airing ? 'airing' : '',
-    complete && 'complete',
-    upcoming && 'upcoming'
-  ]
-    .filter(Boolean)
-    .join(','),
-  start_date: date
-}), [mainDate, action, adventure, school, comedy, drama, fantasy, horror, mahouShoujo, mecha, music, mystery, psychological, romance, sciFi, sliceOfLife, sports, supernatural, survival, tv, ova, ona, movie, special, music1, airing, complete, upcoming]);
-
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const data = await animeApi.getSerch(filters);
-      dispatch(setAnimes(data.data.data));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  fetchData();
-
-}, [filters, dispatch]);
-
+  const filters = useMemo(() => ({
+    genres: [
+      action ? '1' : '',
+      adventure && '2',
+      school && '23',
+      comedy && '4',
+      drama && '8',
+      fantasy && '10',
+      horror && '14',
+      mahouShoujo && '66',
+      mecha && '18',
+      music && '19',
+      mystery && '7',
+      psychological && '40',
+      romance && '22',
+      sciFi && '24',
+      sliceOfLife && '36',
+      sports && '30',
+      supernatural && '37',
+      survival && '76',
+    ]
+      .filter(Boolean)
+      .join(','),
+    type: [
+      tv ? 'tv' : '',
+      ova && 'ova',
+      ona && 'ona',
+      movie && 'movie',
+      special && 'special',
+      music1 && 'music'
+    ]
+      .filter(Boolean)
+      .join(','),
+    status: [
+      airing ? 'airing' : '',
+      complete && 'complete',
+      upcoming && 'upcoming'
+    ]
+      .filter(Boolean)
+      .join(','),
+    start_date: date
+  }), [date, action, adventure, school, comedy, drama, fantasy, horror, mahouShoujo, mecha, music, mystery, psychological, romance, sciFi, sliceOfLife, sports, supernatural, survival, tv, ova, ona, movie, special, music1, airing, complete, upcoming]);
   
+  useEffect(() => {
+    localStorage.setItem('filtersAnime', JSON.stringify(filters))
+  }, [filters]);
 
   return (
     <div className={s.sort}>
@@ -120,41 +104,6 @@ useEffect(() => {
           <span className='h-[44px] flex items-center cursor-pointer'><img onClick={()=>setMainDate(date)} className='w-8' src={calendar} alt="" /></span>
           <input value={date} onChange={e => setDate(e.target.value)} className='outline-none border-2 focus:border-white/80 border-white/30 bg-def-black appearance-none w-[110px] px-3 py-2 rounded-xl' type="text" min="1960" max="2026" step="1" placeholder="2007-12-17"/>
         </div>
-
-
-        {/* <div onClick={()=>setSeason(!season)} className='flex justify-between pb-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
-          <span className='font-medium'>Season</span>
-          <span><img className={`${season?'rotate-180':false} w-5 h-5 duration-300`} src={expand} alt=""/></span>          
-        </div>
-        <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start`} style={{ height: season ? 0 : '162px', visibility: season === 0 ? 'hidden' : 'visible'}}>
-          <div onClick={()=>{setWinter(!winter); setSprint(false); setSummer(false); setFall(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(winter?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={winter&&'text-white font-medium'}>Winter</span>
-          </div>
-
-          <div onClick={()=>{setSprint(!sprint); setWinter(false); setSummer(false); setFall(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(sprint?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={sprint&&'text-white font-medium'}>Sprint</span>
-          </div>
-
-          <div onClick={()=>{setSummer(!summer); setWinter(false); setSprint(false); setFall(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(summer?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={summer&&'text-white font-medium'}>Summer</span>
-          </div>
-
-          <div onClick={()=>{setFall(!fall); setWinter(false); setSprint(false); setSummer(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(fall?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={fall&&'text-white font-medium'}>Fall</span>
-          </div>
-        </div> */}
 
 
         <div onClick={()=>setGenres(!genres)} className='flex justify-between pb-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
@@ -379,4 +328,3 @@ useEffect(() => {
 }
 
 export default Sort
-

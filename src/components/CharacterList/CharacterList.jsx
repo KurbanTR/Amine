@@ -28,6 +28,7 @@ const Footers = () => {
   const onChange = (page) => setPage(page)
   return (
     <>
+      <Sort/>
       <div className={s.body}>
         <form onSubmit={onSubmit} className="flex justify-center gap-[2em]">
           <div className={s.inputBlock}>
@@ -58,7 +59,7 @@ const Footers = () => {
         }
         </div>
       </div>
-      <Sort/>
+      <p/>
       <div className={s.character}>
         <Pagination current={+page} onChange={onChange} total={pages * 10} className={s.character__pagination}/>
       </div>

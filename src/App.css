@@ -9,11 +9,11 @@
   position: relative;
   top: 140px;
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 30% 1fr;
   border-radius: 1em;
   overflow: hidden;
-  gap: 5px;
-  padding: 0 1.5em;
+  gap: 2.5rem;
+  padding: 0 1.3em;
 }
 @media screen and (max-width: 1501px) and (min-width: 1251px) {
   .main{

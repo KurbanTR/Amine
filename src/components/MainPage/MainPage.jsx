@@ -65,8 +65,11 @@ const MainPage = () => {
                       <div className='relative overflow-hidden rounded-lg h-[90%]'>
                         <div>
                           <img src={item.images.jpg.image_url} className='w-full' alt=""/>
-                        </div>                      
-                        <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black to-transparent opacity-80 p-4'>
+                        </div>       
+                        {item.score && <div className='absolute top-[.5em] right-0 flex justify-end'>
+                          <h3 className='bg-black opacity-60 py-1 px-3 text-[.9em] font-medium rounded-l-md'>{item.score}</h3>
+                        </div>}             
+                        <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black opacity-80 p-4'>
                           <div className='flex flex-col'>
                             <p className='line-clamp-1 text-[1.2em] text-white'>{item.title}</p>
                             <p className='text-[#ababab] font-medium'>{item.aired.prop.from.year ? item.aired.prop.from.year+(!item.genres.length==0 ? ', '+item.genres[0].name : '') : !item.genres.length==0 ? item.genres[0].name : ''}</p>
@@ -96,7 +99,10 @@ const MainPage = () => {
                         <div className='relative overflow-hidden rounded-lg h-[90%]'>
                           <div>
                             <img src={item.images.jpg.image_url} className='w-full' alt=""/>
-                          </div>                      
+                          </div>  
+                          {item.score && <div className='absolute top-[.5em] right-0 flex justify-end'>
+                            <h3 className='bg-black opacity-60 py-1 px-3 text-[.9em] font-medium rounded-l-md'>{item.score}</h3>
+                          </div>}                        
                           <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black to-transparent opacity-80 p-4'>
                             <div className='flex flex-col'>
                               <p className='line-clamp-1 text-[1.2em] text-white'>{item.title}</p>

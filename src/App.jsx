@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import './App.css';
 import Header from './components/Header/Header';
 import AnimeList from './components/AnimeList/AnimeList';

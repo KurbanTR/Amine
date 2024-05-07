@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import s from './AnimeList.module.css'
 import {useSelector} from 'react-redux'
 import {useDispatch} from 'react-redux'
-import { fetchAnimes, fetchSearchAnimes } from '../../store/animeSlice';
+import { fetchAnimes, searchAnimeWithPagination } from '../../store/animeSlice';
 import { Pagination } from 'antd'
 import Sort from '../SortAnime/Sort';
 import coolicon from '../../assets/Search.svg'
@@ -17,22 +17,31 @@ const Footers = () => {
   const {pages} = useSelector(state => state.anime)
   const dispatch = useDispatch()
   useEffect(()=>{
-    dispatch(fetchAnimes({page}))
+    const filters = JSON.parse(localStorage.getItem('filtersAnime'))
+    const mergedObj = Object.assign({}, filters, {q: value})
+    value && dispatch(searchAnimeWithPagination(mergedObj)) 
+    !value && dispatch(fetchAnimes({page}))   
     window.scrollTo({top: 0, behavior: "smooth"})
   },[page, dispatch])
-
+  
   const onSubmit = (e)=>{ 
-
+    const filters = JSON.parse(localStorage.getItem('filtersAnime'))
+    const mergedObj = Object.assign({}, filters, {q: value})
     e.preventDefault()
-    dispatch(fetchSearchAnimes({title: value}))
+    value && dispatch(searchAnimeWithPagination(mergedObj))
+    !value && dispatch(fetchAnimes({page}))
+    console.log(filters);
+    setPage(1)
    }
-  const onChange = (page) => setPage(page)
+
+  const onChange = (pagee) => setPage(pagee)
   return (
     <>
+    <Sort/>
       <div className={s.body}>
         <form onSubmit={onSubmit} className="flex justify-center gap-[2em]">
           <div className={s.inputBlock}>
-            <img src={coolicon1} className="w-4" alt="?" /><input value={value} required className="text-[#fafafa] font-medium text-[1.1em] w-full" onChange={e => setValue(e.target.value)} placeholder="Search..." />
+            <img src={coolicon1} className="w-4" alt="?" /><input value={value} className="text-[#fafafa] font-medium text-[1.1em] w-full" onChange={e => setValue(e.target.value)} placeholder="Search..." />
           </div>
           <button type="submit" className={s.coolicon} >
             <img src={coolicon} className="w-4" alt="?" />
@@ -42,7 +51,7 @@ const Footers = () => {
         <div className={s.carts}>
         {
           data?.map((item, index) => 
-              <Link to={'/anime/'+item.mal_id} key={index}>
+            <Link to={'/anime/'+item.mal_id} key={index}>
               <div className='relative h-[90%] rounded-xl overflow-hidden'>
                 <div>
                   <img src={item.images.jpg.image_url} alt="" />
@@ -59,9 +68,9 @@ const Footers = () => {
         }
         </div>
       </div>
-      <Sort/>
+      <p/>
       <div className={s.character}>
-        <Pagination current={+page} onChange={onChange} total={pages * 10} className={s.character__pagination}/>
+        <Pagination current={page} onChange={onChange} total={pages * 10} className={s.character__pagination}/>
       </div>
     </>
   )

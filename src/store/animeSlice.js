@@ -1,10 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { animeApi } from '../api/animeApi';
 
+export const searchAnimeWithPagination = createAsyncThunk(
+    'anime/searchAnimeWithPagination',
+    async function({ genres, type, status, start_date, page, q }, { dispatch }) {
+        const data = await animeApi.searchAnimeWithPagination({genres, type, status, start_date, page, q, genres_exclude: '9, 12, 49, 28'})
+        const filteredAnime = data.data.data.filter(anime => !anime.title.toLowerCase().includes("hentai"));
+        dispatch(setAnimes(filteredAnime)); 
+        dispatch(setPages(data.data.pagination.last_visible_page)); 
+    }
+);
+
 export const fetchAnimes = createAsyncThunk(
     'anime/fetchAnimes',
-    async function({ page }, { dispatch }) {
-        const data = await animeApi.getAllAnime({page,  limit: 24});
+    async function({title, page}, { dispatch }) {
+        const data = await animeApi.getAllAnime({title, page})
         dispatch(setAnimes(data.data.data)); 
         dispatch(setPages(data.data.pagination.last_visible_page)); 
     }
@@ -23,7 +33,7 @@ export const fetchAnime = createAsyncThunk(
 export const fetchSearchAnimes = createAsyncThunk(
     'anime/fetchSearchAnimes',
     async function({title}, {dispatch}){
-        const data = await animeApi.getSerch({q: title, genres_exclude: '12, 49, 28', limit: 24})
+        const data = await animeApi.getSerch({q: title, genres_exclude: '9, 12, 49, 28', limit: 24})
         const filteredAnime = data.data.data.filter(anime => !anime.title.toLowerCase().includes("hentai"));
         dispatch(setAnimes(filteredAnime));
     }
@@ -72,14 +82,6 @@ export const fetchAnimeNow = createAsyncThunk(
     }
 );
 
-export const fetchCharacter = createAsyncThunk(
-    'anime/fetchCharacter',
-    async function({id}, {dispatch}){
-        const data = await animeApi.getCharacter(id)
-        dispatch(setCharacter(data.data.data));
-    }
-)
-
 export const fetchPerson = createAsyncThunk(
     'anime/fetchPerson',
     async function({id}, {dispatch}){
@@ -96,7 +98,6 @@ const animeSlice = createSlice({
         randAnime: null,
         characters: [],
         recommendations: [],
-        character: null,
         person: null,
         score: [],
         now: null,
@@ -129,13 +130,10 @@ const animeSlice = createSlice({
         setNow(state, action){
             state.now = action.payload
         },
-        setCharacter(state, action){
-            state.character = action.payload
-        },
         setPerson(state, action){
             state.person = action.payload
         },
     },
 })
-export const {setAnime, setAnimes, setPages, setRandAnime, setCharacters, setRecommendations, setScore, setNow, setCharacter, setPerson} = animeSlice.actions
+export const {setAnime, setAnimes, setPages, setRandAnime, setCharacters, setRecommendations, setScore, setNow, setPerson} = animeSlice.actions
 export default animeSlice.reducer
