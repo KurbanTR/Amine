@@ -2,10 +2,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import s from './Header.module.css'
 import { useEffect, useState } from 'react'
 import { Select } from 'antd';
+import { useSelector } from 'react-redux'
 
 const Header = () => {
   const nav = useNavigate()
   const [isScrolled, setIsScrolled] = useState(false);
+  const { token } = useSelector(state => state.user)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,6 +37,8 @@ const Header = () => {
           <Link to='/anime' className={s.catalog_link}>Anime</Link>
           <Link to='/manga' className={s.catalog_link}>Manga</Link>
           <Link to='/character' className={s.catalog_link}>Character</Link>
+          
+          <Link to='/registration' className={s.catalog_link}>SignUp</Link>
 
           <Select
             className={s.burger_menu}
