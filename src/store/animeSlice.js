@@ -101,7 +101,7 @@ const animeSlice = createSlice({
         person: null,
         score: [],
         now: null,
-        pages: null,
+        pages: 1,
         loading: false,
         error: false,
     },

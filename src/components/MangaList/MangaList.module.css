@@ -7,6 +7,15 @@
     gap: 1em;
     padding: 2em 0;
 }
+.character{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.character__pagination{
+    background: white;
+}
+
 .inputBlock{
     display: flex;   
     gap: .7em; 
@@ -41,110 +50,32 @@
 .coolicon:hover img{
     transform: scale(1.2);
 }
-.body__card{
-    overflow: hidden;
-    border-radius: 0.5em;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    background-color: #1c1c1c;
-}
-.body__image_wrapper{
-    overflow:  hidden;
-    height: 15em;
-    border-radius: 0.5em;
-    
-}
-.body__image_wrapper:hover img{
-    opacity: 0.3;
-}
-.body__image_wrapper:hover .body__pause_button{
-    opacity: 1;
-}
-.body__image_wrapper img{
-    width: 100%;
-    display: block;
-    transition: opacity 0.3s ease
-}
-.body__pause_button {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    width: 80px; 
-    height: 50px;
-    background-color: rgb(31, 103, 105);
-    border-radius: 50px;
-    box-shadow: 0 0 7px 8px #064d4186;
-}
-.body__title{
-    color: white;
-    font-size: 20px;
-    font-weight: 600;
-    text-align: center;
-    overflow: hidden;
-    white-space: nowrap; 
-    text-overflow: ellipsis; 
-}
-.body__button{
-    color: white;
-    font-size: 20px;
-    font-weight: 600;
-    width: 100%;
-}
-.character{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-.character__pagination{
-    background: white;
-}
 @media screen and (max-width: 1050px) and (min-width: 801px) {
     .body{
         grid-template-columns: repeat(4, 1fr);
     }
 }
 @media screen and (max-width: 800px) and (min-width: 521px) {
-    .body{
+    .carts{
         padding: 50px 0;
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
     }
-    .body__card{
-        width: 13em;
-        height: 19em;
-    }
 }
 @media screen and (max-width: 520px) and (min-width: 341px){
-    .body{
+    .carts{
         grid-template-columns: 1fr 1fr;
-    }
-    .body__card{
-        height: auto;
-    }
-    .body__title{
-        font-size: 17px;
     }
 }
 @media screen and (max-width: 400px) and (min-width: 341px){
-    .body{
+    .carts{
         padding: 2em 1em;
     }
 }
 @media screen and (max-width: 340px){
-    .body{
+    .carts{
         grid-template-columns: 1fr;
         padding: 2em;
-    }
-    .body__card{
-        height: auto;
-    }
-    .body__title{
-        font-size: 25px;
     }
 }

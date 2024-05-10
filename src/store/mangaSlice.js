@@ -2,7 +2,7 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import { mangaApi } from '../api/mangaApi';
 
 export const searchMangaWithPagination = createAsyncThunk(
-    'anime/searchMangaWithPagination',
+    'manga/searchMangaWithPagination',
     async function({ genres, type, status, start_date, page, q }, { dispatch }) {
         const data = await mangaApi.searchMangaWithPagination({genres, type, status, start_date, page, q, genres_exclude: '9, 12, 49, 28'})
         const filteredManga = data.data.data.filter(anime => !anime.title.toLowerCase().includes("hentai"));
@@ -15,9 +15,9 @@ export const searchMangaWithPagination = createAsyncThunk(
 export const fetchMangas = createAsyncThunk(
     'manga/fetchMangas',
     async function({page}, {dispatch}){
-            const data = await mangaApi.getAllManga({page})
-            dispatch(setMangas(data.data.data));
-            dispatch(setPages(data.data.pagination.last_visible_page))
+        const data = await mangaApi.getAllManga({page})
+        dispatch(setMangas(data.data.data));
+        dispatch(setPages(data.data.pagination.last_visible_page))
     }
 )
 // Запрос на все манги

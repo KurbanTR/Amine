@@ -4,6 +4,28 @@ import expand from '../../assets/Expand_up-1.svg'
 import calendar from '../../assets/calendar-empty.svg'
 import icon from '../../assets/icons8.svg'
 
+const ToggleSection = ({ title, isOpen, onClick }) => {
+  return (
+    <div onClick={onClick} className='flex justify-between py-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
+      <span className='font-medium'>{title}</span>
+      <span><img className={`${isOpen ? 'rotate-180' : ''} w-5 h-5 duration-300`} src={expand} alt="" /></span>
+    </div>
+  );
+};
+
+
+const ToggleButton = ({ label, isActive, onClick }) => {
+  return (
+    <div onClick={onClick} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
+      <div className={(isActive ? 'bg-white' : 'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+        <img src={icon} alt="" />
+      </div>
+      <span className={isActive && 'text-white font-medium'}>{label}</span>
+    </div>
+  );
+};
+
+
 const Sort = () => {
   const [year, setYear] = useState(false)
   const [genres, setGenres] = useState(true)
@@ -11,10 +33,9 @@ const Sort = () => {
   const [status, setStatus] = useState(false)
 
   const [date, setDate] = useState('')
-  const [mainDate, setMainDate] = useState('')
 
   const [action, setAction] = useState(false)
-  const [adventure, setAdventyre] = useState(false)
+  const [adventure, setAdventure] = useState(false)
   const [school, setSchool] = useState(false)
   const [comedy, setComedy] = useState(false)
   const [drama, setDrama] = useState(false)
@@ -90,7 +111,7 @@ const Sort = () => {
       .filter(Boolean)
       .join(','),
     start_date: date
-  }), [mainDate, action, adventure, school, comedy, drama, fantasy, horror, mahouShoujo, mecha, music, mystery, psychological, romance, sciFi, sliceOfLife, sports, supernatural, survival, manga, novel, lightNovel, oneshot, doujin, manhwa, manhua, publishing, complete, hiatus, discontinued, upcoming]);
+  }), [date, action, adventure, school, comedy, drama, fantasy, horror, mahouShoujo, mecha, music, mystery, psychological, romance, sciFi, sliceOfLife, sports, supernatural, survival, manga, novel, lightNovel, oneshot, doujin, manhwa, manhua, publishing, complete, hiatus, discontinued, upcoming]);
 
   useEffect(() => {
     localStorage.setItem('filtersManga', JSON.stringify(filters))
@@ -102,250 +123,56 @@ const Sort = () => {
     <div className={s.sort}>
       <h1 className='text-3xl font-medium mb-8'>Catalog</h1>
       <div>
-        <div onClick={()=>setYear(!year)} className='flex justify-between py-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
-          <span className='font-medium'>Year</span>
-          <span><img className={`${year?'rotate-180':false} w-5 h-5 duration-300`} src={expand} alt=""/></span>          
-        </div>
+        <ToggleSection title="Year" isOpen={year} onClick={() => setYear(!year)} />
         <div className={`relative overflow-hidden duration-300 flex gap-3 items-start`} style={{ height: year ? 0 : '74px', visibility: year === 0 ? 'hidden' : 'visible'}}>
-          <span className='h-[44px] flex items-center cursor-pointer'><img onClick={()=>setMainDate(date)} className='w-8' src={calendar} alt="" /></span>
+          <span className='h-[44px] flex items-center cursor-pointer'><img className='w-8' src={calendar} alt="" /></span>
           <input value={date} onChange={e => setDate(e.target.value)} className='outline-none border-2 focus:border-white/80 border-white/30 bg-def-black appearance-none w-[110px] px-3 py-2 rounded-xl' type="text" min="1960" max="2026" step="1" placeholder="2007-12-17"/>
         </div>
 
-
-        <div onClick={()=>setGenres(!genres)} className='flex justify-between pb-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
-          <span className='font-medium'>Genres</span>
-          <span><img className={`${genres?'rotate-180':false} w-5 h-5 duration-300`} src={expand} alt=""/></span>          
-        </div>
+        <ToggleSection title="Genres" isOpen={genres} onClick={() => setGenres(!genres)} />
         <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start`} style={{ height: genres ? 0 : '666px', visibility: genres === 0 ? 'hidden' : 'visible'}}>
-          <div onClick={()=>setAction(!action)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(action?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={action&&'text-white font-medium'}>Action</span>
-          </div>
-
-          <div onClick={()=>setAdventyre(!adventure)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(adventure?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={adventure&&'text-white font-medium'}>Adventure</span>
-          </div>
-
-          <div onClick={()=>setSchool(!school)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(school?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={school&&'text-white font-medium'}>School</span>
-          </div>
-
-          <div onClick={()=>setComedy(!comedy)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(comedy?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={comedy&&'text-white font-medium'}>Comedy</span>
-          </div>
-
-          <div onClick={()=>setDrama(!drama)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(drama?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={drama&&'text-white font-medium'}>Drama</span>
-          </div>
-
-          <div onClick={()=>setFantasy(!fantasy)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(fantasy?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={fantasy&&'text-white font-medium'}>Fantasy</span>
-          </div>
-
-          <div onClick={()=>setHorror(!horror)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(horror?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={horror&&'text-white font-medium'}>Horror</span>
-          </div>
-
-          <div onClick={()=>setMahouShouji(!mahouShoujo)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(mahouShoujo?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={mahouShoujo&&'text-white font-medium'}>MahouShoujo</span>
-          </div>
-
-          <div onClick={()=>setMecha(!mecha)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(mecha?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={mecha&&'text-white font-medium'}>Mecha</span>
-          </div>
-
-          <div onClick={()=>setMusic(!music)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(music?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={music&&'text-white font-medium'}>Music</span>
-          </div>
-
-          <div onClick={()=>setMystery(!mystery)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(mystery?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={mystery&&'text-white font-medium'}>Mystery</span>
-          </div>
-
-          <div onClick={()=>setPsychological(!psychological)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(psychological?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={psychological&&'text-white font-medium'}>Psychologica</span>
-          </div>
-
-          <div onClick={()=>setRomance(!romance)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(romance?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={romance&&'text-white font-medium'}>Romance</span>
-          </div>
-
-          <div onClick={()=>setSciFi(!sciFi)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(sciFi?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={sciFi&&'text-white font-medium'}>SciFi</span>
-          </div>
-
-          <div onClick={()=>setSliceOfLife(!sliceOfLife)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(sliceOfLife?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={sliceOfLife&&'text-white font-medium'}>SliceOfLife</span>
-          </div>
-
-          <div onClick={()=>setSports(!sports)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(sports?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={sports&&'text-white font-medium'}>Sports</span>
-          </div>
-
-          <div onClick={()=>setSupernatural(!supernatural)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(supernatural?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={supernatural&&'text-white font-medium'}>Supernatural</span>
-          </div>
-
-          <div onClick={()=>setSurvival(!survival)} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(survival?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={survival&&'text-white font-medium'}>Survival</span>
-          </div>
+        <ToggleButton label="Action" isActive={action} onClick={() => setAction(!action)} />
+          <ToggleButton label="Adventure" isActive={adventure} onClick={() => setAdventure(!adventure)} />
+          <ToggleButton label="School" isActive={school} onClick={() => setSchool(!school)} />
+          <ToggleButton label="Comedy" isActive={comedy} onClick={() => setComedy(!comedy)} />
+          <ToggleButton label="Drama" isActive={drama} onClick={() => setDrama(!drama)} />
+          <ToggleButton label="Fantasy" isActive={fantasy} onClick={() => setFantasy(!fantasy)} />
+          <ToggleButton label="Horror" isActive={horror} onClick={() => setHorror(!horror)} />
+          <ToggleButton label="MahouShoujo" isActive={mahouShoujo} onClick={() => setMahouShouji(!mahouShoujo)} />
+          <ToggleButton label="Mecha" isActive={mecha} onClick={() => setMecha(!mecha)} />
+          <ToggleButton label="Music" isActive={music} onClick={() => setMusic(!music)} />
+          <ToggleButton label="Mystery" isActive={mystery} onClick={() => setMystery(!mystery)} />
+          <ToggleButton label="Psychological" isActive={psychological} onClick={() => setPsychological(!psychological)} />
+          <ToggleButton label="Romance" isActive={romance} onClick={() => setRomance(!romance)} />
+          <ToggleButton label="SliceOfLife" isActive={sliceOfLife} onClick={() => setSliceOfLife(!sliceOfLife)} />
+          <ToggleButton label="Sports" isActive={sports} onClick={() => setSports(!sports)} />
+          <ToggleButton label="Supernatural" isActive={supernatural} onClick={() => setSupernatural(!supernatural)} />
+          <ToggleButton label="Survival" isActive={survival} onClick={() => setSurvival(!survival)} />
+          <ToggleButton label="SciFi" isActive={sciFi} onClick={() => setSciFi(!sciFi)} />
         </div>
 
-
-        <div onClick={()=>setFormats(!formats)} className='flex justify-between pb-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
-          <span className='font-medium'>Formats</span>
-          <span><img className={`${formats?'rotate-180':false} w-5 h-5 duration-300`} src={expand} alt=""/></span>          
-        </div>
+        <ToggleSection title="Formats" isOpen={formats} onClick={() => setFormats(!formats)} />
         <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start`} style={{ height: formats ? 0 : '270px', visibility: formats === 0 ? 'hidden' : 'visible'}}>
-          <div onClick={()=>{setManga(!manga); setNovel(false); setLightNovel(false); setOneshot(false); setDoujin(false); setManhwa(false); setManhua(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(manga?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={manga&&'text-white font-medium'}>Manga</span>
-          </div>
-
-          <div onClick={()=>{setNovel(!novel); setManga(false); setLightNovel(false); setOneshot(false); setDoujin(false); setManhwa(false); setManhua(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(novel?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={novel&&'text-white font-medium'}>Novel</span>
-          </div>
-
-          <div onClick={()=>{setLightNovel(!lightNovel); setNovel(false); setManga(false); setOneshot(false); setDoujin(false); setManhwa(false); setManhua(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(lightNovel?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={lightNovel&&'text-white font-medium'}>Light Novel</span>
-          </div>
-
-          <div onClick={()=>{setOneshot(!oneshot); setNovel(false); setLightNovel(false); setManga(false); setDoujin(false); setManhwa(false); setManhua(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(oneshot?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={oneshot&&'text-white font-medium'}>Oneshot</span>
-          </div>
-
-          <div onClick={()=>{setDoujin(!doujin); setNovel(false); setLightNovel(false); setOneshot(false); setManga(false); setManhwa(false); setManhua(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(doujin?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={doujin&&'text-white font-medium'}>Doujin</span>
-          </div>
-
-          <div onClick={()=>{setManhwa(!manhwa);  setNovel(false); setLightNovel(false); setOneshot(false); setDoujin(false); setManga(false); setManhua(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(manhwa?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={manhwa&&'text-white font-medium'}>Manhwa</span>
-          </div>
-
-          <div onClick={()=>{setManhua(!manhua); setNovel(false); setLightNovel(false); setOneshot(false); setDoujin(false); setManhwa(false); setManga(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(manhua?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={manhua&&'text-white font-medium'}>Manhua</span>
-          </div>
+          <ToggleButton label="Manga" isActive={manga} onClick={() => setManga(!manga)} />
+          <ToggleButton label="Novel" isActive={novel} onClick={() => setNovel(!novel)} />
+          <ToggleButton label="LightNovel" isActive={lightNovel} onClick={() => setLightNovel(!lightNovel)} />
+          <ToggleButton label="OneShot" isActive={oneshot} onClick={() => setOneshot(!oneshot)} />
+          <ToggleButton label="Doujin" isActive={doujin} onClick={() => setDoujin(!doujin)} />
+          <ToggleButton label="Manhwa" isActive={manhwa} onClick={() => setManhwa(!manhwa)} />
+          <ToggleButton label="Manhua" isActive={manhua} onClick={() => setManhua(!manhua)} />         
         </div>
-        
 
-        <div onClick={()=>setStatus(!status)} className='flex justify-between pb-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
-          <span className='font-medium'>Status</span>
-          <span><img className={`${formats?'rotate-180':false} w-5 h-5 duration-300`} src={expand} alt=""/></span>          
-        </div>
+        <ToggleSection title="Status" isOpen={status} onClick={() => setStatus(!status)} />
         <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start`} style={{ height: status ? 0 : '270px', visibility: status === 0 ? 'hidden' : 'visible'}}>
-          <div onClick={()=>{setPublishing(!publishing); setComplete(false); setUpcoming(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(publishing?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={publishing&&'text-white font-medium'}>Publishing</span>
-          </div>
-
-          <div onClick={()=>{setComplete(!complete); setPublishing(false); setHiatus(false); setDiscontinued(false); setUpcoming(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(complete?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={complete&&'text-white font-medium'}>Complete</span>
-          </div>
-
-          <div onClick={()=>{setHiatus(!hiatus); setPublishing(false); setComplete(false); setDiscontinued(false); setUpcoming(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(hiatus?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={hiatus&&'text-white font-medium'}>Hiatus</span>
-          </div>
-
-          <div onClick={()=>{setDiscontinued(!discontinued); setPublishing(false); setComplete(false); setHiatus(false); setUpcoming(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-            <div className={(discontinued?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={discontinued&&'text-white font-medium'}>Discontinued</span>
-          </div>
-
-          <div onClick={()=>{setUpcoming(!upcoming); setPublishing(false); setComplete(false); setHiatus(false); setDiscontinued(false)}} className='duration-300 flex items-center gap-2 text-gray-500 cursor-pointer'>
-          <div className={(upcoming?'bg-white':'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-              <img src={icon} alt="" />
-            </div>
-            <span className={upcoming&&'text-white font-medium'}>Upcoming</span>
-          </div>
+          <ToggleButton label="Publishing" isActive={publishing} onClick={() => setPublishing(!publishing)} />
+          <ToggleButton label="Complete" isActive={complete} onClick={() => setComplete(!complete)} />
+          <ToggleButton label="Hiatus" isActive={hiatus} onClick={() => setHiatus(!hiatus)} />
+          <ToggleButton label="Discontinued" isActive={discontinued} onClick={() => setDiscontinued(!discontinued)} />
+          <ToggleButton label="Upcoming" isActive={upcoming} onClick={() => setUpcoming(!upcoming)} /> 
         </div>
       </div>
-
     </div>
   )
 }
 
 export default Sort
-
