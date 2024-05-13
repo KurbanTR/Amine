@@ -69,7 +69,7 @@ export const fetchRecommendations = createAsyncThunk(
 export const fetchAnimeScore = createAsyncThunk(
     'anime/fetchAnimeScore',
     async function(_, { dispatch }) {
-        const data = await animeApi.getScore({min_score: 8.9})
+        const data = await animeApi.getScore({min_score: 9})
         dispatch(setScore(data.data.data))
     }
 );

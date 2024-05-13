@@ -1,0 +1,28 @@
+.block_1__shapka{
+    display: flex;
+    align-items: center;
+    height: calc(230px);
+    background-size: cover;
+    background-position: center;
+    background-image: url("https://i.pinimg.com/originals/a6/b2/56/a6b256f4640c44ed0536b8a5e2932766.jpg");
+}
+.block_1__titles{
+    display: flex;
+    padding-left: 1.25rem;
+    margin: 0 auto;
+    gap: 2em;
+}
+.title{
+    font-size: 3em;
+    font-weight: 500;
+}
+.span{
+    width: 5.5em;
+    padding: 10px 0;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 20px;
+    transition-duration: .1s;
+    cursor: pointer;
+}
