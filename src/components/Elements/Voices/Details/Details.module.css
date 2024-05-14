@@ -1,0 +1,11 @@
+@media screen and (max-width: 900px) {
+    .main{
+        display: flex;
+        flex-direction: column;
+        gap: 2.5em;
+    }
+    .info{
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
