@@ -1,19 +1,28 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword,  } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from '../firebaseConfig'
-import { addDoc, collection, setDoc } from 'firebase/firestore';
+import { addDoc, collection, } from 'firebase/firestore';
 
 export const usersColectionRef = collection(db, 'users')
 
+const updateUserProfile = createAsyncThunk(
+    'user/updateUserAccount',
+    async({displayName}, {dispatch}) => {
+        await updateProfile(auth.currentUser, {displayName: displayName})
+        await dispatch(setName(auth.currentUser.displayName))
+    }
+)
 
 export const createAccount = createAsyncThunk(
     'user/createAccount',
-    async({email,password},{dispatch}) => {
+    async({email, password, name},{dispatch}) => {
         try{
             const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
             console.log(userCredentials.user);
             dispatch(setToken(userCredentials.user.accessToken))
             dispatch(setEmail(userCredentials.user.email))
+            dispatch(updateUserProfile({displayName: name}))
+            await addDoc(usersColectionRef, {name, email})
         }catch (error) {
             console.log(error);
         }

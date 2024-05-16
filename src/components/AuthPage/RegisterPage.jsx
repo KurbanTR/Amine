@@ -6,6 +6,7 @@ import { useDispatch} from "react-redux"
 
 const RegisterPage = () => {
 
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(false)
@@ -28,13 +29,18 @@ const RegisterPage = () => {
       }else{
         setError(false)
         setErrPassword(false)
-        dispatch(createAccount({email, password, nav}))
+        dispatch(createAccount({email, password, name, nav}))
+        setName('')
         setPassword('')
         setEmail('')
         setSecPassword('')
       }
     }
   }
+
+  
+
+
 
   return (
     <>
@@ -44,6 +50,10 @@ const RegisterPage = () => {
             <h1 className="text-6xl ">Registration</h1>
           </div>
           <div className="flex flex-col items-center gap-[3em] pt-[40px] w-[100%]">
+            <div className="w-[100%]">
+              <p>NickName</p>
+              <input type="email" value={name} placeholder="Your NickName" onChange={(e)=>setName(e.target.value)}  className="w-100% bg-[#606060] w-[100%] rounded-md px-5 py-4"/>
+            </div>
             <div className="w-[100%]">
               <p>Email</p>
               <input type="email" value={email} placeholder="Your Email" onChange={(e)=>setEmail(e.target.value)}  className="w-100% bg-[#606060] w-[100%] rounded-md px-5 py-4"/>
