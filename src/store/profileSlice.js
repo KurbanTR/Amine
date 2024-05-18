@@ -1,9 +1,11 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import { collection, doc, getDocs } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
+import { usersColectionRef } from './authSlice';
 
 export const producsColectionRef = collection(db, 'products')
 export const nikeAirForce = doc(producsColectionRef, '8Tb8Nv1jGvXglQlIiCcaFMgHRwc2')
+
 
 export const getProductData = createAsyncThunk(
     'profile/getProductData',

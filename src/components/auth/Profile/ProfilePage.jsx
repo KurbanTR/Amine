@@ -1,3 +1,4 @@
+import { createAccount } from "../../../store/authSlice";
 import s from './ProfilePage.module.css'
 import { SwiperSlide, Swiper} from "swiper/react"
 import { Keyboard } from 'swiper/modules';
@@ -8,8 +9,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { fetchAnimeNow } from '../../../store/animeSlice';
 import PropTypes from 'prop-types'
+import { getDefineUser } from "../../../store/authSlice";
+
+
+
 
 const AnimeSwiper = ({ anime, animeSpan }) => {
+  
   return (
     <div className='container w-full flex overflow-hidden px-5' style={animeSpan ? {} : {display: 'none'}}>
       <Swiper
@@ -63,10 +69,16 @@ const ProfilePage = () => {
   const [animeSpan, setAnimeSpan] = useState(false)
   const [mangaSpan, setMangaSpan] = useState(false)
   const dispatch = useDispatch()
+  const { name } = useSelector(state => state.user)
+
+  const data = useSelector(state => state.anime.now)
+  const idUser = useSelector(state => state.user.id)
+
   useEffect(()=>{
     dispatch(fetchAnimeNow())
-  }, [])
-  const data = useSelector(state => state.anime.now)
+    dispatch(getDefineUser({id:idUser}))
+  }, [dispatch, idUser])
+
   return (
     <>
       <div className={s.block_1}>
@@ -74,7 +86,7 @@ const ProfilePage = () => {
         <div className={s.block_1__titles}>
           <img src='https://freesvg.org/img/abstract-user-flat-4.png' className='flex-shrink-0 rounded-full w-[170px] h-[170px]' alt='SUI' />
           <div className='w-[57%] flex items-center'>
-            <p className={s.title}>Kurban</p>
+            <p className={s.title}>{name}</p>
 
           </div>
         </div>
@@ -86,8 +98,8 @@ const ProfilePage = () => {
             <h1 onClick={()=>{setMangaSpan(!mangaSpan); setAnimeSpan(false)}} className={s.span} style={mangaSpan ? {background: 'rgb(33 33 33 / 1)'} : {}}>Manga</h1>
           </span>
         </div>
-        <AnimeSwiper anime={data} animeSpan={animeSpan}/>
-        <AnimeSwiper anime={data} animeSpan={mangaSpan}/>
+        {/* <AnimeSwiper anime={data} animeSpan={animeSpan}/>
+        <AnimeSwiper anime={data} animeSpan={mangaSpan}/> */}
       </div>
     </>
   )

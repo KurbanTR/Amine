@@ -20,7 +20,7 @@
 .block1__main{
     display: flex;
     flex-direction: row;
-    padding: 0 10em;
+    padding-left: 10em;
     justify-content: space-between;
     width: 90em;
 }
@@ -72,7 +72,7 @@
 @media screen and (max-width: 1145px) and (min-width: 1026px){
 
     .block1__main{
-        padding: 0 9em;
+        padding-left: 9em;
     }
 
     .block1__title{
@@ -109,7 +109,7 @@
 }
 @media screen and (max-width: 934px) {
     .block1__main{
-        padding: 0 7em;
+        padding-left: 7em;
     }
 
     .block1__title{
