@@ -55,27 +55,28 @@
         grid-template-columns: repeat(4, 1fr);
     }
 }
-@media screen and (max-width: 800px) and (min-width: 521px) {
+@media screen and (max-width: 800px) {
     .carts{
         padding: 50px 0;
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
     }
+    .mangaCard{
+        width: 30%;
+    }
 }
 @media screen and (max-width: 520px) and (min-width: 341px){
-    .carts{
-        grid-template-columns: 1fr 1fr;
+    .mangaCard{
+        width: 45%;
     }
 }
-@media screen and (max-width: 400px) and (min-width: 341px){
+@media screen and (max-width: 350px){
     .carts{
         padding: 2em 1em;
-    }
-}
-@media screen and (max-width: 340px){
-    .carts{
         grid-template-columns: 1fr;
-        padding: 2em;
+    }
+    .mangaCard{
+        width: auto;
     }
 }

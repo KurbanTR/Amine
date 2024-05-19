@@ -10,23 +10,22 @@
 .block1{
     display: flex;
     align-items: center;
-    height: 85vh;
+    height: 600px;
     background-size: cover;
     background-position: center;
-    background-image: url(https://ik.imagekit.io/subanime/jujutsukaisenPoster2);
-    
+    background-image: url(https://ik.imagekit.io/subanime/jujutsukaisenPoster2);    
 }
 
 .block1__main{
     display: flex;
     flex-direction: row;
-    padding: 0 10em;
-    justify-content: space-between;
-    width: 90em;
+    width: 1440px;
+    padding-left: 1.25rem;
+    margin: 0 auto;
 }
 
 .block1__title{
-    font-size: 5em;
+    font-size: 5.5em;
     font-weight: 700;
 }
 
@@ -36,14 +35,13 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     width: 30em;
-    font-weight: 600;
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .block1__wrapper{
     display: flex;
     flex-direction: column;
-    gap: 4em;
+    gap: 1.25em;
 }
 
 .block1__button{
@@ -69,10 +67,23 @@
     height: 100%;
     width: 100%;
 }
+.block2{
+    width: 1440px;
+    margin: 0 auto;
+    padding: 1.25em;
+}
+@media screen and (max-width: 1440px){
+    .block1__main{
+        width: 100%;        
+    }
+    .block2{
+        width: 100%;
+    }
+}
 @media screen and (max-width: 1145px) and (min-width: 1026px){
 
     .block1__main{
-        padding: 0 9em;
+        padding-left: 9em;
     }
 
     .block1__title{
@@ -86,7 +97,9 @@
     .block1__button{
         padding: 10px 25px;
     }
-    
+    .block1{
+        height: 60vh;
+    }
 }
 
 @media screen and (max-width: 1025px) and (min-width: 935px){
@@ -111,7 +124,9 @@
     .block1__main{
         padding: 0 7em;
     }
-
+    .block1{
+        height: 500px;
+    }
     .block1__title{
         font-size: 2.8em;
     }
@@ -122,5 +137,25 @@
 
     .block1__button{
         padding: 8px 17px;
+    }
+}
+@media screen and (max-width: 650px) {
+    .block1{
+        height: 380px;
+    }
+    .block1__main{
+        padding: 0;
+        padding-left: 1.25em;
+    }
+}
+@media screen and (max-width: 400px){
+    .block1__title{
+        font-size: 1.9em;
+    }
+    .block1__button{
+        font-size: 1em;
+    }
+    .block1__synopsis{
+        width: 100%;
     }
 }

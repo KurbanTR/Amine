@@ -8,6 +8,7 @@ import coolicon from '../../../assets/Search.svg';
 import coolicon1 from '../../../assets/Search1.svg';
 import { fetchMangas, searchMangaWithPagination} from "../../../store/mangaSlice";
 import PropTypes from 'prop-types'
+import { CircularProgress } from "@chakra-ui/react";
 
 const SearchForm = ({ onSubmit, value, onChange }) => (
   <form onSubmit={onSubmit} className="flex justify-center gap-[2em]">
@@ -33,7 +34,7 @@ SearchForm.propTypes = {
 }
 
 const MangaCard = ({ item }) => (
-  <Link to={'/manga/'+item.mal_id}>
+  <Link to={'/manga/'+item.mal_id} className={s.mangaCard}>
     <div className='relative h-[88.5%] rounded-xl overflow-hidden'>
       <div>
         <img src={item.images.jpg.image_url} alt="" />
@@ -52,6 +53,8 @@ MangaCard.propTypes = {
 }
 
 const MangaList = () => {
+  const {loading} = useSelector(state=>state.manga)
+
   const [page, setPage] = useState(1)
   const [value, setValue] = useState('')
 
@@ -87,8 +90,8 @@ const MangaList = () => {
       <Sort/>
       <div className={s.body}>
         <SearchForm onSubmit={handleSubmit} value={value} onChange={handleInputChange} />
-        <div className={s.carts}>
-          {data?.map((item, index) => <MangaCard item={item} key={index} />)}
+        <div className={!loading && s.carts}>
+          {loading ? <div className="w-full h-[20em] flex justify-center items-center"><CircularProgress isIndeterminate color='blue.300' /></div> : data?.map((item, index) => <MangaCard item={item} key={index} />)}
         </div>
       </div>
       <p/>

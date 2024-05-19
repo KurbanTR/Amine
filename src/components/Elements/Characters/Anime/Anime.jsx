@@ -9,8 +9,8 @@ const Anime = () => {
     const character = useSelector(state => state.character.character)
 
   return (
-    <div className='px-[2em]'>
-        <p className='text-[1.6em] font-medium mb-4'>Trending now</p>
+    <div>
+        <p className='text-[1.6em] font-medium mb-4'>Anime</p>
         <div className='container w-full flex overflow-hidden'>
             <Swiper
                 className={ss.swipers}

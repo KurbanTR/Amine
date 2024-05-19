@@ -3,22 +3,37 @@ import { animeApi } from '../api/animeApi';
 
 export const searchAnimeWithPagination = createAsyncThunk(
     'anime/searchAnimeWithPagination',
-    async function({ genres, type, status, start_date, page, q }, { dispatch }) {
-        const data = await animeApi.searchAnimeWithPagination({genres, type, status, start_date, page, q, genres_exclude: '9, 12, 49, 28'})
-        const filteredAnime = data.data.data.filter(anime => !anime.title.toLowerCase().includes("hentai"));
-        dispatch(setAnimes(filteredAnime)); 
-        dispatch(setPages(data.data.pagination.last_visible_page)); 
+    async function({ genres, type, status, start_date, page, q }, { dispatch, rejectWithValue }) {
+        try{
+            const data = await animeApi.searchAnimeWithPagination({genres, type, status, start_date, page, q, genres_exclude: '9, 12, 49, 28'})
+            if(data.ok) {
+                throw new Error('Server Error!')
+            }
+            const filteredAnime = data.data.data.filter(anime => !anime.title.toLowerCase().includes("hentai"));
+            dispatch(setPages(data.data.pagination.last_visible_page)); 
+            return filteredAnime
+        }catch(error){
+            return rejectWithValue(error.message)
+        }
     }
 );
 
 export const fetchAnimes = createAsyncThunk(
     'anime/fetchAnimes',
-    async function({title, page}, { dispatch }) {
-        const data = await animeApi.getAllAnime({title, page})
-        dispatch(setAnimes(data.data.data)); 
-        dispatch(setPages(data.data.pagination.last_visible_page)); 
+    async function({title, page}, { dispatch, rejectWithValue }) {
+        try {
+            const data = await animeApi.getAllAnime({title, page});
+            if (data.ok) {
+                throw new Error('Server Error!');
+            }
+            dispatch(setPages(data.data.pagination.last_visible_page));
+            return data.data.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
     }
 );
+
 // Запрос на все аниме
 
 export const fetchAnime = createAsyncThunk(
@@ -106,9 +121,6 @@ const animeSlice = createSlice({
         error: false,
     },
     reducers: {
-        setAnimes(state, action){
-            state.animes = action.payload
-        },
         setAnime(state, action){
             state.anime = action.payload
         },
@@ -133,7 +145,36 @@ const animeSlice = createSlice({
         setPerson(state, action){
             state.person = action.payload
         },
+        setAnimes(state, action){
+            state.animes = action.payload
+        }
     },
+    extraReducers: (bilder) => {
+        bilder.addCase(fetchAnimes.pending, (state) => {
+            state.loading = true
+            state.error = false
+        }),
+        bilder.addCase(fetchAnimes.fulfilled, (state, action) => {
+            state.loading = false
+            state.animes = action.payload
+        }),
+        bilder.addCase(fetchAnimes.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        }),
+        bilder.addCase(searchAnimeWithPagination.pending, (state) => {
+            state.loading = true
+            state.error = false
+        }),
+        bilder.addCase(searchAnimeWithPagination.fulfilled, (state, action) => {
+            state.loading = false
+            state.animes = action.payload
+        }),
+        bilder.addCase(searchAnimeWithPagination.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        })
+    }
 })
 export const {setAnime, setAnimes, setPages, setRandAnime, setCharacters, setRecommendations, setScore, setNow, setPerson} = animeSlice.actions
 export default animeSlice.reducer

@@ -8,6 +8,7 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel, TabIndicator } from '@chakra-u
 import Details from './Details/Details';
 import Characters from './Characters/Characters';
 import Recommendations from './Recommendations/Recommendations';
+import line from '../../../../assets/line.svg'
 
 const MangaDetails = () => {
 
@@ -28,39 +29,42 @@ const MangaDetails = () => {
         <div className={s.block_1}>
             <div className={s.block_1__shapka}></div>
             <div className={s.block_1__titles}>
-                <img src={data?.images.jpg.image_url} alt="" />
+                <img src={data?.images.jpg.image_url} className={s.persImg} alt="" />
                 <div>
                     <p className={s.title}>{data?.title}</p>
                     <div className={s.ratings}>
-                        <Rate allowHalf disabled={true} count={5} character={({ index }) => {
+                        {data?.score && <Rate allowHalf disabled={true} count={5} character={({ index }) => {
                             return index < Math.floor(data?.score / 2) ? <span style={{color: '#fff', fontSize: '1.5em'}}>★</span> : <span style={{color: '#464646', fontSize: '1.7em'}}>★</span>;
-                        }}/>
+                        }}/>}
                         <p className={s.rating}>{data?.score}</p>
-                        <div className={s.buttons}>
-
-                        </div>
+                    </div>
+                    <div className={s.span}>
+                        <img className='w-5 h-5' src={line} alt="" />
+                        <p>Add to Fovarite</p>
                     </div>
                 </div>
             </div>
-            <Tabs position='relative' variant='unstyled' className='pl-[1.25em] w-full'>
-                <TabList>
-                    <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em'}}>Overview</Tab>
-                    {characters.length !== 0 && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em'}}>Characters</Tab>}
-                    {recommendations.length !== 0 && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em'}}>Recommendations</Tab>}
-                </TabList>
-                <TabIndicator mt='-1.5px' height='2px' width='100%' bg='white' borderRadius='1px'/>
-                <TabPanels>
-                    <TabPanel>
-                        <Details/>
-                    </TabPanel>
-                    {characters.length !== 0 && <TabPanel>
-                        <Characters/>
-                    </TabPanel>}
-                    {recommendations.length !== 0 && <TabPanel>
-                        <Recommendations/>
-                    </TabPanel>}
-                </TabPanels>
-            </Tabs>
+            <div className={s.block_1__details}>  
+                <Tabs position='relative' variant='unstyled' className='pl-[1.25em] w-full'>
+                    <TabList>
+                        <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Overview</Tab>
+                        {characters.length !== 0 && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Characters</Tab>}
+                        {recommendations.length !== 0 && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Recommendations</Tab>}
+                    </TabList>
+                    <TabIndicator mt='-1.5px' height='2px' width='100%' bg='white' borderRadius='1px'/>
+                    <TabPanels>
+                        <TabPanel>
+                            <Details/>
+                        </TabPanel>
+                        {characters.length !== 0 && <TabPanel>
+                            <Characters/>
+                        </TabPanel>}
+                        {recommendations.length !== 0 && <TabPanel>
+                            <Recommendations/>
+                        </TabPanel>}
+                    </TabPanels>
+                </Tabs>
+            </div>
         </div>
     );
 };
