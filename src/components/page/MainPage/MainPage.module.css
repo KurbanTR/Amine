@@ -22,6 +22,8 @@
     width: 1440px;
     padding-left: 1.25rem;
     margin: 0 auto;
+    justify-content: space-between;
+    width: 90em;
 }
 
 .block1__title{
@@ -122,7 +124,7 @@
 }
 @media screen and (max-width: 934px) {
     .block1__main{
-        padding: 0 7em;
+        padding-left: 7em;
     }
     .block1{
         height: 500px;
