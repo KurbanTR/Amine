@@ -1,10 +1,10 @@
-import { createAccount } from "../../../store/authSlice";
+import { createAccount, setName, signOut } from "../../../store/authSlice";
 import s from './ProfilePage.module.css'
 import { SwiperSlide, Swiper} from "swiper/react"
 import { Keyboard } from 'swiper/modules';
 import 'swiper/css'
 import ss from '../../swiper.module.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { fetchAnimeNow } from '../../../store/animeSlice';
@@ -73,11 +73,16 @@ const ProfilePage = () => {
 
   const data = useSelector(state => state.anime.now)
   const idUser = useSelector(state => state.user.id)
+  const nav = useNavigate()
 
   useEffect(()=>{
     dispatch(fetchAnimeNow())
     dispatch(getDefineUser({id:idUser}))
   }, [dispatch, idUser])
+
+  const onHandleOut = () => {
+    dispatch(signOut({nav}))  
+  }
 
   return (
     <>
@@ -97,6 +102,9 @@ const ProfilePage = () => {
           <span>
             <h1 onClick={()=>{setMangaSpan(!mangaSpan); setAnimeSpan(false)}} className={s.span} style={mangaSpan ? {background: 'rgb(33 33 33 / 1)'} : {}}>Manga</h1>
           </span>
+        </div>
+        <div>
+          <button onClick={onHandleOut}>SignOut</button>
         </div>
         {/* <AnimeSwiper anime={data} animeSpan={animeSpan}/>
         <AnimeSwiper anime={data} animeSpan={mangaSpan}/> */}

@@ -38,7 +38,7 @@ const Header = () => {
           <Link to='/manga' className={s.catalog_link}>Manga</Link>
           <Link to='/character' className={s.catalog_link}>Character</Link>
           
-          <Link to='/registration' className={s.catalog_link}>SignUp</Link>
+          <Link to='/signin' className={s.catalog_link}>Account</Link>
 
           <Select
             className={s.burger_menu}
