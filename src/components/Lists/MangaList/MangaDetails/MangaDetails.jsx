@@ -9,6 +9,7 @@ import Details from './Details/Details';
 import Characters from './Characters/Characters';
 import Recommendations from './Recommendations/Recommendations';
 import line from '../../../../assets/line.svg'
+import { addMangas } from '../../../../store/profileSlice';
 
 const MangaDetails = () => {
 
@@ -21,27 +22,38 @@ const MangaDetails = () => {
         dispatch(fetchRecommendations({id: params.id}))
         window.scrollTo({top: 0, behavior: "smooth"})
     },[params.id, dispatch])
-    const data = useSelector(state => state.manga.manga)
+    const manga = useSelector(state => state.manga.manga)
     const characters = useSelector(state => state.manga.characters)
     const recommendations = useSelector(state => state.manga.recommendations)
+    const idUser = useSelector(state => state.user.id)
+
+    const Fevorite = ()=>{
+        const newManga = {
+            id: params.id,
+            img: manga?.images.jpg.image_url,
+            title: manga?.title,
+            score: manga?.score
+        }
+        dispatch(addMangas({idUser, newManga}))
+    }
 
     return (
         <div className={s.block_1}>
             <div className={s.block_1__shapka}></div>
             <div className={s.block_1__titles}>
-                <img src={data?.images.jpg.image_url} className={s.persImg} alt="" />
+                <img src={manga?.images.jpg.image_url} className={s.persImg} alt="" />
                 <div>
-                    <p className={s.title}>{data?.title}</p>
+                    <p className={s.title}>{manga?.title}</p>
                     <div className={s.ratings}>
-                        {data?.score && <Rate allowHalf disabled={true} count={5} character={({ index }) => {
-                            return index < Math.floor(data?.score / 2) ? <span style={{color: '#fff', fontSize: '1.5em'}}>★</span> : <span style={{color: '#464646', fontSize: '1.7em'}}>★</span>;
+                        {manga?.score && <Rate allowHalf disabled={true} count={5} character={({ index }) => {
+                            return index < Math.floor(manga?.score / 2) ? <span style={{color: '#fff', fontSize: '1.5em'}}>★</span> : <span style={{color: '#464646', fontSize: '1.7em'}}>★</span>;
                         }}/>}
-                        <p className={s.rating}>{data?.score}</p>
+                        <p className={s.rating}>{manga?.score}</p>
                     </div>
-                    <div className={s.span}>
+                    <button onClick={Fevorite()} className={s.span}>
                         <img className='w-5 h-5' src={line} alt="" />
                         <p>Add to Fovarite</p>
-                    </div>
+                    </button>
                 </div>
             </div>
             <div className={s.block_1__details}>  

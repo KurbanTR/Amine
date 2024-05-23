@@ -10,6 +10,7 @@ import Characters from './Characters/Characters';
 import Recommendations from './Recommendations/Recommendations';
 import YouTube from 'react-youtube';
 import line from '../../../../assets/line.svg'
+import { addAnimes } from '../../../../store/profileSlice';
 
 const AnimeDetails = () => {
     const params = useParams()
@@ -24,6 +25,17 @@ const AnimeDetails = () => {
     const anime = useSelector(state => state.anime.anime)
     const recommendations = useSelector(state => state.anime.recommendations)
     const characters = useSelector(state => state.anime.characters)
+    const idUser = useSelector(state => state.user.id)
+    
+    const Fevorite = ()=>{
+        const newAnime = {
+            id: params.id,
+            img: anime?.images.jpg.image_url,
+            title: anime?.title,
+            score: anime?.score
+        }
+        dispatch(addAnimes({idUser, newAnime}))
+    }
 
     return (
         <div className={s.block_1}>
@@ -38,10 +50,10 @@ const AnimeDetails = () => {
                         }}/>
                         <p className={s.rating}>{anime?.score}</p></>}
                     </div>
-                    <div className={s.span}>
+                    <button onClick={Fevorite()} className={s.span}>
                         <img className='w-5 h-5' src={line} alt="" />
                         <p>Add to Fovarite</p>
-                    </div>
+                    </button>
                 </div>
             </div>
             <div className={s.block_1__details}>                

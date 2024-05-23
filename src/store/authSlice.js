@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from '../firebaseConfig'
-import { addDoc, collection, doc, getDoc, setDoc} from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc} from 'firebase/firestore';
 import { setData } from './profileSlice';
 
 export const usersColectionRef = collection(db, 'users')
@@ -9,8 +9,8 @@ export const usersColectionRef = collection(db, 'users')
 export const updateUserProfile = createAsyncThunk(
     'user/updateuserProfile',
     async ({displayName}, {dispatch}) => {
-        await updateProfile(auth.currentUser, {displayName: displayName})
-        await dispatch(setName(auth.currentUser.displayName))
+        await updateProfile(auth.currentUser, {displayName})
+        dispatch(setName(auth.currentUser.displayName))
     }
 )
 
@@ -28,9 +28,8 @@ export const createAccount = createAsyncThunk(
             dispatch(updateUserProfile({displayName: name}))
             const userID = userCredentials.user.uid
             const newUserDocRef = doc (usersColectionRef, userID)
-            await setDoc(newUserDocRef, {email, name})
+            await setDoc(newUserDocRef, {email, name, animes:[], mangas:[]})
             nav('/profile')
-            
         }catch (error) {
             console.log(error);
         }
@@ -70,8 +69,9 @@ export const singInToAccount = createAsyncThunk(
 
 export const signOut = createAsyncThunk(
     'user/signOutFromAccount',
-    async(auth) => {
+    async(auth, {dispatch}) => {
         signOut(auth)
+        dispatch(removeProfile())
     }
 )
 
@@ -80,8 +80,8 @@ const authSlice = createSlice({
     initialState: {
         email: localStorage.getItem('email'),
         token: localStorage.getItem('token'),
-        name: '',
-        id: '',
+        name: localStorage.getItem('name'),
+        id: localStorage.getItem('id'),
     },
     reducers: {
         setToken(state, actions) {
@@ -94,16 +94,17 @@ const authSlice = createSlice({
         },
         setName(state, actions) {
             state.name = actions.payload
-            localStorage.setItem('name', actions.payload)
+            localStorage.setItem('name', actions.payload)     
         },
         setId(state, actions) {
-            state.id = actions.payload            
+            state.id = actions.payload   
+            localStorage.setItem('id', actions.payload)        
         },
         removeProfile(state){
             state.name = null
             state.email = null
             state.token = null
-            localStorage.removeItem('name')
+            state.id = null
             localStorage.removeItem('email')
             localStorage.removeItem('token')
         }

@@ -3,6 +3,7 @@ import animeReducer from './animeSlice'
 import mangaReducer from './mangaSlice'
 import charactersReducer from './charactersSlice'
 import authReducer from './authSlice'
+import profileReducer from './profileSlice'
 
 export default configureStore({
     reducer: {
@@ -10,5 +11,6 @@ export default configureStore({
         manga: mangaReducer, 
         character: charactersReducer,
         user: authReducer,
+        profile: profileReducer,
     }
 })

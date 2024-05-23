@@ -1,49 +1,77 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
-import { collection, doc, getDocs } from 'firebase/firestore';
-import { db } from '../firebaseConfig';
-import { usersColectionRef } from './authSlice';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { arrayUnion, collection, doc, getDoc, updateDoc} from 'firebase/firestore';
+import { db } from '../firebaseConfig'
 
-export const producsColectionRef = collection(db, 'products')
-export const nikeAirForce = doc(producsColectionRef, '8Tb8Nv1jGvXglQlIiCcaFMgHRwc2')
+export const usersColectionRef = collection(db, 'users')
 
+export const fetchAnimes = createAsyncThunk(
+  'profile/fetchAnimes',
+  async ({idUser}, { dispatch }) => {
+    const userDocRef = doc(usersColectionRef, idUser);
+    const docSnap = await getDoc(userDocRef);
+    const animes = docSnap.data().animes;
+    console.log(animes);
+    dispatch(setAnimes(animes))
+  }
+)
 
-export const getProductData = createAsyncThunk(
-    'profile/getProductData',
-    async(_, {dispatch})=>{
-        const querySnapshot = await getDocs(producsColectionRef)
-        const userDataArray = querySnapshot.docs.map(doc=>({
-            id: doc.id,
-            ...doc.data()
-        }))
-        dispatch(setData(userDataArray))
+export const fetchMangas = createAsyncThunk(
+  'profile/fetchMangas',
+  async ({idUser}, { dispatch }) => {
+    const userDocRef = doc(usersColectionRef, idUser);
+    const docSnap = await getDoc(userDocRef);
+    const mangas = docSnap.data().mangas;
+    dispatch(setMangas(mangas))
+  }
+)
+
+export const addAnimes = createAsyncThunk(
+    'profile/addAnimes',
+    async ({ idUser, newAnime }, { dispatch }) => {
+      const userDocRef = doc(usersColectionRef, idUser);
+      await updateDoc(userDocRef, {
+        animes: arrayUnion(newAnime)
+      });
+      dispatch(addAnime(newAnime))
     }
 )
 
-export const addAmine = createAsyncThunk(
-    'profile/addAmine',
-    async function({id}, { dispatch }) {
-        await addDoc(producsColectionRef, {})
+export const addMangas = createAsyncThunk(
+    'profile/addMangas',
+    async ({ idUser, newManga }, { dispatch }) => {
+      const userDocRef = doc(usersColectionRef, idUser);
+      await updateDoc(userDocRef, {
+        mangas: arrayUnion(newManga)
+      });
+      dispatch(addManga(newManga))
     }
-);
+)
 
 const profileSlice = createSlice({
-    name: 'profile',
-    initialState: {
-        mangas: [],
-        animes: [],
-        data: [],
+  name: 'profile',
+  initialState: {
+    mangas: [],
+    animes: [],
+    data: [],
+  },
+  reducers: {
+    setAnimes(state, actions) {
+      state.animes = actions.payload
     },
-    reducers: {
-        setMangas(state, action){
-            state.mangas = action.payload
-        },
-        setAnimes(state, action){
-            state.animes = action.payload
-        },
-        setData(state, action){
-            state.data = action.payload
-        },
+    setMangas(state, actions) {
+      state.mangas = actions.payload
     },
-})
-export const {setMangas, setANimes, setData } = profileSlice.actions
-export default profileSlice.reducer
+    setData(state, actions){
+      state.data = actions.payload
+    },
+    addAnime(state, actions){
+      state.animes.push(actions.payload)
+    },
+    addManga(state, actions){
+      state.mangas.push(actions.payload)
+    },
+  },
+});
+
+export const { setMangas, setAnimes, setData, addAnime, addManga } = profileSlice.actions;
+export default profileSlice.reducer;
