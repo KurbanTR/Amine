@@ -12,6 +12,7 @@ import Person from './components/Elements/Voices/Voices';
 import CharacterList from './components/Lists/CharacterList/CharacterList';
 import RegisterPage from './components/auth/AuthPage/RegisterPage';
 import ProfilePage from './components/auth/Profile/ProfilePage';
+import SignInPage from './components/auth/AuthPage/SignInPage';
 
 function App() {
   const [theme, setTheme] = useState(false);
@@ -31,6 +32,7 @@ function App() {
         <Route path='/character' element={<div className='main'><CharacterList/></div>}/>
         <Route path='/character/:id' element={<CharacterAnime/>}/>
         <Route path='/registration' element={<RegisterPage/>}/>
+        <Route path='/signin' element={<SignInPage/>}/>
         <Route path='/profile' element={<ProfilePage/>}/>
       </Routes>
     </>

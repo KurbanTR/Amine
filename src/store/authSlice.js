@@ -9,8 +9,8 @@ export const usersColectionRef = collection(db, 'users')
 export const updateUserProfile = createAsyncThunk(
     'user/updateuserProfile',
     async ({displayName}, {dispatch}) => {
-        await updateProfile(auth.currentUser, {displayName})
-        dispatch(setName(auth.currentUser.displayName))
+        await updateProfile(auth.currentUser, {displayName: displayName})
+        await dispatch(setName(auth.currentUser.displayName))
     }
 )
 
@@ -54,13 +54,14 @@ export const getDefineUser = createAsyncThunk(
 
 export const singInToAccount = createAsyncThunk(
     'user/signInToAccount',
-    async({email,password}, {dispatch}) => {
+    async({email, password, nav}, {dispatch}) => {
         try{
             const userCredentials = await signInWithEmailAndPassword(auth, email, password)
             console.log(userCredentials.user);
             dispatch(setToken(userCredentials.user.accessToken))
             dispatch(setEmail(userCredentials.user.email))
             dispatch(setName(userCredentials.user.displayName))
+            nav('/profile')
         }catch (error) {
             console.log(error);
         }
@@ -69,9 +70,8 @@ export const singInToAccount = createAsyncThunk(
 
 export const signOut = createAsyncThunk(
     'user/signOutFromAccount',
-    async(auth, {dispatch}) => {
+    async(auth) => {
         signOut(auth)
-        dispatch(removeProfile())
     }
 )
 
