@@ -10,8 +10,8 @@ const Voices = () => {
     const character = useSelector(state => state.character.character)
 
   return (
-    <div className='py-[2em] gap-[1em] flex flex-col'>
-        <p className='text-3xl font-medium'>Voices</p>
+    <div>
+        <p className='text-[1.6em] font-medium mb-4'>Voices</p>
         <div className='container w-full flex overflow-hidden overflow-x-auto scrollbar-hidden'>
             <Swiper
                 className={ss.swipers}

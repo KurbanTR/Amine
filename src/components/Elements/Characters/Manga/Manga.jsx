@@ -9,8 +9,8 @@ const Manga = () => {
     const character = useSelector(state => state.character.character)
 
   return (
-    <div className='py-[2em] gap-[1em] flex flex-col'>
-        <p className='text-3xl font-medium'>Manga</p>
+    <div>
+        <p className='text-[1.6em] font-medium mb-4'>Manga</p>
         <div className='container flex'>
             <Swiper
                 className={ss.swipers}

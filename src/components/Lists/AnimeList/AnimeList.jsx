@@ -9,6 +9,7 @@ import coolicon from '../../../assets/Search.svg';
 import coolicon1 from '../../../assets/Search1.svg';
 import { fetchAnimes, searchAnimeWithPagination } from "../../../store/animeSlice";
 import PropTypes from 'prop-types'
+import { CircularProgress } from "@chakra-ui/react";
 
 const SearchForm = ({ onSubmit, value, onChange }) => (
   <form onSubmit={onSubmit} className="flex justify-center gap-[2em]">
@@ -34,7 +35,7 @@ SearchForm.propTypes = {
 }
 
 const AnimeCard = ({ item }) => (
-  <Link to={'/anime/'+item.mal_id}>
+  <Link to={'/anime/'+item.mal_id}  className={s.animeCard}>
     <div className='relative h-[90%] rounded-xl overflow-hidden'>
       <div>
         <img src={item.images.jpg.image_url} alt="" />
@@ -53,6 +54,8 @@ AnimeCard.propTypes = {
 }
 
 const AnimeList = () => {
+  const {loading} = useSelector(state=>state.anime)
+
   const [page, setPage] = useState(1)
   const [value, setValue] = useState('')
 
@@ -88,8 +91,8 @@ const AnimeList = () => {
       <Sort/>
       <div className={s.body}>
         <SearchForm onSubmit={handleSubmit} value={value} onChange={handleInputChange} />
-        <div className={s.carts}>
-          {data?.map((item, index) => <AnimeCard item={item} key={index} />)}
+        <div className={!loading && s.carts}>
+          {loading ? <div className="w-full h-[20em] flex justify-center items-center"><CircularProgress isIndeterminate color='blue.300' /></div> : data?.map((item, index) => <AnimeCard item={item} key={index} />)}
         </div>
       </div>
       <p/>

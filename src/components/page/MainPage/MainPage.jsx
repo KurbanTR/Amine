@@ -13,9 +13,9 @@ import PropTypes from 'prop-types'
 
 const AnimeSwiper = ({ anime, title, type }) => {
   return (
-    <div className='px-[2em]'>
+    <div>
       <p className='text-[1.6em] font-medium mb-4'>{title}</p>
-      <div className='container w-full flex overflow-hidden'>
+      <div className='w-full flex overflow-hidden'>
         <Swiper
           grabCursor={true} 
           spaceBetween={20}
@@ -87,7 +87,7 @@ const MainPage = () => {
 
 
   return (
-    <>
+    <>      
       <div className={s.block1}>
         <div className={s.block1__main}>
           <div className={s.block1__wrapper}>
@@ -97,16 +97,12 @@ const MainPage = () => {
                 <button className={s.block1__button}>Watch Trailer</button>  
               </Link>
           </div>
-
-          <div className={s.jujutsu__wrapper}> 
-            <img className={s.jujutsu__image} src={jujutsu?.images.jpg.image_url}/>
-          </div>
         </div>
       </div>
-      <div className='flex flex-col gap-16 mt-16'>        
-          <AnimeSwiper anime={now} title='Trending now'/>        
-          <AnimeSwiper anime={score} title='Best Score'/>
-          <AnimeSwiper anime={characters} title='Characters' type={true}/>
+      <div className={s.block2}>        
+        <AnimeSwiper anime={now} title='Trending now'/>        
+        <AnimeSwiper anime={score} title='Best Score'/>
+        <AnimeSwiper anime={characters} title='Characters' type={true}/>
       </div>
     </>
   )

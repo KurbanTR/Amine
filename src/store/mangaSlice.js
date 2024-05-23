@@ -3,23 +3,36 @@ import { mangaApi } from '../api/mangaApi';
 
 export const searchMangaWithPagination = createAsyncThunk(
     'manga/searchMangaWithPagination',
-    async function({ genres, type, status, start_date, page, q }, { dispatch }) {
-        const data = await mangaApi.searchMangaWithPagination({genres, type, status, start_date, page, q, genres_exclude: '9, 12, 49, 28'})
-        const filteredManga = data.data.data.filter(anime => !anime.title.toLowerCase().includes("hentai"));
-        dispatch(setMangas(filteredManga)); 
-        dispatch(setPages(data.data.pagination.last_visible_page)); 
+    async function({ genres, type, status, start_date, page, q }, { dispatch, rejectWithValue }) {
+        try{
+            const data = await mangaApi.searchMangaWithPagination({genres, type, status, start_date, page, q, genres_exclude: '9, 12, 49, 28'})
+            if(data.ok) {
+                throw new Error('Server Error!')
+            }
+            const filteredManga = data.data.data.filter(anime => !anime.title.toLowerCase().includes("hentai"));
+            dispatch(setPages(data.data.pagination.last_visible_page)); 
+            return filteredManga
+        }catch(error){
+            return rejectWithValue(error.message)
+        }
     }
 );
 
-
 export const fetchMangas = createAsyncThunk(
     'manga/fetchMangas',
-    async function({page}, {dispatch}){
-        const data = await mangaApi.getAllManga({page})
-        dispatch(setMangas(data.data.data));
-        dispatch(setPages(data.data.pagination.last_visible_page))
+    async function({title, page}, { dispatch, rejectWithValue }) {
+        try {
+            const data = await mangaApi.getAllManga({title, page});
+            if (data.ok) {
+                throw new Error('Server Error!');
+            }
+            dispatch(setPages(data.data.pagination.last_visible_page));
+            return data.data.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
     }
-)
+);
 // Запрос на все манги
 
 export const fetchMangaRank = createAsyncThunk(
@@ -112,6 +125,32 @@ const mangaSlice = createSlice({
             state.randManga = action.payload
         }
     },
+    extraReducers: (bilder) => {
+        bilder.addCase(fetchMangas.pending, (state) => {
+            state.loading = true
+            state.error = false
+        }),
+        bilder.addCase(fetchMangas.fulfilled, (state, action) => {
+            state.loading = false
+            state.mangas = action.payload
+        }),
+        bilder.addCase(fetchMangas.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        }),
+        bilder.addCase(searchMangaWithPagination.pending, (state) => {
+            state.loading = true
+            state.error = false
+        }),
+        bilder.addCase(searchMangaWithPagination.fulfilled, (state, action) => {
+            state.loading = false
+            state.mangas = action.payload
+        }),
+        bilder.addCase(searchMangaWithPagination.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        })
+    }
 })
 export const {setMangas, setManga, setPages, setReckMangas, setCharacters, setRecommendations, setRandManga} = mangaSlice.actions
 export default mangaSlice.reducer
