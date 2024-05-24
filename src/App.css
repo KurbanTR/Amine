@@ -15,6 +15,23 @@
   gap: 2.5rem;
   padding: 0 1.3em;
 }
+.bg-custom-color {
+  background-color: rgb(33 33 33);
+}
+.btn-base {
+  padding: 14px 16px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 500;
+  transition-duration: .1s;
+  cursor: pointer;
+}
+.btn-disabled {
+  background-color: #21212199 !important;
+  color: #fff9 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
 @media screen and (max-width: 1501px) and (min-width: 1251px) {
   .main{
       width: 100%;

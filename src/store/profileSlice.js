@@ -10,7 +10,6 @@ export const fetchAnimes = createAsyncThunk(
     const userDocRef = doc(usersColectionRef, idUser);
     const docSnap = await getDoc(userDocRef);
     const animes = docSnap.data().animes;
-    console.log(animes);
     dispatch(setAnimes(animes))
   }
 )
@@ -52,7 +51,6 @@ const profileSlice = createSlice({
   initialState: {
     mangas: [],
     animes: [],
-    data: [],
   },
   reducers: {
     setAnimes(state, actions) {
@@ -60,9 +58,6 @@ const profileSlice = createSlice({
     },
     setMangas(state, actions) {
       state.mangas = actions.payload
-    },
-    setData(state, actions){
-      state.data = actions.payload
     },
     addAnime(state, actions){
       state.animes.push(actions.payload)
@@ -73,5 +68,5 @@ const profileSlice = createSlice({
   },
 });
 
-export const { setMangas, setAnimes, setData, addAnime, addManga } = profileSlice.actions;
+export const { setMangas, setAnimes, addAnime, addManga } = profileSlice.actions;
 export default profileSlice.reducer;

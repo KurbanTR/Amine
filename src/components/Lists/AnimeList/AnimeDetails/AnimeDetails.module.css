@@ -57,6 +57,10 @@
     cursor: pointer;
     background: rgb(44 44 44 / 1)
 }
+span:active{
+    font-size: 17px;
+    padding: .6em 0;
+}
 .block_1__details{
     width: 1440px;
     padding-left: 1.25rem;

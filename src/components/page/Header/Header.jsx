@@ -38,7 +38,9 @@ const Header = () => {
           <Link to='/manga' className={s.catalog_link}>Manga</Link>
           <Link to='/character' className={s.catalog_link}>Character</Link>
           
-          <Link to='/signin' className={s.catalog_link}>Account</Link>
+          <Link to={token ? '/profile' : '/signin'}>
+            <img src='https://freesvg.org/img/abstract-user-flat-4.png' className='flex-shrink-0 rounded-full w-[70px] h-[70px]' alt='SUI' />
+          </Link>
 
           <Select
             className={s.burger_menu}

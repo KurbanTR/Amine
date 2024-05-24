@@ -29,6 +29,8 @@
     font-size: 25px;
     font-weight: 600;
     transition: all 0.5s;
+    display: flex;
+    align-items: center;
 }
 
 .catalog_link:hover {

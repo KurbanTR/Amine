@@ -13,6 +13,8 @@ import CharacterList from './components/Lists/CharacterList/CharacterList';
 import RegisterPage from './components/auth/AuthPage/RegisterPage';
 import ProfilePage from './components/auth/Profile/ProfilePage';
 import SignInPage from './components/auth/AuthPage/SignInPage';
+import Settings from './components/auth/Settings/Settings';
+import ErrorPage from './components/page/ErrorPage';
 
 function App() {
   const [theme, setTheme] = useState(false);
@@ -34,6 +36,8 @@ function App() {
         <Route path='/registration' element={<RegisterPage/>}/>
         <Route path='/signin' element={<SignInPage/>}/>
         <Route path='/profile' element={<ProfilePage/>}/>
+        <Route path='/settings' element={<Settings/>}/>
+        <Route path='*' element={<ErrorPage/>}/>
       </Routes>
     </>
   );

@@ -1,16 +1,12 @@
 .block_1__shapka{
     display: flex;
-    align-items: center;
+    justify-content: end;
     height: calc(230px);
+    padding-right: 1.25em;
+    padding-bottom: 1.25em;
     background-size: cover;
     background-position: center;
     background-image: url("https://i.pinimg.com/originals/a6/b2/56/a6b256f4640c44ed0536b8a5e2932766.jpg");
-}
-.block_1__titles{
-    display: flex;
-    padding-left: 1.25rem;
-    margin: 0 auto;
-    gap: 2em;
 }
 .title{
     font-size: 3em;

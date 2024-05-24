@@ -8,7 +8,6 @@ import { SwiperSlide, Swiper} from "swiper/react"
 import { Keyboard } from 'swiper/modules';
 import 'swiper/css'
 import ss from '../../swiper.module.css'
-import PropTypes from 'prop-types'
 
 
 const AnimeSwiper = ({ anime, title, type }) => {
@@ -58,11 +57,6 @@ const AnimeSwiper = ({ anime, title, type }) => {
     </div>
   );
 };
-AnimeSwiper.propTypes = {
-  anime: PropTypes.array,
-  title: PropTypes.string,
-  type: PropTypes.bool,
-}
 
 const MainPage = () => {
   const {now} = useSelector(state => state.anime)
@@ -82,7 +76,7 @@ const MainPage = () => {
       dispatch(fetchCharacters({page: 1}))
     }
     jujutsuFunc()
-  }, [])
+  }, [dispatch])
   
 
 
