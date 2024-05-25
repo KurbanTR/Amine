@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from '../firebaseConfig'
 import { collection, doc, getDoc, setDoc, updateDoc} from 'firebase/firestore';
+import { setData } from './profileSlice';
 
 export const usersColectionRef = collection(db, 'users')
 
@@ -28,7 +29,7 @@ export const updateUserProfile = createAsyncThunk(
 
 export const createAccount = createAsyncThunk(
     'user/createAccount',
-    async({email, password, name, nav},{dispatch}) => {
+    async({email, password, name, nav, success, errorReg},{dispatch}) => {
         try{
             const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
             dispatch(setToken(userCredentials.user.accessToken))
@@ -37,9 +38,11 @@ export const createAccount = createAsyncThunk(
             const userID = userCredentials.user.uid
             const newUserDocRef = doc (usersColectionRef, userID)
             await setDoc(newUserDocRef, {email, name, bio: '', img: 'https://freesvg.org/img/abstract-user-flat-4.png', animes:[], mangas:[]})
+            await success()
             nav('/profile')
         }catch (error) {
             console.log(error);
+            errorReg(error.message)
         }
     }
 )
@@ -60,14 +63,16 @@ export const getDefineUser = createAsyncThunk(
 
 export const singInToAccount = createAsyncThunk(
     'user/signInToAccount',
-    async({email, password, nav}, {dispatch}) => {
+    async({email, password, nav, success, errorReg}, {dispatch}) => {
         try{
             const userCredentials = await signInWithEmailAndPassword(auth, email, password)
-            console.log(userCredentials.user);
+            success()
             dispatch(setToken(userCredentials.user.accessToken))
+            dispatch(setId(userCredentials.user.uid))
             nav('/profile')
         }catch (error) {
             console.log(error);
+            errorReg(error.message)
         }
     }
 )
@@ -89,7 +94,6 @@ const authSlice = createSlice({
         name: localStorage.getItem('name'),
         id: localStorage.getItem('id'),
         bio: localStorage.getItem('bio'),
-        data: null,
     },
     reducers: {
         setToken(state, actions) {
@@ -104,13 +108,10 @@ const authSlice = createSlice({
             localStorage.removeItem('token')
             localStorage.removeItem('id')
         },
-        setData(state, actions) {
-            state.data = actions.payload   
-        },
     }
 
 })
 
 
-export const { setToken, setEmail, setName, removeProfile, setId, setBio, setData } = authSlice.actions
+export const { setToken, setEmail, setName, removeProfile, setId, setBio } = authSlice.actions
 export default authSlice.reducer

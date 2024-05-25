@@ -10,9 +10,9 @@ import Characters from './Characters/Characters';
 import Recommendations from './Recommendations/Recommendations';
 import line from '../../../../assets/line.svg'
 import { addMangas } from '../../../../store/profileSlice';
+import { message } from 'antd';
 
 const MangaDetails = () => {
-
     const params = useParams()
     const dispatch = useDispatch()
 
@@ -27,6 +27,26 @@ const MangaDetails = () => {
     const recommendations = useSelector(state => state.manga.recommendations)
     const idUser = useSelector(state => state.user.id)
 
+    const [messageApi, contextHolder] = message.useMessage();
+    const success = () => {
+      messageApi.open({
+        type: 'success',
+        content: 'This is a success message',
+      });
+    };
+    const error = () => {
+      messageApi.open({
+        type: 'error',
+        content: 'This is an error message',
+      });
+    };
+    // const warning = () => {
+    //   messageApi.open({
+    //     type: 'warning',
+    //     content: 'This is a warning message',
+    //   });
+    // };
+
     const Fevorite = ()=>{
         const newManga = {
             id: params.id,
@@ -34,8 +54,9 @@ const MangaDetails = () => {
             title: manga?.title,
             score: manga?.score
         }
-        dispatch(addMangas({idUser, newManga}))
+        dispatch(addMangas({idUser, newManga, success, error}))
     }
+
 
     return (
         <div className={s.block_1}>
@@ -50,7 +71,7 @@ const MangaDetails = () => {
                         }}/>}
                         <p className={s.rating}>{manga?.score}</p>
                     </div>
-                    <button onClick={Fevorite()} className={s.span}>
+                    <button onClick={Fevorite} className={`${s.span} active:scale-95`}>
                         <img className='w-5 h-5' src={line} alt="" />
                         <p>Add to Fovarite</p>
                     </button>
@@ -77,6 +98,7 @@ const MangaDetails = () => {
                     </TabPanels>
                 </Tabs>
             </div>
+            {contextHolder}
         </div>
     );
 };

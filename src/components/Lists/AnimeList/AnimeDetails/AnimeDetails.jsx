@@ -11,6 +11,7 @@ import Recommendations from './Recommendations/Recommendations';
 import YouTube from 'react-youtube';
 import line from '../../../../assets/line.svg'
 import { addAnimes } from '../../../../store/profileSlice';
+import { message } from 'antd';
 
 const AnimeDetails = () => {
     const params = useParams()
@@ -22,11 +23,31 @@ const AnimeDetails = () => {
         dispatch(fetchRecommendations({id: params.id}))
         window.scrollTo({top: 0, behavior: "smooth"})
     },[params.id, dispatch])
-    const anime = useSelector(state => state.anime.anime)
+    const {anime} = useSelector(state => state.anime)
     const recommendations = useSelector(state => state.anime.recommendations)
     const characters = useSelector(state => state.anime.characters)
     const idUser = useSelector(state => state.user.id)
     
+    const [messageApi, contextHolder] = message.useMessage();
+    const success = () => {
+      messageApi.open({
+        type: 'success',
+        content: 'This is a success message',
+      });
+    };
+    const error = () => {
+      messageApi.open({
+        type: 'error',
+        content: 'This is an error message',
+      });
+    };
+    // const warning = () => {
+    //   messageApi.open({
+    //     type: 'warning',
+    //     content: 'This is a warning message',
+    //   });
+    // };
+
     const Fevorite = ()=>{
         const newAnime = {
             id: params.id,
@@ -34,11 +55,12 @@ const AnimeDetails = () => {
             title: anime?.title,
             score: anime?.score
         }
-        dispatch(addAnimes({idUser, newAnime}))
+        dispatch(addAnimes({idUser, newAnime, success, error}))
     }
 
     return (
         <div className={s.block_1}>
+            {contextHolder}
             <div className={s.block_1__shapka}></div>
             <div className={s.block_1__titles}>
                 <img src={anime?.images.jpg.image_url} className={s.persImg} alt="" />
@@ -50,7 +72,7 @@ const AnimeDetails = () => {
                         }}/>
                         <p className={s.rating}>{anime?.score}</p></>}
                     </div>
-                    <button onClick={Fevorite()} className={s.span}>
+                    <button onClick={Fevorite} className={`${s.span} active:scale-95`}>
                         <img className='w-5 h-5' src={line} alt="" />
                         <p>Add to Fovarite</p>
                     </button>

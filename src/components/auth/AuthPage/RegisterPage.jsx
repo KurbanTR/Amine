@@ -2,14 +2,14 @@ import { useState } from "react";
 import { createAccount } from "../../../store/authSlice";
 import { useNavigate } from "react-router-dom"
 import { useDispatch} from "react-redux"
-
+import { message } from 'antd';
 
 const RegisterPage = () => {
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState(false)
+  const [eror, setError] = useState(false)
   const [secPassword, setSecPassword] = useState('')
   const [errPassword, setErrPassword] = useState(false)
   const nav = useNavigate()
@@ -20,6 +20,21 @@ const RegisterPage = () => {
   // const toast = useToast()
   // const statuses = ['success', 'error', 'warning', 'info']
 
+  const [messageApi, contextHolder] = message.useMessage();
+  const success = () => {
+    messageApi.open({
+      type: 'success',
+      content: 'You have successfully registered',
+      // You have successfully logged in to your account
+    });
+  };
+  const error = (errorReg) => {
+    messageApi.open({
+      type: 'error',
+      content: errorReg
+    });
+  };
+
   const onHandleClick = () => {
     if(email ===  '' || password === ''){
       setError(true)
@@ -29,7 +44,7 @@ const RegisterPage = () => {
       }else{
         setError(false)
         setErrPassword(false)
-        dispatch(createAccount({email, password, name, nav}))
+        dispatch(createAccount({email, password, name, nav, success, errorReg: error}))
         setPassword('')
         setEmail('')
         setSecPassword('')
@@ -65,10 +80,11 @@ const RegisterPage = () => {
             </div>
             <div className="w-[100%] flex justify-center">
               <button onClick={onHandleClick} className="bg-red-700 px-[2em] py-[.6em] font-[600] text-2xl rounded-lg hover:bg-red-600 ">Register</button>
-              <p className="text-red-600">{error ? 'Заполните все поля' : false}</p>
+              <p className="text-red-600">{eror ? 'Заполните все поля' : false}</p>
             </div>
           </div>
         </section>
+        {contextHolder}
       </main>
     </>
   );

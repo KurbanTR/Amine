@@ -3,7 +3,6 @@ import s from './Sort.module.css'
 import expand from '../../../assets/Expand_up-1.svg'
 // import calendar from '../../assets/calendar-empty.svg'
 import icon from '../../../assets/icons8.svg'
-import PropTypes from 'prop-types'
 import { DatePicker, Space } from 'antd';
 const { RangePicker } = DatePicker;
 
@@ -15,11 +14,6 @@ const ToggleSection = ({ title, isOpen, onClick }) => {
     </div>
   );
 };
-ToggleSection.propTypes = {
-  title: PropTypes.string,
-  isOpen: PropTypes.string,
-  onClick: PropTypes.func,
-}
 
 
 const ToggleButton = ({ label, isActive, onClick }) => {
@@ -32,11 +26,6 @@ const ToggleButton = ({ label, isActive, onClick }) => {
     </div>
   );
 };
-ToggleButton.propTypes = {
-  label: PropTypes.string,
-  isActive: PropTypes.string,
-  onClick: PropTypes.func,
-}
 
 
 const Sort = () => {

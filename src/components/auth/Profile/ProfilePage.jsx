@@ -3,17 +3,24 @@ import { SwiperSlide, Swiper} from "swiper/react"
 import { Keyboard } from 'swiper/modules';
 import 'swiper/css'
 import ss from '../../swiper.module.css'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { fetchAnimes, fetchMangas } from '../../../store/profileSlice';
+import { removeAnime, removeManga } from '../../../store/profileSlice';
 import { getDefineUser } from "../../../store/authSlice";
 import settings from '../../../assets/settings.svg' 
+import icon from '../../../assets/icons8.svg'
+import deletee from '../../../assets/delete.svg'
 
-const AnimeSwiper = ({ anime, animeSpan, type }) => {
-  
+const AnimeSwiper = ({ anime, animeSpan, type, edit, dispatch, idUser }) => {
+  const onDelete = (id)=>{
+    type == 'anime' ?
+    dispatch(removeAnime({ idUser, animeId: id }))
+    :
+    dispatch(removeManga({ idUser, mangaId: id }))
+  }
   return (
-    <div className='container w-full flex overflow-hidden px-5' style={animeSpan ? {} : {display: 'none'}}>
+    <div className='container flex overflow-hidden px-5' style={animeSpan ? {} : {display: 'none'}}>
       <Swiper
         grabCursor={true} 
         spaceBetween={20}
@@ -26,6 +33,10 @@ const AnimeSwiper = ({ anime, animeSpan, type }) => {
         {
           anime?.map((item, index) => 
             <SwiperSlide className={ss.swiper__slide} key={index}>
+              <span onClick={()=>onDelete(item.id)} className={`${!edit && 'pointer-events-none opacity-0'} z-10 flex cursor-pointer p-3 active:p-3 active:scale-90 duration-100
+            absolute top-2 left-2 500res:w-10 500res:h-10 w-14 h-14 bg-def-gray justify-center items-center rounded-full 1320res:flex`}>
+                <img src={deletee} alt="delete"/>
+              </span>           
               <Link to={`/${type}/${item.id}`}>
                 <div className='relative overflow-hidden rounded-lg h-[90%]'>
                   <div>
@@ -37,7 +48,7 @@ const AnimeSwiper = ({ anime, animeSpan, type }) => {
                         {item.score}
                       </h3>
                     </div>
-                  }             
+                  }  
                   <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black opacity-80 p-4'>
                     <div className='flex flex-col'>
                       <p className='line-clamp-1 text-[1.2em] text-white'>{item.title}</p>
@@ -53,20 +64,32 @@ const AnimeSwiper = ({ anime, animeSpan, type }) => {
   );
 };
 
+const UserProfile = ({ user }) => {
+  return (
+    <div className="relative py-10 pr-20 1480res:p-[2.5rem_5rem_2.5rem_2.5rem] 500res:p-[2.5rem_1.25rem_2.5rem_1.25rem] 700res:p-10 h-full flex justify-between items-center gap-[10px]">
+      <div className="flex gap-10 500res:gap-7 items-center w-full 700res:flex-col 700res:items-center">
+        <img src={user?.img} className="flex-shrink-0 rounded-full w-[170px] h-[170px]" alt="SUI" />
+        <div className="w-full overflow-hidden 700res:flex 700res:items-center 700res:flex-col">
+          <p className="text-5xl font-medium mb-2 900res:text-[2rem] 500res:text-2xl 370res:text-xl">{user?.name}</p>
+          <span className="duration-200 text-white/70 text-lg line-clamp-2 900res:text-[1rem] 500res:text-[.8rem] hover:text-white cursor-pointer 700res:text-center">
+            {user?.bio}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const ProfilePage = () => {
   const [animeSpan, setAnimeSpan] = useState(true)
   const [mangaSpan, setMangaSpan] = useState(false)
   const dispatch = useDispatch()
-  const { data } = useSelector(state => state.user)
-
-  const manga = useSelector(state => state.profile.mangas)
-  const anime = useSelector(state => state.profile.animes)
+  const { data } = useSelector(state => state.profile)
   const idUser = useSelector(state => state.user.id)
 
+  const [edit, setEdit] = useState(false)
+
   useEffect(()=>{
-    dispatch(fetchAnimes({idUser}))
-    dispatch(fetchMangas({idUser}))
     dispatch(getDefineUser({id:idUser}))
   }, [dispatch, idUser])
 
@@ -81,26 +104,19 @@ const ProfilePage = () => {
           </div>
         </div>
         <div className='w-[1440px] mx-auto 1480res:w-full'>
-          <div className='relative py-10 pr-20 1480res:p-[2.5rem_5rem_2.5rem_2.5rem] 500res:p-[2.5rem_1.25rem_2.5rem_1.25rem] 700res:p-10 h-full flex justify-between items-center gap-[10px]'>
-            <div className='flex gap-10 500res:gap-7 items-center w-full 700res:flex-col 700res:items-center'>
-              <img src={data?.img} className='flex-shrink-0 rounded-full w-[170px] h-[170px]' alt='SUI' />
-              <div className='w-full overflow-hidden 700res:flex 700res:items-center 700res:flex-col'>
-                <p className='text-5xl font-medium mb-2 900res:text-[2rem] 500res:text-2xl 370res:text-xl'>{data?.name}</p>
-                <span className='duration-200 text-white/70 text-lg line-clamp-2 900res:text-[1rem] 500res:text-[.8rem]
-                            hover:text-white cursor-pointer 700res:text-center'>{data?.bio}</span>
-              </div>
-            </div>
-          </div>
+          <UserProfile user={data} />
           <div className='my-10 px-5 flex gap-5'>
-            <span>
-              <h1 onClick={()=>{setAnimeSpan(!animeSpan); setMangaSpan(false)}} className={s.span} style={animeSpan ? {background: 'rgb(33 33 33 / 1)'} : {}}>Anime</h1>
-            </span>
-            <span>
-              <h1 onClick={()=>{setMangaSpan(!mangaSpan); setAnimeSpan(false)}} className={s.span} style={mangaSpan ? {background: 'rgb(33 33 33 / 1)'} : {}}>Manga</h1>
-            </span>
+            <h1 onClick={()=>{setAnimeSpan(true); setMangaSpan(false)}} className={`${animeSpan && 'bg-def-gray'} ${s.span} active:scale-95`}>Anime</h1>
+            <h1 onClick={()=>{setMangaSpan(true); setAnimeSpan(false)}} className={`${mangaSpan && 'bg-def-gray'} ${s.span} active:scale-95`}>Manga</h1>
+            <h1 onClick={()=>setEdit(!edit)} className={`${edit && 'bg-def-gray'} ${s.span} justify-self-end ml-auto 600res:ml-0 active:scale-95 flex items-center justify-center gap-2`}>
+              <div className={(edit ? 'bg-white' : 'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
+                <img src={icon} alt="" />
+              </div>
+              <p>Edit</p>
+            </h1>
           </div>
-          <AnimeSwiper anime={anime} animeSpan={animeSpan} type='anime'/>
-          <AnimeSwiper anime={manga} animeSpan={mangaSpan} type='manga'/>
+          <AnimeSwiper anime={data?.animes} animeSpan={animeSpan} type='anime' edit={edit} dispatch={dispatch} idUser={idUser}/>
+          <AnimeSwiper anime={data?.mangas} animeSpan={mangaSpan} type='manga' edit={edit} dispatch={dispatch} idUser={idUser}/>
         </div>
       </div>
     </>
