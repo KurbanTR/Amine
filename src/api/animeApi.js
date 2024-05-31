@@ -1,14 +1,14 @@
 import { instance } from './instance';
 
 export const animeApi = {
-    searchAnimeWithPagination(params) {
-        return instance.get(`anime`, {params});
+    searchAnimeWithPagination(params, category) {
+        return instance.get(category, {params});
     },
-    getAllAnime(params) {
-        return instance.get(`top/anime`, {params});
+    getAllAnime(params, category) {
+        return instance.get(`top/${category}`, {params});
     },
-    getAnime(id) {
-        return instance.get(`anime/${id}/full`);
+    getAnime(id, category) {
+        return instance.get(`${category}/${id}/full`);
     },
     getScore(params){
         return instance.get(`anime`, {params});
@@ -16,17 +16,14 @@ export const animeApi = {
     getNow(){
         return instance.get(`seasons/now`);
     },
-    getSerch(params){
-        return instance.get(`anime`, {params});
+    getRand(params, category){
+        return instance.get(`random/${category}`, {params});
     },
-    getRand(params){
-        return instance.get(`random/anime`, {params});
+    getCharacters(id, category){
+        return instance.get(`${category}/${id}/characters`);
     },
-    getCharacters(id){
-        return instance.get(`anime/${id}/characters`);
-    },
-    getRecommendations(id){
-        return instance.get(`anime/${id}/recommendations`);
+    getRecommendations(id, category){
+        return instance.get(`${category}/${id}/recommendations`);
     },
     getPerson(id){
         return instance.get(`people/${id}/full`);

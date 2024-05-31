@@ -7,7 +7,6 @@ import Sort from '../../Sorts/SortManga/Sort';
 import coolicon from '../../../assets/Search.svg';
 import coolicon1 from '../../../assets/Search1.svg';
 import { fetchMangas, searchMangaWithPagination} from "../../../store/mangaSlice";
-import PropTypes from 'prop-types'
 import { CircularProgress } from "@chakra-ui/react";
 
 const SearchForm = ({ onSubmit, value, onChange }) => (
@@ -27,11 +26,6 @@ const SearchForm = ({ onSubmit, value, onChange }) => (
     </button>
   </form>
 );
-SearchForm.propTypes = {
-  onChange: PropTypes.func,
-  value: PropTypes.string,
-  onSubmit: PropTypes.func,
-}
 
 const MangaCard = ({ item }) => (
   <Link to={'/manga/'+item.mal_id} className={s.mangaCard}>
@@ -48,9 +42,6 @@ const MangaCard = ({ item }) => (
     </div>
   </Link>
 );
-MangaCard.propTypes = {
-  item: PropTypes.object,
-}
 
 const MangaList = () => {
   const {loading} = useSelector(state=>state.manga)

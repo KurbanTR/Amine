@@ -12,7 +12,7 @@ const Characters = () => {
   return ( 
     <div className='py-[2em] gap-[1em] flex flex-col'>
         <p className='text-3xl font-medium'>Characters</p>
-        <div className='container w-full flex overflow-hidden overflow-x-auto scrollbar-hidden'>
+        <div className='container flex overflow-hidden overflow-x-auto scrollbar-hidden'>
             <Swiper
                 className={ss.swipers}
                 grabCursor={true} 

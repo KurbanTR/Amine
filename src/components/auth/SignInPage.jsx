@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { singInToAccount } from '../../../store/authSlice'
+import { singInToAccount } from '../../store/authSlice'
 import { Link } from 'react-router-dom'
 import { message } from 'antd';
 

@@ -1,44 +1,36 @@
 import './App.css';
-import { useState } from 'react';
-import Header from './components/page/Header/Header';
-import AnimeList from './components/Lists/AnimeList/AnimeList';
-import MangaList from './components/Lists/MangaList/MangaList'
-import AnimeDetails from './components/Lists/AnimeList/AnimeDetails/AnimeDetails';
-import MangaDetails from './components/Lists/MangaList/MangaDetails/MangaDetails'
+import Header from './widgets/Header';
+import Footer from './widgets/Footer';
 import {Routes, Route} from 'react-router-dom'
-import MainPage from './components/page/MainPage/MainPage';
-import CharacterAnime from './components/Elements/Characters/CharacterAnime';
-import Person from './components/Elements/Voices/Voices';
-import CharacterList from './components/Lists/CharacterList/CharacterList';
-import RegisterPage from './components/auth/AuthPage/RegisterPage';
-import ProfilePage from './components/auth/Profile/ProfilePage';
-import SignInPage from './components/auth/AuthPage/SignInPage';
-import Settings from './components/auth/Settings/Settings';
+import MainPage from './components/page/MainPage';
+import RegisterPage from './components/auth/RegisterPage';
+import ProfilePage from './components/auth/ProfilePage';
+import SignInPage from './components/auth/SignInPage';
+import Settings from './components/auth/Settings';
 import ErrorPage from './components/page/ErrorPage';
+import ListPage from './components/page/ListPage';
+import DetailsPage from './components/page/DetailsPage';
 
 function App() {
-  const [theme, setTheme] = useState(false);
-  {theme === 'light' ? 'light-theme' : 'dark-theme'}
-
   return (
     <>
-      <Header tema={theme} setTema={setTheme}/>
+      <Header/>
       <Routes>
         <Route path='/' element={<MainPage/>}/>
-        {/* <Route path='/profile' element={<img className='relative top-[10em]' src='https://freesvg.org/img/abstract-user-flat-4.png'/>}/> */}
-        <Route path='/anime' element={<div className='main'><AnimeList/></div>}/>
-        <Route path='/anime/:id' element={<AnimeDetails/>}/>
-        <Route path='/manga' element={<div className='main'><MangaList/></div>}/>
-        <Route path='/manga/:id' element={<MangaDetails/>}/>
-        <Route path='/voices/:id' element={<Person/>}/>
-        <Route path='/character' element={<div className='main'><CharacterList/></div>}/>
-        <Route path='/character/:id' element={<CharacterAnime/>}/>
+        <Route path='/anime' element={<div className='main'><ListPage category='anime'/></div>}/>
+        <Route path='/manga' element={<div className='main'><ListPage category='manga'/></div>}/>
+        <Route path='/characters' element={<div className='main'><ListPage category='characters'/></div>}/>
+        <Route path='/anime/:id' element={<DetailsPage category='anime'/>}/>
+        <Route path='/manga/:id' element={<DetailsPage category='manga'/>}/>
+        <Route path='/characters/:id' element={<DetailsPage category='characters'/>}/>
+        <Route path='/voices/:id' element={<DetailsPage category='people'/>}/>
         <Route path='/registration' element={<RegisterPage/>}/>
         <Route path='/signin' element={<SignInPage/>}/>
         <Route path='/profile' element={<ProfilePage/>}/>
         <Route path='/settings' element={<Settings/>}/>
         <Route path='*' element={<ErrorPage/>}/>
       </Routes>
+      <Footer/>
     </>
   );
 }

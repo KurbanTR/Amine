@@ -52,7 +52,9 @@ const MangaDetails = () => {
             id: params.id,
             img: manga?.images.jpg.image_url,
             title: manga?.title,
-            score: manga?.score
+            score: manga?.score,
+            year: manga?.published.prop.from.year,
+            genre: manga?.genres[0].name
         }
         dispatch(addMangas({idUser, newManga, success, error}))
     }

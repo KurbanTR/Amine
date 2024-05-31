@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createAccount } from "../../../store/authSlice";
+import { createAccount } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom"
 import { useDispatch} from "react-redux"
 import { message } from 'antd';

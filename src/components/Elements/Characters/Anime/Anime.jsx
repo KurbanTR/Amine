@@ -11,7 +11,7 @@ const Anime = () => {
   return (
     <div>
         <p className='text-[1.6em] font-medium mb-4'>Anime</p>
-        <div className='container w-full flex overflow-hidden'>
+        <div className='container flex overflow-hidden'>
             <Swiper
                 className={ss.swipers}
                 grabCursor={true} 

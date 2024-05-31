@@ -7,7 +7,6 @@ import { Pagination } from 'antd'
 import Sort from '../../Sorts/SortAnime/Sort';
 import coolicon from '../../../assets/Search.svg'
 import coolicon1 from '../../../assets/Search1.svg'
-import PropTypes from 'prop-types'
 import { CircularProgress } from "@chakra-ui/react";
 
 const SearchForm = ({ onSubmit, value, onChange }) => (
@@ -27,11 +26,6 @@ const SearchForm = ({ onSubmit, value, onChange }) => (
     </button>
   </form>
 );
-SearchForm.propTypes = {
-  onChange: PropTypes.func,
-  value: PropTypes.string,
-  onSubmit: PropTypes.func,
-}
 
 const ChararterCard = ({ item }) => (
   <Link to={'/character/'+item.mal_id} className={s.chararterCard}>
@@ -48,9 +42,6 @@ const ChararterCard = ({ item }) => (
     </div>
   </Link>
 );
-ChararterCard.propTypes = {
-  item: PropTypes.object,
-}
 
 const Footers = () => {
   const {loading} = useSelector(state=>state.character)

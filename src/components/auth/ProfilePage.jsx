@@ -1,16 +1,15 @@
-import s from './ProfilePage.module.css'
 import { SwiperSlide, Swiper} from "swiper/react"
 import { Keyboard } from 'swiper/modules';
 import 'swiper/css'
-import ss from '../../swiper.module.css'
+import ss from '../swiper.module.css'
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { removeAnime, removeManga } from '../../../store/profileSlice';
-import { getDefineUser } from "../../../store/authSlice";
-import settings from '../../../assets/settings.svg' 
-import icon from '../../../assets/icons8.svg'
-import deletee from '../../../assets/delete.svg'
+import { removeAnime, removeManga } from '../../store/profileSlice';
+import { getDefineUser } from "../../store/authSlice";
+import settings from '../../assets/settings.svg' 
+import icon from '../../assets/icons8.svg'
+import deletee from '../../assets/delete.svg'
 
 const AnimeSwiper = ({ anime, animeSpan, type, edit, dispatch, idUser }) => {
   const onDelete = (id)=>{
@@ -52,6 +51,7 @@ const AnimeSwiper = ({ anime, animeSpan, type, edit, dispatch, idUser }) => {
                   <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black opacity-80 p-4'>
                     <div className='flex flex-col'>
                       <p className='line-clamp-1 text-[1.2em] text-white'>{item.title}</p>
+                      <p className='text-[#ababab] font-medium'>{item?.year}{item?.genre && `, ${item?.genre}`}</p>
                     </div>
                   </div>
                 </div>
@@ -68,7 +68,7 @@ const UserProfile = ({ user }) => {
   return (
     <div className="relative py-10 pr-20 1480res:p-[2.5rem_5rem_2.5rem_2.5rem] 500res:p-[2.5rem_1.25rem_2.5rem_1.25rem] 700res:p-10 h-full flex justify-between items-center gap-[10px]">
       <div className="flex gap-10 500res:gap-7 items-center w-full 700res:flex-col 700res:items-center">
-        <img src={user?.img} className="flex-shrink-0 rounded-full w-[170px] h-[170px]" alt="SUI" />
+        <img src={user?.img} className="flex-shrink-0 rounded-full w-[170px] h-[170px] text-center" alt="avatar" />
         <div className="w-full overflow-hidden 700res:flex 700res:items-center 700res:flex-col">
           <p className="text-5xl font-medium mb-2 900res:text-[2rem] 500res:text-2xl 370res:text-xl">{user?.name}</p>
           <span className="duration-200 text-white/70 text-lg line-clamp-2 900res:text-[1rem] 500res:text-[.8rem] hover:text-white cursor-pointer 700res:text-center">
@@ -91,12 +91,13 @@ const ProfilePage = () => {
 
   useEffect(()=>{
     dispatch(getDefineUser({id:idUser}))
+    console.log(data);
   }, [dispatch, idUser])
 
   return (
     <>
       <div>
-        <div className={`${s.block_1__shapka} brightness-75`}>
+        <div className={"brightness-75 flex justify-end h-[230px] pr-5 pb-5 bg-cover bg-center"} style={{backgroundImage: 'url(https://i.pinimg.com/originals/a6/b2/56/a6b256f4640c44ed0536b8a5e2932766.jpg)'}}>
           <div className="flex flex-col self-end items-end z-10">
             <Link to='/settings' className='flex justify-center items-center rounded-xl bg-custom-color bg-opacity-50 cursor-pointer py-3.5 px-4'>
               <img src={settings} alt="" />
@@ -106,9 +107,9 @@ const ProfilePage = () => {
         <div className='w-[1440px] mx-auto 1480res:w-full'>
           <UserProfile user={data} />
           <div className='my-10 px-5 flex gap-5'>
-            <h1 onClick={()=>{setAnimeSpan(true); setMangaSpan(false)}} className={`${animeSpan && 'bg-def-gray'} ${s.span} active:scale-95`}>Anime</h1>
-            <h1 onClick={()=>{setMangaSpan(true); setAnimeSpan(false)}} className={`${mangaSpan && 'bg-def-gray'} ${s.span} active:scale-95`}>Manga</h1>
-            <h1 onClick={()=>setEdit(!edit)} className={`${edit && 'bg-def-gray'} ${s.span} justify-self-end ml-auto 600res:ml-0 active:scale-95 flex items-center justify-center gap-2`}>
+            <h1 onClick={()=>{setAnimeSpan(true); setMangaSpan(false)}} className={`${animeSpan && 'bg-def-gray'} w-[5.5em] py-[10px] rounded-[12px] text-center font-medium text-[20px] transition duration-100 cursor-pointer active:scale-95`}>Anime</h1>
+            <h1 onClick={()=>{setMangaSpan(true); setAnimeSpan(false)}} className={`${mangaSpan && 'bg-def-gray'} w-[5.5em] py-[10px] rounded-[12px] text-center font-medium text-[20px] transition duration-100 cursor-pointer active:scale-95`}>Manga</h1>
+            <h1 onClick={()=>setEdit(!edit)} className={`${edit && 'bg-def-gray'} w-[5.5em] py-[10px] rounded-[12px] text-center font-medium text-[20px] transition duration-100 cursor-pointer justify-self-end ml-auto 600res:ml-0 active:scale-95 flex items-center justify-center gap-2`}>
               <div className={(edit ? 'bg-white' : 'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
                 <img src={icon} alt="" />
               </div>

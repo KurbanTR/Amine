@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
-import out from '../../../assets/out.svg'
+import out from '../../assets/out.svg'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getDefineUser, signOut, updateUserProfile } from '../../../store/authSlice';
+import { getDefineUser, signOut, updateUserProfile } from '../../store/authSlice';
 
 const Settings = () => {
   const {data} = useSelector(state=>state.profile)

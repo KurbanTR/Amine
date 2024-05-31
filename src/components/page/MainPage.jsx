@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link } from "react-router-dom"
-import s from './MainPage.module.css'
-import { fetchAnimeNow, fetchAnimeScore } from '../../../store/animeSlice'
-import { fetchCharacters } from '../../../store/charactersSlice' 
+import s from '../../styles/MainPage.module.css'
+import { fetchAnimeNow, fetchAnimeScore } from '../../store/animeSlice'
+import { fetchCharacters } from '../../store/charactersSlice' 
 import { useSelector, useDispatch } from 'react-redux'
 import { SwiperSlide, Swiper} from "swiper/react"
 import { Keyboard } from 'swiper/modules';
 import 'swiper/css'
-import ss from '../../swiper.module.css'
+import ss from '../swiper.module.css'
 
 
 const AnimeSwiper = ({ anime, title, type }) => {

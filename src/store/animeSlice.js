@@ -3,9 +3,9 @@ import { animeApi } from '../api/animeApi';
 
 export const searchAnimeWithPagination = createAsyncThunk(
     'anime/searchAnimeWithPagination',
-    async function({ genres, type, status, start_date, page, q }, { dispatch, rejectWithValue }) {
+    async function({ genres, type, status, start_date, page, q, category }, { dispatch, rejectWithValue }) {
         try{
-            const data = await animeApi.searchAnimeWithPagination({genres, type, status, start_date, page, q, genres_exclude: '9, 12, 49, 28'})
+            const data = await animeApi.searchAnimeWithPagination({genres, type, status, start_date, page, q, genres_exclude: '9, 12, 49, 28'}, category)
             if(data.ok) {
                 throw new Error('Server Error!')
             }
@@ -20,9 +20,9 @@ export const searchAnimeWithPagination = createAsyncThunk(
 
 export const fetchAnimes = createAsyncThunk(
     'anime/fetchAnimes',
-    async function({title, page}, { dispatch, rejectWithValue }) {
+    async function({title, page, category}, { dispatch, rejectWithValue }) {
         try {
-            const data = await animeApi.getAllAnime({title, page});
+            const data = await animeApi.getAllAnime({title, page}, category);
             if (data.ok) {
                 throw new Error('Server Error!');
             }
@@ -38,22 +38,12 @@ export const fetchAnimes = createAsyncThunk(
 
 export const fetchAnime = createAsyncThunk(
     'anime/fetchAnime',
-    async function({id}, {dispatch}){
-        const data = await animeApi.getAnime(id);
+    async function({id, category}, {dispatch}){
+        const data = await animeApi.getAnime(id, category);
         dispatch(setAnime(data.data.data)); 
     }
 )
 // Запрос на определённое аниме по айди
-
-export const fetchSearchAnimes = createAsyncThunk(
-    'anime/fetchSearchAnimes',
-    async function({title}, {dispatch}){
-        const data = await animeApi.getSerch({q: title, genres_exclude: '9, 12, 49, 28', limit: 24})
-        const filteredAnime = data.data.data.filter(anime => !anime.title.toLowerCase().includes("hentai"));
-        dispatch(setAnimes(filteredAnime));
-    }
-)
-// Поиск аниме по названию
 
 export const fetchRandAnime = createAsyncThunk(
     'anime/fetchRandAnime',
@@ -67,16 +57,16 @@ export const fetchRandAnime = createAsyncThunk(
 
 export const fetchCharacters = createAsyncThunk(
     'anime/fetchCharacters',
-    async function({id}, { dispatch }) {
-        const data = await animeApi.getCharacters(id)
+    async function({id, category}, { dispatch }) {
+        const data = await animeApi.getCharacters(id, category)
         dispatch(setCharacters(data.data.data))
     }
 );
 
 export const fetchRecommendations = createAsyncThunk(
     'anime/fetchRecommendations',
-    async function({id}, { dispatch }) {
-        const data = await animeApi.getRecommendations(id)
+    async function({id, category}, { dispatch }) {
+        const data = await animeApi.getRecommendations(id, category)
         dispatch(setRecommendations(data.data.data))
     }
 );
@@ -110,10 +100,10 @@ const animeSlice = createSlice({
     initialState: {
         animes: [],
         anime: null,
-        randAnime: null,
         characters: [],
         recommendations: [],
         person: null,
+        randAnime: null,
         score: [],
         now: null,
         pages: 1,

@@ -12,7 +12,7 @@ const Voices = () => {
   return (
     <div>
         <p className='text-[1.6em] font-medium mb-4'>Voices</p>
-        <div className='container w-full flex overflow-hidden overflow-x-auto scrollbar-hidden'>
+        <div className='container flex overflow-hidden overflow-x-auto scrollbar-hidden'>
             <Swiper
                 className={ss.swipers}
                 grabCursor={true} 

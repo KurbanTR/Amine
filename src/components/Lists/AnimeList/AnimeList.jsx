@@ -8,7 +8,6 @@ import Sort from '../../Sorts/SortAnime/Sort';
 import coolicon from '../../../assets/Search.svg';
 import coolicon1 from '../../../assets/Search1.svg';
 import { fetchAnimes, searchAnimeWithPagination } from "../../../store/animeSlice";
-import PropTypes from 'prop-types'
 import { CircularProgress } from "@chakra-ui/react";
 
 const SearchForm = ({ onSubmit, value, onChange }) => (
@@ -28,30 +27,22 @@ const SearchForm = ({ onSubmit, value, onChange }) => (
     </button>
   </form>
 );
-SearchForm.propTypes = {
-  onSubmit: PropTypes.func,
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-}
 
 const AnimeCard = ({ item }) => (
   <Link to={'/anime/'+item.mal_id}  className={s.animeCard}>
     <div className='relative h-[90%] rounded-xl overflow-hidden'>
       <div>
-        <img src={item.images.jpg.image_url} alt="" />
+        <img src={item?.images.jpg.image_url} alt="" />
       </div>                      
       <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black to-transparent opacity-80 p-4'>
         <div className='flex flex-col'>
-          <p className='line-clamp-1 overflow-hidden text-[1.2em] text-white'>{item.title}</p>
-          <p className='text-[#ababab] font-medium'>{item.aired.prop.from.year ? item.aired.prop.from.year+(!item.genres.length==0 ? ', '+item.genres[0].name : '') : !item.genres.length==0 ? item.genres[0].name : ''}</p>
+          <p className='line-clamp-1 overflow-hidden text-[1.2em] text-white'>{item?.title}</p>
+          <p className='text-[#ababab] font-medium'>{item?.aired.prop.from.year ? item?.aired.prop.from.year+(!item?.genres.length==0 ? ', '+item?.genres[0].name : '') : !item?.genres.length==0 ? item.genres[0].name : ''}</p>
         </div>
       </div>
     </div>
   </Link>
 );
-AnimeCard.propTypes = {
-  item: PropTypes.object,
-}
 
 const AnimeList = () => {
   const {loading} = useSelector(state=>state.anime)

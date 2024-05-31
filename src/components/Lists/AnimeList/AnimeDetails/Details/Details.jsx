@@ -52,7 +52,7 @@ const Details = () => {
                     </div>}
                 </div>
             </div>
-            <div>
+            {anime?.synopsis && <div>
                 <p className='text-3xl font-medium'>Desription</p>
                 <div className='pt-10'>
                     <div className='overflow-hidden'>
@@ -60,7 +60,7 @@ const Details = () => {
                     </div>
                     {anime?.synopsis.length > 394 &&<span onClick={()=>setLimit(!limit)} className='cursor-pointer font-medium text-[1.1em]'>{!limit ? 'Hide' : 'More'}</span>}
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }

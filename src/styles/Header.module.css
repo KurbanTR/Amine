@@ -96,7 +96,7 @@
         display: none;
     }
 }
-@media screen and (max-width: 625px){
+@media screen and (max-width: 650px){
     header{
         justify-content: center;
         flex-wrap: wrap;
