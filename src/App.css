@@ -6,14 +6,13 @@
 .main{
   width: 90em;
   margin: 0 auto;
-  position: relative;
-  top: 140px;
   display: grid;
   grid-template-columns: 30% 1fr;
   border-radius: 1em;
   overflow: hidden;
   gap: 2.5rem;
   padding: 0 1.3em;
+  padding-top: 140px;
 }
 .bg-custom-color {
   background-color: rgb(33 33 33);

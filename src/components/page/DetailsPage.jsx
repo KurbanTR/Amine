@@ -3,16 +3,14 @@ import { useLocation, useParams } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux'
 import s from '../../styles/DetailsPage.module.css';
 import { Rate } from 'antd';
-import { fetchAnime, fetchCharacters, fetchPerson, fetchRecommendations} from '../../store/animeSlice';
+import { fetchAnime, fetchCharacters, fetchRecommendations} from '../../store/animeSlice';
 import { Tabs, TabList, TabPanels, Tab, TabPanel, TabIndicator } from '@chakra-ui/react'
-// import Details from './Details/Details';
-// import Characters from './Characters/Characters';
-// import Recommendations from './Recommendations/Recommendations';
 import YouTube from 'react-youtube';
 import line from '../../assets/line.svg'
 import { addAnimes } from '../../store/profileSlice';
 import { message } from 'antd';
 import MediaCarousel from '../../other/MediaCarousel';
+import Details from '../../other/Details';
 
 const DetailsPage = ({category}) => {
     const params = useParams()
@@ -89,8 +87,8 @@ const DetailsPage = ({category}) => {
                 <Tabs position='relative' variant='unstyled'>
                     <TabList>
                         <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Overview</Tab>
-                        {characters.length !== 0 && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Characters</Tab>}
-                        {recommendations.length !== 0 && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Recommendations</Tab>}
+                        {(category == ('anime'||'manga') && characters.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Characters</Tab>}
+                        {(category == ('anime'||'manga') && recommendations.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Recommendations</Tab>}
                         {(anime?.anime && anime?.anime.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Anime</Tab>}
                         {(anime?.manga && anime?.manga.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Manga</Tab>}
                         {(anime?.voices && anime?.voices.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Voices</Tab>}
@@ -98,12 +96,12 @@ const DetailsPage = ({category}) => {
                     <TabIndicator mt='-1.5px' height='2px' width='100%' bg='white' borderRadius='1px'/>
                     <TabPanels>
                         <TabPanel>
-                            Details v razrabotce
+                            <Details category={category}/>
                         </TabPanel>
-                        {characters.length !== 0 && <TabPanel>
+                        {(category == ('anime'||'manga') && characters.length !== 0) && <TabPanel>
                             <MediaCarousel category='characters' mediaTitle='characters' to='characters'/>
                         </TabPanel>}
-                        {recommendations.length !== 0 && <TabPanel>
+                        {(category == ('anime'||'manga') && recommendations.length !== 0) && <TabPanel>
                             <MediaCarousel category='recommendations' mediaTitle='recommendations' to='anime'/>
                         </TabPanel>}
                         {(anime?.anime && anime?.anime.length !== 0) && <TabPanel>

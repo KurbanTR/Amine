@@ -23,7 +23,7 @@ function App() {
         <Route path='/anime/:id' element={<DetailsPage category='anime'/>}/>
         <Route path='/manga/:id' element={<DetailsPage category='manga'/>}/>
         <Route path='/characters/:id' element={<DetailsPage category='characters'/>}/>
-        <Route path='/voices/:id' element={<DetailsPage category='people'/>}/>
+        <Route path='/people/:id' element={<DetailsPage category='people'/>}/>
         <Route path='/registration' element={<RegisterPage/>}/>
         <Route path='/signin' element={<SignInPage/>}/>
         <Route path='/profile' element={<ProfilePage/>}/>

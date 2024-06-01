@@ -1,7 +1,7 @@
 import { SwiperSlide, Swiper} from "swiper/react"
 import { Keyboard } from 'swiper/modules';
 import 'swiper/css'
-import ss from '../swiper.module.css'
+import ss from '../../styles/swiper.module.css'
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';

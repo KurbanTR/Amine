@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { SwiperSlide, Swiper } from "swiper/react";
-import ss from '../components/swiper.module.css';
+import ss from '../styles/swiper.module.css';
 import { Keyboard } from 'swiper/modules';
 import 'swiper/css';
 import LinkCard from './LinkCard';
@@ -15,10 +15,6 @@ const MediaCarousel = ({ category, mediaTitle, to }) => {
             return state.anime.anime[mediaTitle];
         }
     });
-
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
 
     return (
         <div className='py-[2em] gap-[1em] flex flex-col'>
@@ -87,7 +83,7 @@ const MediaCarousel = ({ category, mediaTitle, to }) => {
                                     displayImage={displayImage} 
                                     displayName={displayName} 
                                     displayRole={displayRole} 
-                                    to={to} 
+                                    to={to}
                                 />
                             </SwiperSlide>
                         );

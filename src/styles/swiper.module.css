@@ -10,19 +10,19 @@
 } 
 @media screen and (max-width:1200px) {
     .swiper__slide{ 
-        width: 20%!important; 
+        width: 19%!important; 
         height: auto;
     } 
 }
 @media screen and (max-width:900px) {
     .swiper__slide{ 
-        width: 30%!important; 
+        width: 28%!important; 
         height: auto;
     } 
 }
 @media screen and (max-width:500px) {
     .swiper__slide{ 
-        width: 45%!important;
+        width: 40%!important;
         height: auto;
     } 
 }
