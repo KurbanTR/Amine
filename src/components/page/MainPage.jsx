@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Link } from "react-router-dom"
 import s from '../../styles/MainPage.module.css'
-import { fetchAnimeNow, fetchAnimeScore } from '../../store/animeSlice'
-import { fetchCharacters } from '../../store/charactersSlice' 
+import { fetchAnimeNow, fetchAnimeScore, fetchCharactres, fetchTopCharactres } from '../../store/mainSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { SwiperSlide, Swiper} from "swiper/react"
 import { Keyboard } from 'swiper/modules';
 import 'swiper/css'
 import ss from '../../styles/swiper.module.css'
+import MainContent from '../../other/MainContent'
 
 
 const AnimeSwiper = ({ anime, title, type }) => {
   return (
     <div>
-      <p className='text-[1.6em] font-medium mb-4'>{title}</p>
-      <div className='w-full flex overflow-hidden'>
+      <p className='text-4xl 850res:text-3xl 650res:text-xl font-medium mb-4'>{title}</p>
+      <div className='w-full flex overflow-hidden mb-7'>
         <Swiper
           grabCursor={true} 
           spaceBetween={20}
@@ -27,7 +27,7 @@ const AnimeSwiper = ({ anime, title, type }) => {
           {
             anime?.map((item, index) => 
               <SwiperSlide className={ss.swiper__slide} key={index}>
-                <Link to={(type ? '/character/' : '/anime/') + item.mal_id}>
+                <Link to={`/${type}/` + item.mal_id}>
                   <div className='relative overflow-hidden rounded-lg h-[90%]'>
                     <div>
                       <img src={item.images.jpg.image_url} alt=""/>
@@ -41,9 +41,12 @@ const AnimeSwiper = ({ anime, title, type }) => {
                     }             
                     <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black opacity-80 p-4'>
                       <div className='flex flex-col'>
-                        <p className='line-clamp-1 text-[1.2em] text-white 540res:text-[20px]  400res:text-[17px] 330res:text-[12px]'>{type ? item.name : item.title}</p>
-                        {!type && <p className='text-[#ababab] font-medium 540res:text-[.9em]  400res:text-[.7em] 330res:text-[.6em]'>
+                        <p className='line-clamp-1 text-[1.2em] text-white 540res:text-[20px]  400res:text-[17px] 330res:text-[12px]'>{type == 'characters' ? item.name : item.title}</p>
+                        {type == 'anime' && <p className='text-[#ababab] font-medium 540res:text-[.9em]  400res:text-[.7em] 330res:text-[.6em]'>
                           {item.aired.prop.from.year ? item.aired.prop.from.year+(!item.genres.length==0 ? ', '+item.genres[0].name : '') : !item.genres.length==0 ? item.genres[0].name : ''}
+                        </p>}
+                        {type == 'characters' && <p className='text-[#ababab] font-medium 540res:text-[.9em]  400res:text-[.7em] 330res:text-[.6em]'>
+                          {item?.name_kanji && item?.name_kanji}
                         </p>}
                       </div>
                     </div>
@@ -59,44 +62,28 @@ const AnimeSwiper = ({ anime, title, type }) => {
 };
 
 const MainPage = () => {
-  const {now} = useSelector(state => state.anime)
-  const {score} = useSelector(state => state.anime)
-  const {characters} = useSelector(state => state.character)
-  const [jujutsu, setJujutsu] = useState()
+  const {now} = useSelector(state => state.main)
+  const {score} = useSelector(state => state.main)
+  const {characters} = useSelector(state => state.main)
+  const {topcharacters} = useSelector(state => state.main)
+
   const dispatch = useDispatch()
   
-  useEffect(() => {
-    const jujutsuFunc = async() => {
-      const jujutsuRes = await fetch('https://api.jikan.moe/v4/anime/40748/full')
-      const jujutsuData = await jujutsuRes.json()
-      setJujutsu(jujutsuData.data)
-
-      dispatch(fetchAnimeNow())
-      dispatch(fetchAnimeScore())
-      dispatch(fetchCharacters({page: 1}))
-    }
-    jujutsuFunc()
-  }, [dispatch])
+  useEffect(() => {    
+    dispatch(fetchAnimeNow())
+    dispatch(fetchAnimeScore())
+    dispatch(fetchCharactres())
+    dispatch(fetchTopCharactres())
+  }, [dispatch]) 
   
-
-
   return (
     <>      
-      <div className={s.block1}>
-        <div className={s.block1__main}>
-          <div className={s.block1__wrapper}>
-            <h1 className={s.block1__title}>{jujutsu?.title}</h1>
-            <h3 className={s.block1__synopsis}>{jujutsu?.synopsis}</h3>
-              <Link to={'/anime/' + jujutsu?.mal_id} className={s.button__wrapper} key={jujutsu?.id}>
-                <button className={s.block1__button}>Watch Trailer</button>  
-              </Link>
-          </div>
-        </div>
-      </div>
+      <MainContent/>
       <div className={s.block2}>        
-        <AnimeSwiper anime={now} title='Trending now'/>        
-        <AnimeSwiper anime={score} title='Best Score'/>
-        <AnimeSwiper anime={characters} title='Characters' type/>
+        <AnimeSwiper anime={now} title='Trending now' type='anime'/>        
+        <AnimeSwiper anime={score} title='Best Score' type='anime'/>
+        <AnimeSwiper anime={characters} title='Charactres' type='characters'/>
+        <AnimeSwiper anime={topcharacters} title='Top Charactres' type='characters'/>
       </div>
     </>
   )

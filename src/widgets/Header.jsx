@@ -29,12 +29,18 @@ const Header = () => {
         </Link>
 
         <nav className={s.nav}>      
-          <Link to='/anime' className={`${s.catalog_link} 700res:text-[20px]`}>Anime</Link>
-          <Link to='/manga' className={`${s.catalog_link} 700res:text-[20px]`}>Manga</Link>
-          <Link to='/characters' className={`${s.catalog_link} 700res:text-[20px]`}>Character</Link>
+          <div className='flex gap-2 items-center'>
+            <Link to='/anime' className={`${s.catalog_link} 700res:text-[20px]`}>Anime</Link>
+          </div>
+          <div className='flex gap-2 items-center'>
+            <Link to='/manga' className={`${s.catalog_link} 700res:text-[20px]`}>Manga</Link>
+          </div>
+          <div className='flex gap-2 items-center'>
+            <Link to='/characters' className={`${s.catalog_link} 700res:text-[20px]`}>Character</Link>
+          </div>
           
           <Link to={token ? '/profile' : '/signin'}>
-            <img src={data?.img} className='flex-shrink-0 rounded-full w-[70px] h-[70px] text-center' alt='avatar' />
+            <img src={data?.img} className='flex-shrink-0 rounded-full w-[70px] h-[70px] text-center 370res:w-[50px] 370res:h-[50px]' alt='avatar' />
           </Link>
         </nav>
       </header>

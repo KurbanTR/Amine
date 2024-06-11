@@ -96,6 +96,11 @@
         display: none;
     }
 }
+@media screen and (max-width: 850px) {
+    .catalog_link{
+        display: none;
+    }
+}
 @media screen and (max-width: 650px){
     header{
         justify-content: center;
@@ -104,13 +109,16 @@
         padding: 10px;
         gap: 0.5em;
     }
+    .header{
+        padding: .5em;
+    }
+    .header_scrolled{
+        padding: .5em;
+    }
     .title h1{
-        font-size: 2em;
+        font-size: 1.7em;
     }
     .search{
-        display: none;
-    }
-    .catalog_link{
         display: none;
     }
     .burger_menu{

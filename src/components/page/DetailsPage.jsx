@@ -11,11 +11,12 @@ import { addAnimes } from '../../store/profileSlice';
 import { message } from 'antd';
 import MediaCarousel from '../../other/MediaCarousel';
 import Details from '../../other/Details';
+import ErrorPage from './ErrorPage';
 
 const DetailsPage = ({category}) => {
     const params = useParams()
     const dispatch = useDispatch()
-    const location = useLocation();
+    const location = useLocation()
 
     useEffect(()=>{
         dispatch(fetchAnime({id: params.id, category}))
@@ -62,64 +63,68 @@ const DetailsPage = ({category}) => {
     }
 
     return (
-        <div className={s.block_1}>
-            {contextHolder}
-            <div className={s.block_1__shapka}></div>
-            <div className={s.block_1__titles}>
-                <img src={anime?.images.jpg.image_url} className={s.persImg} alt=""/>
-                <div className='w-[57%]'>
-                    <h2 className={s.title}>{anime?.title || anime?.name}</h2>
-                    <div className={s.ratings}>
-                        {anime?.score && <><Rate allowHalf disabled={true} count={5} character={({ index }) => {
-                            return index < Math.floor(anime?.score / 2) ? <span style={{color: '#fff', fontSize: '1.5em'}}>★</span> : <span style={{color: '#464646', fontSize: '1.7em'}}>★</span>;
-                        }}/>
-                        <p className={s.rating}>{anime?.score}</p></>}
+        <>{ anime !== null ?
+            <div className={s.block_1}>
+                {contextHolder}
+                <div className={s.block_1__shapka}></div>
+                <div className={s.block_1__titles}>
+                    <img src={anime?.images.jpg.image_url} className={s.persImg} alt=""/>
+                    <div className='w-[57%]'>
+                        <h2 className={s.title}>{anime?.title || anime?.name}</h2>
+                        <div className={s.ratings}>
+                            {anime?.score && <><Rate allowHalf disabled={true} count={5} character={({ index }) => {
+                                return index < Math.floor(anime?.score / 2) ? <span style={{color: '#fff', fontSize: '1.5em'}}>★</span> : <span style={{color: '#464646', fontSize: '1.7em'}}>★</span>;
+                            }}/>
+                            <p className={s.rating}>{anime?.score}</p></>}
+                        </div>
+                        {(category == 'manga' || category == 'anime') &&
+                            <button onClick={Fevorite} className={`${s.span} active:scale-95`}>
+                                <img className='w-5 h-5' src={line} alt="" />
+                                <p>Add to Fovarite</p>
+                            </button>
+                        }                    
                     </div>
-                    {(category == 'manga' || category == 'anime') &&
-                        <button onClick={Fevorite} className={`${s.span} active:scale-95`}>
-                            <img className='w-5 h-5' src={line} alt="" />
-                            <p>Add to Fovarite</p>
-                        </button>
-                    }                    
                 </div>
+                <div className={s.block_1__details}>                
+                    <Tabs position='relative' variant='unstyled'>
+                        <TabList>
+                            <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Overview</Tab>
+                            {(category == ('anime'||'manga') && characters.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Characters</Tab>}
+                            {(category == ('anime'||'manga') && recommendations.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Recommendations</Tab>}
+                            {(anime?.anime && anime?.anime.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Anime</Tab>}
+                            {(anime?.manga && anime?.manga.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Manga</Tab>}
+                            {(anime?.voices && anime?.voices.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Voices</Tab>}
+                        </TabList>
+                        <TabIndicator mt='-1.5px' height='2px' width='100%' bg='white' borderRadius='1px'/>
+                        <TabPanels>
+                            <TabPanel>
+                                <Details category={category}/>
+                            </TabPanel>
+                            {(category == ('anime'||'manga') && characters.length !== 0) && <TabPanel>
+                                <MediaCarousel category='characters' mediaTitle='characters' to='characters'/>
+                            </TabPanel>}
+                            {(category == ('anime'||'manga') && recommendations.length !== 0) && <TabPanel>
+                                <MediaCarousel category='recommendations' mediaTitle='recommendations' to='anime'/>
+                            </TabPanel>}
+                            {(anime?.anime && anime?.anime.length !== 0) && <TabPanel>
+                                <MediaCarousel category='anime' mediaTitle='anime' to='anime'/>
+                            </TabPanel>}
+                            {(anime?.manga && anime?.manga.length !== 0) && <TabPanel>
+                                <MediaCarousel category='manga' mediaTitle='manga' to='manga'/>
+                            </TabPanel>}
+                            {(anime?.voices && anime?.voices.length !== 0) && <TabPanel>
+                                <MediaCarousel category='voices' mediaTitle='voices' to='people'/>
+                            </TabPanel>}
+                        </TabPanels>
+                    </Tabs>
+                </div>
+                {anime?.trailer?.youtube_id && <div className='w-[70%] mx-auto'>
+                    <YouTube className={s.video} videoId={anime?.trailer.youtube_id}/>
+                </div>}
             </div>
-            <div className={s.block_1__details}>                
-                <Tabs position='relative' variant='unstyled'>
-                    <TabList>
-                        <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Overview</Tab>
-                        {(category == ('anime'||'manga') && characters.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Characters</Tab>}
-                        {(category == ('anime'||'manga') && recommendations.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Recommendations</Tab>}
-                        {(anime?.anime && anime?.anime.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Anime</Tab>}
-                        {(anime?.manga && anime?.manga.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Manga</Tab>}
-                        {(anime?.voices && anime?.voices.length !== 0) && <Tab _selected={{color: 'white'}} sx={{ color: "#7C7C7C", fontWeight: '500', fontSize: '1.2em', '@media screen and (max-width: 450px)': {fontSize: '.9em'}}}>Voices</Tab>}
-                    </TabList>
-                    <TabIndicator mt='-1.5px' height='2px' width='100%' bg='white' borderRadius='1px'/>
-                    <TabPanels>
-                        <TabPanel>
-                            <Details category={category}/>
-                        </TabPanel>
-                        {(category == ('anime'||'manga') && characters.length !== 0) && <TabPanel>
-                            <MediaCarousel category='characters' mediaTitle='characters' to='characters'/>
-                        </TabPanel>}
-                        {(category == ('anime'||'manga') && recommendations.length !== 0) && <TabPanel>
-                            <MediaCarousel category='recommendations' mediaTitle='recommendations' to='anime'/>
-                        </TabPanel>}
-                        {(anime?.anime && anime?.anime.length !== 0) && <TabPanel>
-                            <MediaCarousel category='anime' mediaTitle='anime' to='anime'/>
-                        </TabPanel>}
-                        {(anime?.manga && anime?.manga.length !== 0) && <TabPanel>
-                            <MediaCarousel category='manga' mediaTitle='manga' to='manga'/>
-                        </TabPanel>}
-                        {(anime?.voices && anime?.voices.length !== 0) && <TabPanel>
-                            <MediaCarousel category='voices' mediaTitle='voices' to='people'/>
-                        </TabPanel>}
-                    </TabPanels>
-                </Tabs>
-            </div>
-            {anime?.trailer?.youtube_id && <div className='w-[70%] mx-auto'>
-                <YouTube className={s.video} videoId={anime?.trailer.youtube_id}/>
-            </div>}
-        </div>
+            :
+            <ErrorPage/>
+        }</>
     );
 };
 

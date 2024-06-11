@@ -2,21 +2,23 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { animeApi } from '../api/animeApi';
 
 export const searchAnimeWithPagination = createAsyncThunk(
-    'anime/searchAnimeWithPagination',
-    async function({ genres, type, status, start_date, page, q, category }, { dispatch, rejectWithValue }) {
-        try{
-            const data = await animeApi.searchAnimeWithPagination({genres, type, status, start_date, page, q, genres_exclude: '9, 12, 49, 28'}, category)
-            if(data.ok) {
-                throw new Error('Server Error!')
-            }
-            const filteredAnime = data.data.data.filter(anime => !anime.title.toLowerCase().includes("hentai"));
-            dispatch(setPages(data.data.pagination.last_visible_page)); 
-            return filteredAnime
-        }catch(error){
-            return rejectWithValue(error.message)
-        }
+  'anime/searchAnimeWithPagination',
+  async function({ genres, type, status, start_date, end_date, page, q, category }, { dispatch, rejectWithValue }) {
+    try {
+      const data = await animeApi.searchAnimeWithPagination({ genres, type, status, start_date, end_date, page, q, genres_exclude: '9,12,49,28' }, category);
+      if (!data) {
+        throw new Error('Server Error!');
+      }
+      const filteredAnime = category !== 'characters' ? data.data.data.filter(anime => !anime.title.toLowerCase().includes("hentai")) : data.data.data;
+      dispatch(setPages(data.data.pagination.last_visible_page));
+      console.log(category);
+      return filteredAnime;
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
+  }
 );
+
 
 export const fetchAnimes = createAsyncThunk(
     'anime/fetchAnimes',
@@ -71,22 +73,6 @@ export const fetchRecommendations = createAsyncThunk(
     }
 );
 
-export const fetchAnimeScore = createAsyncThunk(
-    'anime/fetchAnimeScore',
-    async function(_, { dispatch }) {
-        const data = await animeApi.getScore({min_score: 9})
-        dispatch(setScore(data.data.data))
-    }
-);
-
-export const fetchAnimeNow = createAsyncThunk(
-    'anime/fetchAnimeNow',
-    async function(_, { dispatch }) {
-        const data = await animeApi.getNow()
-        dispatch(setNow(data.data.data))
-    }
-);
-
 export const fetchPerson = createAsyncThunk(
     'anime/fetchPerson',
     async function({id}, {dispatch}){
@@ -104,8 +90,6 @@ const animeSlice = createSlice({
         recommendations: [],
         person: null,
         randAnime: null,
-        score: [],
-        now: null,
         pages: 1,
         loading: false,
         error: false,
@@ -126,18 +110,12 @@ const animeSlice = createSlice({
         setRecommendations(state, action){
             state.recommendations = action.payload
         },
-        setScore(state, action){
-            state.score = action.payload
-        },
-        setNow(state, action){
-            state.now = action.payload
-        },
         setPerson(state, action){
             state.person = action.payload
         },
         setAnimes(state, action){
             state.animes = action.payload
-        }
+        }       
     },
     extraReducers: (bilder) => {
         bilder.addCase(fetchAnimes.pending, (state) => {

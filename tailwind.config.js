@@ -29,7 +29,7 @@ export default {
   
     },
     screens: {
-        '850res': {'raw': '(max-height: 850px)'},
+        '850res': {'raw': '(max-width: 850px)'},
         '1650res': {'raw': '(max-width: 1650px)'},
         '1320res': {'raw': '(max-width: 1320px)'},
         '1480res': {'raw': '(max-width: 1480px)'},
@@ -37,7 +37,6 @@ export default {
         '1100res': {'raw': '(max-width: 1100px)'},
         '1000res': {'raw': '(max-width: 1000px)'},
         '900res': {'raw': '(max-width: 900px)'},
-        '850resW': {'raw': '(max-width: 850px)'},
         '800res': {'raw': '(max-width: 800px)'},
         '700res': {'raw': '(max-width: 700px)'},
         '650res': {'raw': '(max-width: 650px)'},

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import Sort from "../Sorts/SortAnime/Sort";
-import Pagination from "../Pagination/Pagination";
+import SortAnime from "../Sorts/SortAnime/Sort";
+import SortManga from "../Sorts/SortManga/Sort";
+import Pagination from "../../other/Pagination";
 import { CircularProgress } from "@chakra-ui/react";
 import { searchAnimeWithPagination, fetchAnimes } from "../../store/animeSlice";
 import s from '../../styles/ListPage.module.css'
@@ -35,7 +36,7 @@ const ListCard = ({ item, title, year, genre, category }) => (
         <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black to-transparent opacity-80 p-4'>
           <div className='flex flex-col'>
             <p className='line-clamp-1 overflow-hidden text-[1.2em] text-white'>{title}</p>
-            <p className='text-[#ababab] font-medium'>{year}{genre && `, ${genre}`}</p>
+            <p className='text-[#ababab] font-medium'>{year}{(year && genre) && ', '}{genre && genre}</p>
           </div>
         </div>
       </div>
@@ -55,10 +56,10 @@ const ListPage = ({category}) => {
     const dispatch = useDispatch()
   
     const getFilters = ()=>{
-      const filters = JSON.parse(localStorage.getItem('filtersAnime'));
+      const filters = JSON.parse(localStorage.getItem(category == 'anime' ? 'filtersAnime' : (category=='manga' ? 'filtersManga' : 'filtersAnime')));
       const mergedObj = Object.assign({}, filters, { q: value, page, category });
       const allKeysEmpty = filters && Object.keys(filters).every(key => filters[key] === '');
-      (value || !allKeysEmpty) && dispatch(searchAnimeWithPagination(mergedObj));
+      (value || !allKeysEmpty) && dispatch(searchAnimeWithPagination(category == 'characters' ? {q: value, category} : mergedObj));
       (!value && allKeysEmpty) && dispatch(fetchAnimes({ page, category }));
     }
 
@@ -79,7 +80,9 @@ const ListPage = ({category}) => {
   
     return (
       <>
-        <Sort/>
+        {category == 'anime' && <SortAnime/>}
+        {category == 'manga' && <SortManga/>}
+        {category == 'characters' && <SortAnime/>}
         <div className={s.body}>
           <SearchForm onSubmit={handleSubmit} value={value} onChange={handleInputChange} />
           <div className={!loading && s.carts}>

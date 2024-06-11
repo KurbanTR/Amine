@@ -10,12 +10,6 @@ export const animeApi = {
     getAnime(id, category) {
         return instance.get(`${category}/${id}/full`);
     },
-    getScore(params){
-        return instance.get(`anime`, {params});
-    },
-    getNow(){
-        return instance.get(`seasons/now`);
-    },
     getRand(params, category){
         return instance.get(`random/${category}`, {params});
     },
