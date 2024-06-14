@@ -89,15 +89,15 @@ const UserProfile = ({ user }) => {
           onClick={onOpen}>
             {user?.bio}
           </span>
-          <Modal isOpen={isOpen} onClose={onClose} >
-        <ModalOverlay />
-        <ModalContent className=" bg-gray-800 rounded-[15px] overflow-hidden">
-          <ModalHeader className='bg-gray-800 text-4xl'>{user?.name}</ModalHeader>
+          <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay/>
+        <ModalContent className=' bg-gray-800 overflow-hidden'>
+          <ModalHeader className='bg-gray-800 rounded-t-2xl text-4xl'>{user?.name}</ModalHeader>
           <ModalBody className="bg-gray-800 text-2xl">
             {user?.bio}
           </ModalBody>
 
-          <ModalFooter className='bg-gray-800 pt-3'>
+          <ModalFooter className='bg-gray-800 rounded-b-2xl pt-3'>
             <Button className="rounded-md border-none" colorScheme='red' mr={3} onClick={onClose}>
               Close user BIO
             </Button>
