@@ -23,7 +23,7 @@ const SearchForm = ({ onSubmit, value, onChange }) => (
       </div>
       <button type="submit" className={s.coolicon} >
         <img src={coolicon} className="w-4" alt="?" />
-        <p>Submit</p>
+        <p>Submit</p> 
       </button>
     </form>
 )

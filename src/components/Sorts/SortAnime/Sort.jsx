@@ -9,7 +9,7 @@ const { RangePicker } = DatePicker;
 const ToggleSection = ({ title, isOpen, onClick }) => {
   return (
     <div onClick={onClick} className='flex justify-between py-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 '>
-      <span className='font-medium'>{title}</span>
+      <span className='font-bold'>{title}</span>
       <span><img className={`${isOpen ? 'rotate-180' : ''} w-5 h-5 duration-300`} src={expand} alt="" /></span>
     </div>
   );
@@ -122,10 +122,10 @@ const Sort = () => {
 
   return (
     <div className={s.sort}>
-      <h1 className='text-3xl font-medium mb-8'>Catalog</h1>
+      <h1 className='text-3xl mb-8 font-bold'>Catalog</h1>
       <div>
         <ToggleSection title="Year" isOpen={year} onClick={() => setYear(!year)} />
-        <div className={`relative overflow-hidden duration-300 flex gap-3 items-start`} style={{ height: year ? 0 : '74px', visibility: year === 0 ? 'hidden' : 'visible'}}>
+        <div className={`relative overflow-hidden duration-300 flex gap-3 items-start font-bold`} style={{ height: year ? 0 : '74px', visibility: year === 0 ? 'hidden' : 'visible'}}>
           {/* <span className='h-[44px] flex items-center cursor-pointer'><img className='w-8' src={calendar} alt="" /></span>
           <input value={date} onChange={e => setDate(e.target.value)} className='outline-none border-2 focus:border-white/80 border-white/30 bg-def-black appearance-none w-[110px] px-3 py-2 rounded-xl' type="text" min="1960" max="2026" step="1" placeholder="2007-12-17"/> */}
           <Space direction="vertical" size={12}>
@@ -140,7 +140,7 @@ const Sort = () => {
         </div>
 
         <ToggleSection title="Genres" isOpen={genres} onClick={() => setGenres(!genres)} />
-        <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start`} style={{ height: genres ? 0 : '666px', visibility: genres === 0 ? 'hidden' : 'visible'}}>
+        <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start font-bold`} style={{ height: genres ? 0 : '666px', visibility: genres === 0 ? 'hidden' : 'visible'}}>
           <ToggleButton label="Action" isActive={action} onClick={() => setAction(!action)} />
           <ToggleButton label="Adventure" isActive={adventure} onClick={() => setAdventure(!adventure)} />
           <ToggleButton label="School" isActive={school} onClick={() => setSchool(!school)} />
@@ -161,8 +161,8 @@ const Sort = () => {
           <ToggleButton label="SciFi" isActive={sciFi} onClick={() => setSciFi(!sciFi)} />
         </div>  
 
-        <ToggleSection title="Formats" isOpen={formats} onClick={() => setFormats(!formats)} />
-        <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start`} style={{ height: formats ? 0 : '230px', visibility: formats === 0 ? 'hidden' : 'visible'}}>
+        <ToggleSection title="Formats" className='font-bold' isOpen={formats} onClick={() => setFormats(!formats)} />
+        <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start font-bold`} style={{ height: formats ? 0 : '230px', visibility: formats === 0 ? 'hidden' : 'visible'}}>
           <ToggleButton label="TV" isActive={tv} onClick={() => {setTv(!tv); setOva(false); setOna(false); setMovie(false); setSpecial(false); setMusic1(false)}} />
           <ToggleButton label="OVA" isActive={ova} onClick={() => {setOva(!ova); setTv(false); setOna(false); setMovie(false); setSpecial(false); setMusic1(false)}} />
           <ToggleButton label="ONA" isActive={ona} onClick={() => {setOna(!ona); setTv(false); setOva(false); setMovie(false); setSpecial(false); setMusic1(false)}} />
@@ -172,7 +172,7 @@ const Sort = () => {
         </div>
 
         <ToggleSection title="Status" isOpen={status} onClick={() => setStatus(!status)} />
-        <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start`} style={{ height: status ? 0 : '100px', visibility: status === 0 ? 'hidden' : 'visible'}}>
+        <div className={`relative overflow-hidden duration-300 flex flex-col gap-3 items-start font-bold`} style={{ height: status ? 0 : '100px', visibility: status === 0 ? 'hidden' : 'visible'}}>
           <ToggleButton label="Airing" isActive={airing} onClick={() => {setAiring(!airing); setComplete(false); setUpcoming(false)}} /> 
           <ToggleButton label="Complete" isActive={complete} onClick={() => {setComplete(!complete); setAiring(false); setUpcoming(false)}} /> 
           <ToggleButton label="UpComing" isActive={upcoming} onClick={() => {setUpcoming(!upcoming); setAiring(false); setComplete(false)}} /> 

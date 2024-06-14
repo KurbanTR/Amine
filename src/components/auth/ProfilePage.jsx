@@ -138,7 +138,7 @@ const ProfilePage = () => {
         <div className='w-[1440px] mx-auto 1480res:w-full'>
           <UserProfile user={data} />
           <div className='my-10 px-5 flex gap-5'>
-            <h1 onClick={()=>{setAnimeSpan(true); setMangaSpan(false)}} className={`${animeSpan && 'bg-def-gray'} w-[5.5em] py-[10px] rounded-[12px] text-center font-medium text-[20px] transition duration-100 cursor-pointer active:scale-95`}>Anime</h1>
+            <h1 onClick={()=>{setAnimeSpan(true); setMangaSpan(false)}} className={`${animeSpan && 'bg-def-gray'} w-[5.5em] py-[10px] rounded-[12px] text-center font-medium text-[20px] transition duration-100 cursor-pointer active:scale-95 hover:transform: scale-125;`}>Anime</h1>
             <h1 onClick={()=>{setMangaSpan(true); setAnimeSpan(false)}} className={`${mangaSpan && 'bg-def-gray'} w-[5.5em] py-[10px] rounded-[12px] text-center font-medium text-[20px] transition duration-100 cursor-pointer active:scale-95`}>Manga</h1>
             <h1 onClick={()=>setEdit(!edit)} className={`${edit && 'bg-def-gray'} w-[5.5em] py-[10px] rounded-[12px] text-center font-medium text-[20px] transition duration-100 cursor-pointer justify-self-end ml-auto 600res:ml-0 active:scale-95 flex items-center justify-center gap-2`}>
               <div className={(edit ? 'bg-white' : 'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
