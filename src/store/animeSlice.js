@@ -22,9 +22,9 @@ export const searchAnimeWithPagination = createAsyncThunk(
 
 export const fetchAnimes = createAsyncThunk(
     'anime/fetchAnimes',
-    async function({title, page, category}, { dispatch, rejectWithValue }) {
+    async function({page, category}, { dispatch, rejectWithValue }) {
         try {
-            const data = await animeApi.getAllAnime({title, page}, category);
+            const data = await animeApi.getAllAnime({page}, category);
             if (data.ok) {
                 throw new Error('Server Error!');
             }

@@ -10,6 +10,7 @@ import { getDefineUser } from "../../store/authSlice";
 import settings from '../../assets/settings.svg' 
 import icon from '../../assets/icons8.svg'
 import deletee from '../../assets/delete.svg'
+import BioMenu from "../../other/BioMenu";
 
 const AnimeSwiper = ({ anime, animeSpan, type, edit, dispatch, idUser }) => {
   const onDelete = (id)=>{
@@ -64,14 +65,14 @@ const AnimeSwiper = ({ anime, animeSpan, type, edit, dispatch, idUser }) => {
   );
 };
 
-const UserProfile = ({ user }) => {
+const UserProfile = ({ user, setActive}) => {
   return (
     <div className="relative py-10 pr-20 1480res:p-[2.5rem_5rem_2.5rem_2.5rem] 500res:p-[2.5rem_1.25rem_2.5rem_1.25rem] 700res:p-10 h-full flex justify-between items-center gap-[10px]">
       <div className="flex gap-10 500res:gap-7 items-center w-full 700res:flex-col 700res:items-center">
-        <img src={user?.img} className="flex-shrink-0 rounded-full w-[170px] h-[170px] text-center" alt="avatar" />
+        <img src={user?.img} className="flex-shrink-0 rounded-full w-[170px] h-[170px] text-center object-cover" alt="avatar" />
         <div className="w-full overflow-hidden 700res:flex 700res:items-center 700res:flex-col">
           <p className="text-5xl font-medium mb-2 900res:text-[2rem] 500res:text-2xl 370res:text-xl">{user?.name}</p>
-          <span className="duration-200 text-white/70 text-lg line-clamp-2 900res:text-[1rem] 500res:text-[.8rem] hover:text-white cursor-pointer 700res:text-center">
+          <span className="duration-200 text-white/70 text-lg line-clamp-2 900res:text-[1rem] 500res:text-[.8rem] hover:text-white cursor-pointer 700res:text-center" onClick={()=>setActive(true)}>
             {user?.bio}
           </span>
         </div>
@@ -89,6 +90,8 @@ const ProfilePage = () => {
 
   const [edit, setEdit] = useState(false)
 
+  const [active, setActive] = useState(false)
+
   useEffect(()=>{
     dispatch(getDefineUser({id:idUser}))
     console.log(data);
@@ -97,6 +100,7 @@ const ProfilePage = () => {
   return (
     <>
       <div>
+        <BioMenu bio={data?.bio} active={active} setActive={setActive}/>
         <div className={"brightness-75 flex justify-end h-[230px] pr-5 pb-5 bg-cover bg-center"} style={{backgroundImage: 'url(https://i.pinimg.com/originals/a6/b2/56/a6b256f4640c44ed0536b8a5e2932766.jpg)'}}>
           <div className="flex flex-col self-end items-end z-10">
             <Link to='/settings' className='flex justify-center items-center rounded-xl bg-custom-color bg-opacity-50 cursor-pointer py-3.5 px-4'>
@@ -105,7 +109,7 @@ const ProfilePage = () => {
           </div>
         </div>
         <div className='w-[1440px] mx-auto 1480res:w-full'>
-          <UserProfile user={data} />
+          <UserProfile user={data} setActive={setActive}/>
           <div className='my-10 px-5 flex gap-5'>
             <h1 onClick={()=>{setAnimeSpan(true); setMangaSpan(false)}} className={`${animeSpan && 'bg-def-gray'} w-[5.5em] py-[10px] rounded-[12px] text-center font-medium text-[20px] transition duration-100 cursor-pointer active:scale-95`}>Anime</h1>
             <h1 onClick={()=>{setMangaSpan(true); setAnimeSpan(false)}} className={`${mangaSpan && 'bg-def-gray'} w-[5.5em] py-[10px] rounded-[12px] text-center font-medium text-[20px] transition duration-100 cursor-pointer active:scale-95`}>Manga</h1>

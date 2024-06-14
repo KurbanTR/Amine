@@ -16,17 +16,14 @@ const Footer = () => {
     <footer className="hidden 850res:block fixed bottom-0 w-full z-10">
         <div className="p-4 text-[10px] font-bold bg-[#1c1c1c]">
             <nav className='flex justify-around'>  
-              <Link to='/anime' className='flex items-center flex-col gap-1'>
+              <Link to='/anime' className='flex items-center flex-col gap-1 cursor-pointer'>
                 <img className='w-10 600res:w-9 400res:w-8' src={animeIcon} alt="anime" onClick={()=>setActive('anime')}/>
-                <div className={`${active == 'anime' && 'text-red-500'} cursor-pointer hover:text-red-500`}>Anime</div>
               </Link>
-              <Link to='/manga' className='flex items-center flex-col gap-1'>
+              <Link to='/manga' className='flex items-center flex-col gap-1 cursor-pointer'>
                 <img className='w-10 600res:w-9 400res:w-8' src={mangaIcon} alt="manga" onClick={()=>setActive('manga')}/>
-                <div className={`${active == 'manga' && 'text-red-500'} cursor-pointer hover:text-red-500`}>Manga</div>
               </Link>
-              <Link to='/characters' className='flex items-center flex-col gap-1'>
+              <Link to='/characters' className='flex items-center flex-col gap-1 cursor-pointer'>
                 <img className='w-10 600res:w-9 400res:w-8' src={charactersIcon} alt="characters" onClick={()=>setActive('characters')}/>
-                <div className={`${active == 'characters' && 'text-red-500'} cursor-pointer hover:text-red-500`}>Character</div>
               </Link>
             </nav>
         </div>
