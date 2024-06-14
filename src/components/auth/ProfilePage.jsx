@@ -10,21 +10,7 @@ import { getDefineUser } from "../../store/authSlice";
 import settings from '../../assets/settings.svg' 
 import icon from '../../assets/icons8.svg'
 import deletee from '../../assets/delete.svg'
-<<<<<<< HEAD
 import BioMenu from "../../other/BioMenu";
-=======
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  useDisclosure
-} from '@chakra-ui/react'
->>>>>>> fbe6ee651b8624293cd277a698bdd04f11938629
 
 const AnimeSwiper = ({ anime, animeSpan, type, edit, dispatch, idUser }) => {
   const onDelete = (id)=>{
@@ -79,44 +65,16 @@ const AnimeSwiper = ({ anime, animeSpan, type, edit, dispatch, idUser }) => {
   );
 };
 
-<<<<<<< HEAD
 const UserProfile = ({ user, setActive}) => {
-=======
-const UserProfile = ({ user }) => {
-
-  const { isOpen, onOpen, onClose } = useDisclosure()
-
->>>>>>> fbe6ee651b8624293cd277a698bdd04f11938629
   return (
     <div className="relative py-10 pr-20 1480res:p-[2.5rem_5rem_2.5rem_2.5rem] 500res:p-[2.5rem_1.25rem_2.5rem_1.25rem] 700res:p-10 h-full flex justify-between items-center gap-[10px]">
       <div className="flex gap-10 500res:gap-7 items-center w-full 700res:flex-col 700res:items-center">
         <img src={user?.img} className="flex-shrink-0 rounded-full w-[170px] h-[170px] text-center object-cover" alt="avatar" />
         <div className="w-full overflow-hidden 700res:flex 700res:items-center 700res:flex-col">
           <p className="text-5xl font-medium mb-2 900res:text-[2rem] 500res:text-2xl 370res:text-xl">{user?.name}</p>
-<<<<<<< HEAD
           <span className="duration-200 text-white/70 text-lg line-clamp-2 900res:text-[1rem] 500res:text-[.8rem] hover:text-white cursor-pointer 700res:text-center" onClick={()=>setActive(true)}>
-=======
-          <span className=" duration-200 text-white/70 text-lg line-clamp-2 900res:text-[1rem] 500res:text-[.8rem] hover:text-white cursor-pointer 700res:text-center"
-          onClick={onOpen}>
->>>>>>> fbe6ee651b8624293cd277a698bdd04f11938629
             {user?.bio}
           </span>
-          <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay/>
-        <ModalContent className=' bg-gray-800 overflow-hidden'>
-          <ModalHeader className='bg-gray-800 rounded-t-2xl text-4xl'>{user?.name}</ModalHeader>
-          <ModalBody className="bg-gray-800 text-2xl">
-            {user?.bio}
-          </ModalBody>
-
-          <ModalFooter className='bg-gray-800 rounded-b-2xl pt-3'>
-            <Button className="rounded-md border-none" colorScheme='red' mr={3} onClick={onClose}>
-              Close user BIO
-            </Button>
-            {/* <Button variant='ghost'>Secondary Action</Button> */}
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
         </div>
       </div>
     </div>
