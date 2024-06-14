@@ -33,8 +33,8 @@ const AnimeSwiper = ({ anime, title, type }) => {
                       <img src={item.images.jpg.image_url} alt=""/>
                     </div>       
                     {item.score && 
-                      <div className='absolute top-[.5em] right-0 flex justify-end'>
-                        <h3 className='bg-black opacity-60 py-1 px-3 text-[.9em] font-medium rounded-l-md 400res:px-2'>
+                      <div className='absolute top-[.5em] right-0 flex justify-end pr-1'>
+                        <h3 className='bg-red-700 py-1 px-3 text-[.9em] font-bold rounded-md 400res:px-2'>
                           {item.score}
                         </h3>
                       </div>

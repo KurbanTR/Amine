@@ -16,7 +16,7 @@ const Pagination = ({ total, page, onChange }) => {
         for (let i = 1; i <= totalPages; i++) {
           if (i === 1 || i === currentPage - 1 || i === currentPage || i === currentPage + 1 || (i === totalPages - 1 && currentPage < totalPages - 2)) {
             pageNumbers.push(
-              <li key={i} className={currentPage === i ? 'bg-white text-black p-1 rounded-full' : ''}>
+              <li key={i} className={currentPage === i ? 'flex bg-red-700 text-white font-bold p-1 rounded-full ' : ''}>
                 <button onClick={() => handleClick(i)}>{i}</button>
               </li>
             );
@@ -44,11 +44,11 @@ const Pagination = ({ total, page, onChange }) => {
   
     return (
       <div className="pagination-container flex gap-11 py-5">
-        <button onClick={handlePrevPage} className='font-medium bg-white text-black w-6 h-6 flex justify-center items-center rounded-full' disabled={currentPage === 1}>{'<'}</button>
-        <ul className="flex gap-10">
+        <button onClick={handlePrevPage} className='scale-150 font-medium bg-red-700 text-white w-6 h-6 flex justify-center items-center rounded-full' disabled={currentPage === 1}>{'<'}</button>
+        <ul className="flex gap-10 items-center">
           {renderPageNumbers()}
         </ul>
-        <button onClick={handleNextPage} className='font-medium bg-white text-black w-6 h-6 flex justify-center items-center rounded-full' disabled={currentPage === totalPages}>{'>'}</button>
+        <button onClick={handleNextPage} className='scale-150  font-medium active: bg-red-700 text-white w-6 h-6 flex justify-center items-center rounded-full' disabled={currentPage === totalPages}>{'>'}</button>
       </div>
     );
 };
