@@ -29,7 +29,7 @@ const SearchForm = ({ onSubmit, value, onChange }) => (
 )
 const ListCard = ({ item, title, year, genre, category }) => (
     <Link to={`/${category}/`+item.mal_id}  className={s.animeCard}>
-      <div className='relative h-[90%] rounded-xl overflow-hidden'>
+      <div className='relative h-[90%] rounded-xl overflow-hidden bg-blue-800'>
         <div>
           <img src={item?.images.jpg.image_url} alt="" />
         </div>                      

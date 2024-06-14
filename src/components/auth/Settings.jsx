@@ -3,6 +3,7 @@ import out from '../../assets/out.svg'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getDefineUser, signOut, updateUserProfile } from '../../store/authSlice';
+import AvatarMenu from '../../other/AvatarMenu';
 
 const Settings = () => {
   const {data} = useSelector(state=>state.profile)
@@ -11,6 +12,8 @@ const Settings = () => {
   const [img, setImg] = useState(data?.img)
 
   const [hasChanged, setHasChanged] = useState(false)
+
+  const [active, setActive] = useState(false)
 
   const dispatch = useDispatch()
   const nav = useNavigate()
@@ -70,11 +73,12 @@ const Settings = () => {
         <div className="mb-5">
           <h3 className="text-sm text-white/70 mb-2">Avatar ( max 1000x1000 )</h3>
           <div className="flex gap-4 items-center">
-            <img src={img} className="bg-center bg-no-repeat bg-cover flex-shrink-0 rounded-full w-[90px] h-[90px]" alt='avatar'></img>
+            <img src={img} className="bg-center bg-no-repeat bg-cover flex-shrink-0 rounded-full w-[90px] h-[90px] object-cover" alt='avatar'></img>
             <div className="flex flex-col gap-2 items-center">
               <div className=" relative btn-base bg-white text-def-black w-min h-min !rounded-3xl 500res:!text-sm 500res:p-3">
-                <h1>Change</h1>
-                <input accept='image/jpeg, image/png, image/gif' className="w-full h-full absolute top-0 left-0 opacity-0 cursor-pointer" type="file" onChange={e=>handleImgChange(e)}/>
+                <h1 onClick={()=>setActive(true)}>Change</h1>
+                <AvatarMenu active={active} setActive={setActive} setImg={setImg}/>
+                {/* <input accept='image/jpeg, image/png, image/gif' className="w-full h-full absolute top-0 left-0 opacity-0 cursor-pointer" type="file" onChange={e=>handleImgChange(e)}/> */}
               </div>
               <h1 className="text-sm text-white/70 500res:text-xs">Img only</h1>
             </div>          

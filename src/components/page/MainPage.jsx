@@ -28,7 +28,7 @@ const AnimeSwiper = ({ anime, title, type }) => {
             anime?.map((item, index) => 
               <SwiperSlide className={ss.swiper__slide} key={index}>
                 <Link to={`/${type}/` + item.mal_id}>
-                  <div className='relative overflow-hidden rounded-lg h-[90%]'>
+                  <div className='relative overflow-hidden rounded-lg h-[90%] bg-blue-700'>
                     <div>
                       <img src={item.images.jpg.image_url} alt=""/>
                     </div>       
