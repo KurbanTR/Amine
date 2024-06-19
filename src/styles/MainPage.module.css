@@ -12,8 +12,7 @@
     align-items: center;
     height: 600px;
     background-size: cover;
-    background-position: center;
-    background-image: url(https://ik.imagekit.io/subanime/jujutsukaisenPoster2);    
+    background-position: center; 
 }
 
 .block1__main{
@@ -74,12 +73,15 @@
     margin: 0 auto;
     padding: 1.25em;
 }
-@media screen and (max-width: 1440px){
+@media screen and (max-width: 1480px){
     .block1__main{
         width: 100%;        
     }
     .block2{
         width: 100%;
+    }
+    .block1__title{
+        font-size: 4em;
     }
 }
 @media screen and (max-width: 1145px) and (min-width: 1026px){

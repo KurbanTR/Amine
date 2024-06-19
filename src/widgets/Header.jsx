@@ -40,7 +40,7 @@ const Header = () => {
           </div>
           
           <Link to={token ? '/profile' : '/signin'}>
-            <img src={data?.img} className='flex-shrink-0 rounded-full w-[70px] h-[70px] text-center 370res:w-[50px] 370res:h-[50px] object-cover' alt='avatar' />
+            <img src={data?.img || 'https://freesvg.org/img/abstract-user-flat-4.png'} className='flex-shrink-0 rounded-full w-[70px] h-[70px] text-center 370res:w-[50px] 370res:h-[50px] object-cover' alt='avatar' />
           </Link>
         </nav>
       </header>

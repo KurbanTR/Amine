@@ -27,11 +27,27 @@ const ToggleButton = ({ label, isActive, onClick }) => (
   </div>
 );
 
+const Animate = ({ is, children }) => (
+  <AnimatePresence>
+    {is && (
+      <motion.div
+        initial={{ maxHeight: 0, opacity: 0 }}
+        animate={{ maxHeight: 500, opacity: 1 }}
+        exit={{ maxHeight: 0, opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        className='overflow-hidden duration-300 flex flex-col gap-3 items-start'
+      >
+        {children}
+      </motion.div>
+    )}
+  </AnimatePresence>
+);
+
 const Sort = () => {
-  const [year, setYear] = useState(false);
-  const [genres, setGenres] = useState(true);
-  const [format, setFormat] = useState(true);
-  const [status, setStatus] = useState(false);
+  const [year, setYear] = useState(true);
+  const [genres, setGenres] = useState(false);
+  const [format, setFormat] = useState(false);
+  const [status, setStatus] = useState(true);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [formats, setFormats] = useState('');
@@ -71,8 +87,13 @@ const Sort = () => {
   }, [filters]);
 
   const onHandleChange = (date) => {
-    setStartDate(`${date[0].format('YYYY-MM-DD')}`);
-    setEndDate(`${date[1].format('YYYY-MM-DD')}`);
+    if (date === null || date.length === 0) {
+      setStartDate('');
+      setEndDate('');
+    } else {
+      setStartDate(date[0].format('YYYY-MM-DD'));
+      setEndDate(date[1].format('YYYY-MM-DD'));
+    }
   };
 
   return (
@@ -83,11 +104,11 @@ const Sort = () => {
         <AnimatePresence>
           {year && (
             <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
+              initial={{ maxHeight: 0, opacity: 0 }}
+              animate={{ maxHeight: 200, opacity: 1 }}
+              exit={{ maxHeight: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className='overflow-hidden duration-300 flex gap-3 items-start'
+              className='overflow-hidden flex gap-3 items-start'
             >
               <Space direction="vertical" size={12}>
                 <RangePicker onChange={onHandleChange} />
@@ -97,55 +118,25 @@ const Sort = () => {
         </AnimatePresence>
 
         <ToggleSection title="Genres" isOpen={genres} onClick={() => setGenres(!genres)} />
-        <AnimatePresence>
-          {genres && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className='overflow-hidden duration-300 flex flex-col gap-3 items-start'
-            >
-              {genreOptions.map(({ label, state }) => (
-                <ToggleButton key={label} label={label} isActive={state[0]} onClick={() => state[1](!state[0])} />
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <Animate is={genres} obj={genreOptions}>
+          {genreOptions.map(({ label, state }) => (
+            <ToggleButton key={label} label={label} isActive={state[0]} onClick={() => state[1](!state[0])} />
+          ))}
+        </Animate>
 
         <ToggleSection title="Formats" isOpen={format} onClick={() => setFormat(!format)} />
-        <AnimatePresence>
-          {format && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className='overflow-hidden duration-300 flex flex-col gap-3 items-start'
-            >
-              {['TV', 'OVA', 'ONA', 'Movie', 'Special', 'Music'].map(f => (
-                <ToggleButton key={f} label={f} isActive={formats === f.toLowerCase()} onClick={() => {formats === f.toLocaleLowerCase() ? setFormats('') : setFormats(f.toLowerCase())}} />
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <Animate is={format}>
+          {['TV', 'OVA', 'ONA', 'Movie', 'Special', 'Music'].map(f => (
+            <ToggleButton key={f} label={f} isActive={formats === f.toLowerCase()} onClick={() => {formats === f.toLocaleLowerCase() ? setFormats('') : setFormats(f.toLowerCase())}} />
+          ))}
+        </Animate>
 
         <ToggleSection title="Status" isOpen={status} onClick={() => setStatus(!status)} />
-        <AnimatePresence>
-          {status && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: .5 }}
-              className='overflow-hidden flex flex-col gap-3 items-start'
-            >
-              {['Airing', 'Complete', 'UpComing'].map(s => (
-                <ToggleButton key={s} label={s} isActive={statuts === s.toLowerCase()} onClick={() => setStatuts(s.toLowerCase())} />
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <Animate is={status}>
+          {['Airing', 'Complete', 'UpComing'].map(s => (
+            <ToggleButton key={s} label={s} isActive={statuts === s.toLowerCase()} onClick={() => {statuts === s.toLowerCase() ? setStatuts('') : setStatuts(s.toLowerCase())}} />
+          ))}
+        </Animate>
       </div>
     </div>
   );

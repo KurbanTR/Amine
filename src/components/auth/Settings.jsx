@@ -28,14 +28,6 @@ const Settings = () => {
     dispatch(signOut({nav}))  
   }
 
-  const handleImgChange = (e) => {
-    const selectedImg = e.target.files[0];
-    if (selectedImg) {
-      const imgUrl = URL.createObjectURL(selectedImg);
-      setImg(imgUrl);
-    }
-  };
-
   useEffect(() => {
     if (data) {
       setUserName(data?.name);
@@ -78,7 +70,6 @@ const Settings = () => {
               <div className=" relative btn-base bg-white text-def-black w-min h-min !rounded-3xl 500res:!text-sm 500res:p-3">
                 <h1 onClick={()=>setActive(true)}>Change</h1>
                 <AvatarMenu active={active} setActive={setActive} setImg={setImg}/>
-                {/* <input accept='image/jpeg, image/png, image/gif' className="w-full h-full absolute top-0 left-0 opacity-0 cursor-pointer" type="file" onChange={e=>handleImgChange(e)}/> */}
               </div>
               <h1 className="text-sm text-white/70 500res:text-xs">Img only</h1>
             </div>          

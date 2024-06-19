@@ -10,27 +10,29 @@ import Settings from './components/auth/Settings';
 import ErrorPage from './components/page/ErrorPage';
 import ListPage from './components/page/ListPage';
 import DetailsPage from './components/page/DetailsPage';
+import Chat from './components/chat/Chat';
+import ChatList from './components/chat/ChatList';
 
 function App() {
   return (
     <>
-      <Header/>
       <Routes>
-        <Route path='/' element={<MainPage/>}/>
-        <Route path='/anime' element={<div className='main'><ListPage category='anime'/></div>}/>
-        <Route path='/manga' element={<div className='main'><ListPage category='manga'/></div>}/>
-        <Route path='/characters' element={<div className='main'><ListPage category='characters'/></div>}/>
-        <Route path='/anime/:id' element={<DetailsPage category='anime'/>}/>
-        <Route path='/manga/:id' element={<DetailsPage category='manga'/>}/>
-        <Route path='/characters/:id' element={<DetailsPage category='characters'/>}/>
-        <Route path='/people/:id' element={<DetailsPage category='people'/>}/>
-        <Route path='/registration' element={<RegisterPage/>}/>
-        <Route path='/signin' element={<SignInPage/>}/>
-        <Route path='/profile' element={<ProfilePage/>}/>
-        <Route path='/settings' element={<Settings/>}/>
+        <Route path='/' element={<><Header/><MainPage/></>}/>
+        <Route path='/anime' element={<><Header/><div className='main'><ListPage category='anime'/></div><Footer/></>}/>
+        <Route path='/manga' element={<><Header/><div className='main'><ListPage category='manga'/></div><Footer/></>}/>
+        <Route path='/characters' element={<><Header/><div className='main'><ListPage category='characters'/></div><Footer/></>}/>
+        <Route path='/anime/:id' element={<><Header/><DetailsPage category='anime'/><Footer/></>}/>
+        <Route path='/manga/:id' element={<><Header/><DetailsPage category='manga'/><Footer/></>}/>
+        <Route path='/characters/:id' element={<><Header/><DetailsPage category='characters'/><Footer/></>}/>
+        <Route path='/people/:id' element={<><Header/><DetailsPage category='people'/><Footer/></>}/>
+        <Route path='/registration' element={<><Header/><RegisterPage/><Footer/></>}/>
+        <Route path='/signin' element={<><Header/><SignInPage/><Footer/></>}/>
+        <Route path='/profile' element={<><Header/><ProfilePage/><Footer/></>}/>
+        <Route path='/settings' element={<><Header/><Settings/><Footer/></>}/>
+        <Route path='/chat' element={<ChatList/>}/>
+        <Route path='/chat/:id' element={<Chat/>}/>
         <Route path='*' element={<ErrorPage/>}/>
-      </Routes>
-      <Footer/>
+      </Routes>      
     </>
   );
 }

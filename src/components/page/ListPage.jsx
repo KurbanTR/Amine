@@ -27,9 +27,13 @@ const SearchForm = ({ onSubmit, value, onChange }) => (
       </button>
     </form>
 )
-const ListCard = ({ item, title, year, genre, category }) => (
+const ListCard = ({ item, title, year, genre, category }) => {
+  const color1 = Math.floor(Math.random() * 256)
+  const color2 = Math.floor(Math.random() * 256)
+  const color3 = Math.floor(Math.random() * 256)
+  return (
     <Link to={`/${category}/`+item.mal_id}  className={s.animeCard}>
-      <div className='relative h-[90%] rounded-xl overflow-hidden bg-blue-800'>
+      <div className='relative h-[90%] rounded-xl overflow-hidden' style={{background: `rgb(${color1}, ${color2}, ${color3})`}}>
         <div>
           <img src={item?.images.jpg.image_url} alt="" />
         </div>                      
@@ -41,7 +45,8 @@ const ListCard = ({ item, title, year, genre, category }) => (
         </div>
       </div>
     </Link>
-);
+  )
+};
 
 const ListPage = ({category}) => {
     const {loading} = useSelector(state=>state.anime)

@@ -5,25 +5,30 @@ import { collection, doc, getDoc, setDoc, updateDoc} from 'firebase/firestore';
 import { setData } from './profileSlice';
 
 export const usersColectionRef = collection(db, 'users')
+export const messagesColectionRef = collection(db, 'messages')
 
 export const fetchName = createAsyncThunk(
     'user/fetchName',
-    async ({displayName}, {dispatch}) => {
+    async ({displayName}) => {
         await updateProfile(auth.currentUser, {displayName})
-        dispatch(setName(auth.currentUser.displayName))
     }
 )
 
 export const updateUserProfile = createAsyncThunk(
     'user/updateUserProfile',
-    async ({userName, bio, img, user}, {dispatch}) => {
+    async ({userName, bio, img, user}) => {
         await updateProfile(auth.currentUser, {displayName: userName})
         const userDocRef = doc(usersColectionRef, user)
+        const messagesDocRef = doc (messagesColectionRef, user)
+        await updateDoc(messagesDocRef, {
+            img: img,
+            name: userName,
+        });
         await updateDoc(userDocRef, {
             img: img,
-            bio: bio
+            bio: bio,
+            name: userName,
         });
-        dispatch(setName(auth.currentUser.displayName))
     }
 )
 
@@ -37,7 +42,9 @@ export const createAccount = createAsyncThunk(
             dispatch(fetchName({displayName: name}))
             const userID = userCredentials.user.uid
             const newUserDocRef = doc (usersColectionRef, userID)
+            const newMessagesDocRef = doc (messagesColectionRef, userID)
             await setDoc(newUserDocRef, {email, name, bio: '', img: 'https://freesvg.org/img/abstract-user-flat-4.png', animes:[], mangas:[]})
+            await setDoc(newMessagesDocRef, {id: userID, messages: [], name, img: 'https://freesvg.org/img/abstract-user-flat-4.png', isAdmin: false})
             await success()
             nav('/profile')
         }catch (error) {
@@ -70,6 +77,7 @@ export const singInToAccount = createAsyncThunk(
             dispatch(setToken(userCredentials.user.accessToken))
             dispatch(setId(userCredentials.user.uid))
             nav('/profile')
+            userCredentials.user.email == 'kurban@gmail.com' && dispatch(setAdmin(true))
         }catch (error) {
             console.log(error);
             errorReg(error.message)
@@ -89,9 +97,7 @@ export const signOut = createAsyncThunk(
 const authSlice = createSlice({
     name: 'user',
     initialState: {
-        email: localStorage.getItem('email'),
         token: localStorage.getItem('token'),
-        name: localStorage.getItem('name'),
         id: localStorage.getItem('id'),
         bio: localStorage.getItem('bio'),
     },
@@ -113,5 +119,5 @@ const authSlice = createSlice({
 })
 
 
-export const { setToken, setEmail, setName, removeProfile, setId, setBio } = authSlice.actions
+export const { setToken, setAdmin, removeProfile, setId } = authSlice.actions
 export default authSlice.reducer

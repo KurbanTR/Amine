@@ -57,7 +57,7 @@ const SignInPage = () => {
               <p className="text-red-600">{eror ? 'Заполните все поля' : false}</p>
             </div>
             <div>
-                <p>If you dont have account <Link to='/registration'>register</Link></p>
+                <p>If you dont have account <Link className='text-blue-500' to='/registration'>register</Link></p>
             </div>
           </div>
         </section>
