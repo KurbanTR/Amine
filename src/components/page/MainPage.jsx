@@ -34,18 +34,18 @@ const AnimeSwiper = ({ anime, title, type }) => {
                     </div>       
                     {item.score && 
                       <div className='absolute top-[.5em] right-0 flex justify-end pr-1'>
-                        <h3 className='bg-red-700 py-1 px-3 text-[.9em] font-bold rounded-md 400res:px-2'>
+                        <h3 className='bg-red-700 py-1 px-3 text-[.9em] 500res:text-[.7em] font-bold rounded-md 400res:px-2'>
                           {item.score}
                         </h3>
                       </div>
                     }             
-                    <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black opacity-80 p-4'>
+                    <div className='absolute bottom-0 right-0 h-[90%] flex items-end w-full bg-gradient-to-t from-black opacity-80 p-[10%]'>
                       <div className='flex flex-col'>
-                        <p className='line-clamp-1 text-[1.2em] text-white 540res:text-[20px]  400res:text-[17px] 330res:text-[12px]'>{type == 'characters' ? item.name : item.title}</p>
-                        {type == 'anime' && <p className='text-[#ababab] font-medium 540res:text-[.9em]  400res:text-[.7em] 330res:text-[.6em]'>
+                        <p className='line-clamp-1 text-[1em] text-white 540res:text-[18px]  400res:text-[15px] 330res:text-[10px]'>{type == 'characters' ? item.name : item.title}</p>
+                        {type == 'anime' && <p className='text-[#ababab] font-medium 540res:text-[.7em]  400res:text-[.5em] 330res:text-[.4em]'>
                           {item.aired.prop.from.year ? item.aired.prop.from.year+(!item.genres.length==0 ? ', '+item.genres[0].name : '') : !item.genres.length==0 ? item.genres[0].name : ''}
                         </p>}
-                        {type == 'characters' && <p className='text-[#ababab] font-medium 540res:text-[.9em]  400res:text-[.7em] 330res:text-[.6em]'>
+                        {type == 'characters' && <p className='text-[#ababab] font-medium 540res:text-[.7em]  400res:text-[.5em] 330res:text-[.4em]'>
                           {item?.name_kanji && item?.name_kanji}
                         </p>}
                       </div>

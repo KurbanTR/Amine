@@ -17,7 +17,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<><Header/><MainPage/></>}/>
+        <Route path='/' element={<><Header/><MainPage/><Footer/></>}/>
         <Route path='/anime' element={<><Header/><div className='main'><ListPage category='anime'/></div><Footer/></>}/>
         <Route path='/manga' element={<><Header/><div className='main'><ListPage category='manga'/></div><Footer/></>}/>
         <Route path='/characters' element={<><Header/><div className='main'><ListPage category='characters'/></div><Footer/></>}/>

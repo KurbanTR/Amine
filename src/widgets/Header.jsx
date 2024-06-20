@@ -3,6 +3,7 @@ import s from '../styles/Header.module.css'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDefineUser } from '../store/authSlice';
+import staff from '../assets/staff.svg'
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -38,9 +39,11 @@ const Header = () => {
           <div className='flex gap-2 items-center'>
             <Link to='/characters' className={`${s.catalog_link} 700res:text-[20px]`}>Character</Link>
           </div>
-          
+          <Link to={`/chat/${idUser}`} className='flex items-center'>
+            <img src={staff} alt="staff" className='w-7 370res:w-5'/>
+          </Link>
           <Link to={token ? '/profile' : '/signin'}>
-            <img src={data?.img || 'https://freesvg.org/img/abstract-user-flat-4.png'} className='flex-shrink-0 rounded-full w-[70px] h-[70px] text-center 370res:w-[50px] 370res:h-[50px] object-cover' alt='avatar' />
+            <img src={data?.img || 'https://freesvg.org/img/abstract-user-flat-4.png'} className='flex-shrink-0 rounded-full w-[70px] h-[70px] text-center 400res:w-[50px] 400res:h-[50px] object-cover' alt='avatar' />
           </Link>
         </nav>
       </header>

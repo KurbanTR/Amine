@@ -129,6 +129,11 @@
         width: 90%;
     }
 }
+@media screen and (max-width: 370px){
+    .nav{
+        gap: 1em;
+    }
+}
 @media screen and (max-width: 250px){
     .title h1{
         font-size: 1.5em;

@@ -82,7 +82,7 @@ span:active{
         gap: 2em;
     }
     .title{
-        font-size: 2em;
+        font-size: 1.8em;
     }
     .persImg{
         width: 250px;
@@ -90,13 +90,21 @@ span:active{
     .block_1__shapka{
         height:  calc(200px);
     }
+    .span{
+        font-size: 16px;
+        font-weight: 450;
+    }
+    span:active{
+        font-size: 14px;
+        padding: .4em 0;
+    }
 }
 @media screen and (max-width: 550px) {
-    .persImg{
-        width: 200px;
-    }
     .title{
-        font-size: 1.5em;
+        font-size: 1.3em;
+    }
+    .rating{
+        font-size: 1em;
     }
 }
 @media screen and (max-width: 450px){

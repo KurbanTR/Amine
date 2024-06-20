@@ -37,10 +37,10 @@ const ListCard = ({ item, title, year, genre, category }) => {
         <div>
           <img src={item?.images.jpg.image_url} alt="" />
         </div>                      
-        <div className='absolute bottom-0 right-0 h-60 flex items-end w-full bg-gradient-to-t from-black to-transparent opacity-80 p-4 '>
+        <div className='absolute bottom-0 right-0 h-60 500res:h-32 flex items-end w-full bg-gradient-to-t from-black to-transparent opacity-80 p-4 '>
           <div className='flex flex-col'>
-            <p className='line-clamp-1 overflow-hidden text-[1.2em] text-white'>{title}</p>
-            <p className='text-[#ababab] font-medium'>{year}{(year && genre) && ', '}{genre && genre}</p>
+            <p className='line-clamp-1 overflow-hidden text-[1.2em] 540res:text-[1em] 400res:text-[.7em] text-white'>{title}</p>
+            <p className='text-[#ababab] font-medium 540res:text-[.7em] 400res:text-[.5em]'>{year}{(year && genre) && ', '}{genre && genre}</p>
           </div>
         </div>
       </div>

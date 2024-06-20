@@ -73,7 +73,7 @@ const DetailsPage = ({category}) => {
                         <h2 className={s.title}>{anime?.title || anime?.name}</h2>
                         <div className={s.ratings}>
                             {anime?.score && <><Rate allowHalf disabled={true} count={5} character={({ index }) => {
-                                return index < Math.floor(anime?.score / 2) ? <span style={{color: '#fff', fontSize: '1.5em'}}>★</span> : <span style={{color: '#464646', fontSize: '1.7em'}}>★</span>;
+                                return index < Math.floor(anime?.score / 2) ? <span style={{color: '#fff'}} className='text-[1.5em] 540res:text-[1.2em]'>★</span> : <span style={{color: '#464646'}} className='text-[1.7em] 540res:text-[1.41em]'>★</span>;
                             }}/>
                             <p className={s.rating}>{anime?.score}</p></>}
                         </div>

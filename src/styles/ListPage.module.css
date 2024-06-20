@@ -57,26 +57,12 @@
 }
 @media screen and (max-width: 800px) {
     .carts{
-        padding: 50px 0;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-    .animeCard{
-        width: 30%;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.3em;
     }
 }
-@media screen and (max-width: 520px) and (min-width: 341px){
-    .animeCard{
-        width: 45%;
-    }
-}
-@media screen and (max-width: 350px){
+@media screen and (max-width: 450px){
     .carts{
-        padding: 2em 1em;
-        grid-template-columns: 1fr;
-    }
-    .animeCard{
-        width: auto;
+        gap: .5em;
     }
 }
