@@ -31,16 +31,10 @@ const Header = () => {
 
         <nav className={s.nav}>      
           <div className='flex gap-2 items-center'>
-            <Link to='/anime' className={`${s.catalog_link} 700res:text-[20px]`}>Anime</Link>
-          </div>
-          <div className='flex gap-2 items-center'>
-            <Link to='/manga' className={`${s.catalog_link} 700res:text-[20px]`}>Manga</Link>
-          </div>
-          <div className='flex gap-2 items-center'>
-            <Link to='/characters' className={`${s.catalog_link} 700res:text-[20px]`}>Character</Link>
+            <Link to='/search' className={`${s.catalog_link} 700res:text-[20px]`}>Catalog</Link>
           </div>
           <Link to={`/chat/${idUser}`} className='flex items-center'>
-            <img src={staff} alt="staff" className='w-7 370res:w-5'/>
+            <img src={staff} alt="staff" className={`${s.catalog_link} w-7 370res:w-5`}/>
           </Link>
           <Link to={token ? '/profile' : '/signin'}>
             <img src={data?.img || 'https://freesvg.org/img/abstract-user-flat-4.png'} className='flex-shrink-0 rounded-full w-[70px] h-[70px] text-center 400res:w-[50px] 400res:h-[50px] object-cover' alt='avatar' />

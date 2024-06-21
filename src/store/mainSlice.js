@@ -1,86 +1,66 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { mainApi } from '../api/mainApi';
 
-export const fetchAnimeScore = createAsyncThunk(
-    'main/fetchAnimeScore',
+export const fetchTrendingNow = createAsyncThunk(
+    'main/fetchTrendingNow',
     async function(_, { dispatch }) {
-        const data = await mainApi.getScore({min_score: 9})
-        dispatch(setScore(data.data.data))
+        const data = await mainApi.getTrendingNow()
+        console.log(data.data.results);
+        dispatch(setTrendingNow(data.data.results))
     }
 );
 
-export const fetchAnimeNow = createAsyncThunk(
-    'main/fetchAnimeNow',
+export const fetchPopular = createAsyncThunk(
+    'main/fetchPopular',
     async function(_, { dispatch }) {
-        const data = await mainApi.getNow()
-        dispatch(setNow(data.data.data))
+        const data = await mainApi.getPopular()
+        console.log(data.data.results);
+        dispatch(setPopular(data.data.results))
     }
 );
 
-export const fetchCharactres = createAsyncThunk(
-    'main/fetchCharactres',
+export const fetchUpcoming = createAsyncThunk(
+    'main/fetchUpcoming',
     async function(_, { dispatch }) {
-        const data = await mainApi.getCharacters()
-        dispatch(setCharacters(data.data.data))
+        const data = await mainApi.getUpcoming()
+        console.log(data.data.results);
+        dispatch(setUpcoming(data.data.results))
     }
 );
 
-export const fetchTopCharactres = createAsyncThunk(
-    'main/fetchTopCharactres',
+export const fetchBestScore = createAsyncThunk(
+    'main/fetchBestScore',
     async function(_, { dispatch }) {
-        const data = await mainApi.getTopCharacters()
-        dispatch(setTopCharacters(data.data.data))
-    }
-);
-
-export const fetchPerson = createAsyncThunk(
-    'main/fetchPerson',
-    async function(_, { dispatch }) {
-        const data = await mainApi.getPerson()
-        dispatch(setPerson(data.data.data))
-    }
-);
-
-export const fetchTopPerson = createAsyncThunk(
-    'main/fetchTopPerson',
-    async function(_, { dispatch }) {
-        const data = await mainApi.getTopPerson()
-        dispatch(setTopPerson(data.data.data))
+        const data = await mainApi.getBestScore()
+        console.log(data.data.results);
+        dispatch(setBestScore(data.data.results))
     }
 );
 
 const mainSlice = createSlice({
     name: 'main',
     initialState: {
-        characters: [],
-        topcharacters: [],
-        person: [],
-        topperson: [],
-        score: [],
-        now: null,
+        trendingnow: [],
+        popular: [],
+        upcoming: [],
+        bestscore: [],
         loading: false,
         error: false,
     },
     reducers: {
-        setScore(state, action){
-            state.score = action.payload
+        setTrendingNow(state, action){
+            state.trendingnow = action.payload
         },
-        setNow(state, action){
-            state.now = action.payload
+        setPopular(state, action){
+            state.popular = action.payload
         },
-        setCharacters(state, action){
-            state.characters = action.payload
+        setUpcoming(state, action){
+            state.upcoming = action.payload
         },  
-        setTopCharacters(state, action){
-            state.topcharacters = action.payload
-        },  
-        setPerson(state, action){
-            state.person = action.payload
-        },  
-        setTopPerson(state, action){
-            state.person = action.payload
+        setBestScore(state, action){
+            state.bestscore = action.payload
         },  
     }
 })
-export const {setScore, setNow, setCharacters, setTopCharacters, setTopPerson, setPerson} = mainSlice.actions
+export const {setTrendingNow, setPopular, setUpcoming, setBestScore} = mainSlice.actions
 export default mainSlice.reducer

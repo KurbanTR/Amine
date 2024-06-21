@@ -3,7 +3,7 @@
     flex-direction: column;
     background: #1c1c1c;
     overflow: hidden;
-    padding-bottom: 20em;
+    padding-bottom: 7em;
     gap: 3em;
 }
 .block_1__shapka{
@@ -12,7 +12,7 @@
     height: calc(330px);
     background-size: cover;
     background-position: center;
-    background-image: url(https://s4.anilist.co/file/anilistcdn/media/anime/banner/21-wf37VakJmZqs.jpg);}
+}
 .block_1__titles{
     display: flex;
     width: 1440px;
@@ -38,11 +38,6 @@
     font-size: 1.2em;
     margin-top: 0.3em;
 }
-.video iframe{
-    width: 100%;
-    height: 28em;
-    border-radius: 1em;
-}
 .span{
     display: flex;
     justify-content: center;
@@ -62,19 +57,20 @@ span:active{
     padding: .6em 0;
 }
 .block_1__details{
-    width: 1440px;
+    width: 1500px;
     padding-left: 1.25rem;
     margin: 0 auto;
 }
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1500px) {
     .block_1__titles{
         width: 100%;
     }
     .block_1__details{
         width: 100%;
+        padding-left: 0;
     }
     .block_1__shapka{
-        height:  calc(250px);
+        height:  calc(270px);
     }
 }
 @media screen and (max-width: 800px) {
@@ -86,9 +82,6 @@ span:active{
     }
     .persImg{
         width: 250px;
-    }
-    .block_1__shapka{
-        height:  calc(200px);
     }
     .span{
         font-size: 16px;
@@ -117,4 +110,62 @@ span:active{
     .persImg{
         width: 300px;
     }
+}
+
+.videoContainer {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.video iframe {
+  width: 100%;
+  height: 28em;
+  border-radius: 1em;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1650px) {
+  .videoContainer {
+    width: 80%;
+  }
+}
+
+@media (max-width: 1320px) {
+  .videoContainer {
+    width: 85%;
+  }
+}
+
+@media (max-width: 1100px) {
+  .videoContainerr {
+    width: 90%;
+  }
+}
+
+@media (max-width: 900px) {
+  .videoContainer {
+    width: 95%;
+  }
+}
+
+@media (max-width: 700px) {
+  .videoContainer {
+    width: 100%;
+  }
+
+  .video iframe {
+    height: 20em;
+  }
+}
+
+@media (max-width: 500px) {
+  .video iframe {
+    height: 15em;
+  }
+}
+
+@media (max-width: 400px) {
+  .video iframe {
+    height: 12em;
+  }
 }

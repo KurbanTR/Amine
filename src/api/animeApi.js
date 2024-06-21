@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { instance } from './instance';
 
 export const animeApi = {
@@ -22,4 +23,10 @@ export const animeApi = {
     getPerson(id){
         return instance.get(`people/${id}/full`);
     },
+    getAnimeInfo(id){
+        return axios.get(`https://march-api1.vercel.app/meta/anilist/info/${id}?provider=gogoanime`)
+    },
+    getEpisodes(id){
+        return axios.get(`https://march-api1.vercel.app/meta/anilist/info/${id}?provider=zoro`)
+    }
 };

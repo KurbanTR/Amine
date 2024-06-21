@@ -47,8 +47,13 @@
 
 .block1__button{
     padding: 10px 30px;
-    background-color: #1c1c1c;
-    color: white;
+    font-weight: 600;
+    font-size: 1.5em;
+    border-radius: 0.5em;
+    transition: all 0.3s ease-in-out;
+}
+.block1__button{
+    padding: 10px 30px;
     font-weight: 600;
     font-size: 1.5em;
     border-radius: 0.5em;
@@ -99,7 +104,8 @@
     }
 
     .block1__button{
-        padding: 10px 25px;
+        padding: 9px 24px;
+        font-size: 1.3em;
     }
     .block1{
         height: 60vh;
@@ -116,7 +122,8 @@
     }
 
     .block1__button{
-        padding: 8px 20px;
+        padding: 7px 18px;
+        font-size: 1em;
     }
 
     .block1__main{
@@ -140,7 +147,8 @@
     }
 
     .block1__button{
-        padding: 8px 17px;
+        padding: 6px 16px;
+        font-size: .9em;
     }
 }
 @media screen and (max-width: 650px) {
@@ -158,8 +166,8 @@
         font-size: 2em;
     }
     .block1__button{
-        padding: 7px 12px;
-        font-size: 1em;
+        padding: 5px 12px;
+        font-size: .8em;
     }
 }
 @media screen and (max-width: 500px) {
@@ -181,7 +189,7 @@
         font-weight: 600;
     }
     .block1__button{
-        font-size: .7em;
+        font-size: .6em;
     }
     .block1__synopsis{
         width: 90%;

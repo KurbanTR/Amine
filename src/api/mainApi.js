@@ -1,22 +1,16 @@
-import { instance } from './instance';
+import axios from "axios";
 
 export const mainApi = {
-    getScore(params){
-        return instance.get(`anime`, {params});
+    getTrendingNow(){
+        return axios.get(`https://march-api1.vercel.app/meta/anilist/trending`, {params: {perPage: 20}});
     },
-    getNow(){
-        return instance.get(`seasons/now`);
+    getPopular(){
+        return axios.get(`https://march-api1.vercel.app/meta/anilist/popular`, {params: {perPage: 20}});
     },
-    getCharacters(){
-        return instance.get(`characters`, {params:{page:1}});
+    getUpcoming(){
+        return axios.get(`https://march-api1.vercel.app/meta/anilist/advanced-search`, {params: {sort: '["POPULARITY_DESC"]', status: 'NOT_YET_RELEASED', perPage: 20}});
     },
-    getTopCharacters(){
-        return instance.get(`top/characters`, {params:{page:1}});
-    },
-    getPerson(){
-        return instance.get(`person`, {params:{page:1}});
-    },
-    getTopPerson(){
-        return instance.get(`top/person`, {params:{page:1}});
-    },
+    getBestScore(){
+        return axios.get(`https://march-api1.vercel.app/meta/anilist/advanced-search`, {params: {sort: '["SCORE_DESC"]', perPage: 20}});
+    }
 };

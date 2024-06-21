@@ -4,9 +4,9 @@ import { useState } from 'react';
 const DetailItem = ({ label, value }) => {
   if (!value) return null;
   return (
-    <div className='flex pt-7 w-[340px]'>
-      <p className='text-[#7c7c7c] text-lg w-[100px]'>{label}</p>
-      <p className='text-base'>{value}</p>
+    <div className='flex pt-7 w-[340px] 900res:w-[45vw]'>
+      <p className='text-[#7c7c7c] text-lg w-[100px] 900res:text-base 900res:w-[80px] 700res:text-sm 700res:w-[65px] 540res:text-xs 540res:w-[60px]'>{label}</p>
+      <p className='text-base 900res:text-base 700res:text-sm 540res:text-xs'>{value}</p>
     </div>
   );
 };
@@ -17,17 +17,17 @@ const Description = ({ description }) => {
   if (!description) return null;
   return (
     <div>
-      <p className='text-3xl font-medium'>About</p>
-      <div className='pt-10'>
+      <p className='text-3xl font-medium 650res:text-xl'>About</p>
+      <div className='pt-7 650res:pt-2'>
         <div className='overflow-hidden'>
-          <p className='text-[#7c7c7c] text-lg font-medium leading-9'>
+          <p className='text-[#7c7c7c] text-lg font-medium leading-9 650res:text-sm 450res:text-xs'>
             {limit ? `${description.slice(0, 394)}...` : description}
           </p>
         </div>
         {description.length > 394 && (
           <span
             onClick={() => setLimit(!limit)}
-            className='cursor-pointer font-medium text-[1.1em]'
+            className='cursor-pointer font-medium text-[1.1em] 650res:text-[.8em]'
           >
             {limit ? 'More' : 'Hide'}
           </span>
@@ -87,7 +87,7 @@ const Details = ({ category }) => {
   return (
     <div className='py-[2em] flex gap-[1em] w-full 900res:flex 900res:flex-col 900res:gap-10'>
       <div>
-        <p className='text-3xl font-medium'>Details</p>
+        <p className='text-3xl font-medium 650res:text-2xl'>Details</p>
         <div className='900res:flex 900res:flex-wrap'>
           {detailProps[category].map(({ label, value }) => (
             <DetailItem key={label} label={label} value={value} />

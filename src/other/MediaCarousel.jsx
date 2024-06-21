@@ -18,7 +18,7 @@ const MediaCarousel = ({ category, mediaTitle, to }) => {
 
     return (
         <div className='py-[2em] gap-[1em] flex flex-col'>
-            <p className='text-3xl font-medium'>{mediaTitle.toUpperCase()}</p>
+            <p className='text-3xl font-medium 540res:text-xl 450res:text-base'>{mediaTitle.toUpperCase()}</p>
             <div className='container flex overflow-hidden overflow-x-auto scrollbar-hidden'>
                 <Swiper
                     className={ss.swipers}

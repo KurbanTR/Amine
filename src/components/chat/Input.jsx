@@ -2,7 +2,7 @@
 const InputField = ({ onSubmit, onChange, message }) => {
   return (
     <form onSubmit={onSubmit} className="fixed bottom-3 w-full">
-      <div className="mx-auto w-[80%] flex items-center justify-between border-gray-300 p-2 bg-white rounded-full 450res:p-1 450res:w-[90%]">
+      <div className="mx-auto w-[80%] flex items-center justify-between border-gray-300 p-2 bg-white rounded-full 450res:p-1 450res:w-[90%] overflow-hidden">
         <input
           placeholder="Type a message"
           className="flex-1 border-none outline-none p-2 text-gray-800 text-[1.2em] 450res:text-[1em] resize-none" // Убираем возможность изменять размеры textarea пользователем

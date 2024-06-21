@@ -9,6 +9,7 @@
     align-items: center;
     justify-content: space-between;
     z-index: 10;
+    top: 0;
     background: linear-gradient(to bottom, #000 0%, transparent 100%);
     opacity: .8;
     backdrop-filter: blur(0px);
@@ -16,6 +17,7 @@
 }
 .header_scrolled {
     position: fixed;
+    top: 0;
     padding: .3em 40px;
     width: 100%;
     display: flex;
