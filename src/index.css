@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: MaterialSymbols;
-  src: url("./assets/fonts/MaterialIconsOutlined-Regular.woff") format("woff"), url("./assets/fonts/MaterialIconsOutlined-Regular.ttf") format("truetype"), url("./assets/fonts/MaterialIconsOutlined-Regular.otf") format("opentype");;
-}
-
 #root {
   width: 100%;
   height: 100%;
@@ -74,20 +69,6 @@ body {
     margin: 0;
   }
 
-  .materialIcon {
-    font-family: 'MaterialSymbols';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 24px;
-    line-height: 1;
-    letter-spacing: normal;
-    text-transform: none;
-    white-space: nowrap;
-    word-wrap: normal;
-    direction: ltr;
-    -webkit-font-smoothing: antialiased;
-  }
-
   .scrollBar::-webkit-scrollbar {
     width: 3px;
     background-color: transparent;
@@ -152,4 +133,18 @@ body {
   }
   .ldio-lm0a0msd0s9 div { box-sizing: content-box; }
 }
+.ant-rate-star-zero path {
+  color: gray;
+}
 
+.ant-rate-star-half .ant-rate-star-first path {
+  color: white;
+}
+
+.ant-rate-star-half .ant-rate-star-second path {
+  color: gray;
+}
+
+.ant-rate-star-full path {
+  color: white;
+}

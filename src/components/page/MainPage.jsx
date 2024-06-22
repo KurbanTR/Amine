@@ -12,7 +12,7 @@ import MainContent from '../../other/MainContent'
 const LongerAnimeCard = ({anime, title}) => {
   return (
     <div>
-      <p className='text-4xl 850res:text-3xl 650res:text-xl font-medium mb-4'>{title}</p>
+      <p className='text-2xl font-[550] mb-5 mt-20 1480res:mb-2 1480res:mt-0 500res:mb-3 500res:mt-3'>{title}</p>
       <div className='flex overflow-hidden mb-7'>
         <Swiper
           grabCursor={true} 
@@ -68,7 +68,7 @@ const LongerAnimeCard = ({anime, title}) => {
 const AnimeSwiper = ({ anime, title }) => {
   return (
     <div>
-      <p className='text-4xl 850res:text-3xl 650res:text-xl font-medium mb-4'>{title}</p>
+      <p className='text-2xl font-[550] mb-5 mt-20 1480res:mb-2 1480res:mt-0 500res:mb-3 500res:mt-3'>{title}</p>
       <div className='w-full flex overflow-hidden mb-7'>
         <Swiper
           grabCursor={true} 
@@ -89,7 +89,7 @@ const AnimeSwiper = ({ anime, title }) => {
                     </div>       
                     {item.rating && 
                       <div className='absolute top-[.5em] right-0 flex justify-end pr-1'>
-                        <h3 className='bg-red-700 py-1 px-3 text-[.9em] 500res:text-[.7em] font-bold rounded-md 400res:px-2'>
+                        <h3 className='bg-[rgb(6,193,73)] py-1 px-3 text-[.9em] 500res:text-[.7em] font-bold rounded-md 400res:px-2'>
                           {item.rating/10}
                         </h3>
                       </div>
@@ -121,6 +121,10 @@ const MainPage = () => {
 
   const dispatch = useDispatch()
   
+  useEffect(()=>{
+    document.title = 'JumCloud - Anime Oline'
+  },[])
+
   useEffect(() => {    
     dispatch(fetchTrendingNow())
     dispatch(fetchPopular())

@@ -1,9 +1,7 @@
-import { Link } from "react-router-dom"
 
-const LinkCard = ({to, displayImage, displayName, displayRole, displayId, index, setIsHovered}) => {
+const LinkCard = ({displayImage, displayName, displayRole, index, setIsHovered}) => {
   return (
-    <div>
-    <Link to={`/${to}/` + displayId} onMouseEnter={() => setIsHovered(index)} onMouseLeave={() => setIsHovered(false)}>
+    <div onMouseEnter={() => setIsHovered(index)} onMouseLeave={() => setIsHovered(false)}>
         <div className='relative overflow-hidden rounded-lg h-full'>
             <div className='overflow-hidden'>
                 <img
@@ -21,9 +19,7 @@ const LinkCard = ({to, displayImage, displayName, displayRole, displayId, index,
                 </p>
             </div>
         </div>
-    </Link>
-</div>
-
+    </div>
   )
 }
 

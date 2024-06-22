@@ -18,11 +18,8 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<><Header/><MainPage/></>}/>
-        <Route path='/search' element={<><Header/><SearchPage/></>}/>
-        <Route path='/anime/:id' element={<><Header/><DetailsPage category='anime'/></>}/>
-        <Route path='/manga/:id' element={<><Header/><DetailsPage category='manga'/></>}/>
-        <Route path='/characters/:id' element={<><Header/><DetailsPage category='characters'/></>}/>
-        <Route path='/people/:id' element={<><Header/><DetailsPage category='people'/></>}/>
+        <Route path='/search' element={<><Header/><div className='h-10'/><SearchPage/></>}/>
+        <Route path='/anime/:id' element={<><Header/><DetailsPage/></>}/>
         <Route path='/registration' element={<><Header/><RegisterPage/></>}/>
         <Route path='/signin' element={<><Header/><SignInPage/></>}/>
         <Route path='/profile' element={<><Header/><ProfilePage/></>}/>

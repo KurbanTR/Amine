@@ -4,6 +4,7 @@ import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import ErrorPage from './ErrorPage';
 import PlayerComponent from '../../other/PlayerComponent';
 import AnimeCard from '../../other/AnimeCard';
+import Preloader from '../../other/Preloader';
 
 const WatchPage = () => {
   const {id} = useParams()
@@ -153,7 +154,7 @@ const WatchPage = () => {
   //   postAnimeToHistory()
   // }, [intervalTime])
 
-  if(preloader) return <p className='absolute top-[40vh] left-[37vw] text-7xl font-bold'>Loading</p>;
+  if(preloader) return <Preloader/>;
   if(fetchError) return <ErrorPage error={errorObj.message}/>
   return (
     <div className="w-full pt-20 h-[200vh] flex justify-center animate-fadeInAnimate fill-mode-forward relative">
@@ -266,7 +267,7 @@ const WatchPage = () => {
             <div className='text-text-gray mb-4 text-lg 500res:text-base 500res:mb-2 400res:text-sm [&>*]:duration-200'>
               <Link to={`/`} className='hover:text-white'>Home</Link>
               <span> / </span>
-              <Link to={`/more-info/${animeInfo?.id}`} className='max-w-max hover:text-white'>
+              <Link to={`/anime/${animeInfo?.id}`} className='max-w-max hover:text-white'>
                   {(animeInfo?.title?.english ? animeInfo?.title?.english : animeInfo?.title?.romaji)}
               </Link>
               <span> / </span>

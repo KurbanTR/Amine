@@ -6,10 +6,7 @@
    width: 100% ;
    object-fit: cover; 
    object-position: center;
-
 } 
-
-
 @media screen and (max-width:1200px) {
     .swiper__slide{ 
         width: 19%!important; 
@@ -25,6 +22,7 @@
 @media screen and (max-width:500px) {
     .swiper__slide{ 
         width: 40%!important;
+        margin-right: 15px;
         height: auto;
     } 
 }

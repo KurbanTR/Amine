@@ -40,9 +40,9 @@ export const fetchAnimes = createAsyncThunk(
 
 export const fetchAnime = createAsyncThunk(
     'anime/fetchAnime',
-    async function({id, category}, {rejectWithValue}){
+    async function({id}, {rejectWithValue}){
         try{
-            const data = await animeApi.getAnime(id, category);
+            const data = await animeApi.getAnime(id);
             return data.data.data
         }catch(error){
             return rejectWithValue(error.message)
@@ -50,40 +50,6 @@ export const fetchAnime = createAsyncThunk(
     }
 )
 // Запрос на определённое аниме по айди
-
-export const fetchRandAnime = createAsyncThunk(
-    'anime/fetchRandAnime',
-    async function(_, { dispatch }) {
-        const data = await animeApi.getRand({genres_exclude: [12, 49]});
-        const hasHentai = await data.data.data.genres.some(genre => genre.name === "Hentai" || genre.name === "Erotica");
-        !hasHentai ? dispatch(setRandAnime(data.data.data)) : dispatch(fetchRandAnime());
-    }
-);
-// Запрос на рандомное аниме
-
-export const fetchCharacters = createAsyncThunk(
-    'anime/fetchCharacters',
-    async function({id, category}, { dispatch }) {
-        const data = await animeApi.getCharacters(id, category)
-        dispatch(setCharacters(data.data.data))
-    }
-);
-
-export const fetchRecommendations = createAsyncThunk(
-    'anime/fetchRecommendations',
-    async function({id, category}, { dispatch }) {
-        const data = await animeApi.getRecommendations(id, category)
-        dispatch(setRecommendations(data.data.data))
-    }
-);
-
-export const fetchPerson = createAsyncThunk(
-    'anime/fetchPerson',
-    async function({id}, {dispatch}){
-        const data = await animeApi.getPerson(id)
-        dispatch(setPerson(data.data.data));
-    }
-)
 
 export const fetchAnimeInfo = createAsyncThunk(
     'anime/fetchAnimeInfo',
@@ -114,10 +80,6 @@ const animeSlice = createSlice({
         animeInfo: null,
         malid: null,
         episodes: [],
-        characters: [],
-        recommendations: [],
-        person: null,
-        randAnime: null,
         pages: 1,
         loading: false,
         error: false,
@@ -135,18 +97,7 @@ const animeSlice = createSlice({
         setPages(state, action){
             state.pages = action.payload
         },
-        setRandAnime(state, action){
-            state.randAnime = action.payload
-        },
-        setCharacters(state, action){
-            state.characters = action.payload
-        },
-        setRecommendations(state, action){
-            state.recommendations = action.payload
-        },
-        setPerson(state, action){
-            state.person = action.payload
-        },
+
         setAnimes(state, action){
             state.animes = action.payload
         },
@@ -208,5 +159,5 @@ const animeSlice = createSlice({
         })
     }
 })
-export const {setAnime,setMalId,setAnimeInfo,setEpisodes, setAnimes, setPages, setRandAnime, setCharacters, setRecommendations, setScore, setNow, setPerson} = animeSlice.actions
+export const {setAnime,setMalId,setAnimeInfo,setEpisodes, setAnimes, setPages, setRandAnime, setCharacters, setScore, setNow, setPerson} = animeSlice.actions
 export default animeSlice.reducer

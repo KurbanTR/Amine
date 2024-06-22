@@ -3,104 +3,57 @@
 }
 .header{
     position: fixed;
-    padding: 1em;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: 6em;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    z-index: 10;
+    z-index: 30;
     top: 0;
     background: linear-gradient(to bottom, #000 0%, transparent 100%);
+    border-bottom: 2px solid white;
     opacity: .8;
     backdrop-filter: blur(0px);
     transition: all 0.4s ease-in-out;
 }
 .header_scrolled {
     position: fixed;
+    border-bottom: 1px solid white;
     top: 0;
-    padding: .3em 40px;
+    height: 6.5em;
+    padding-left: 35px;
+    padding-right: 35px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    z-index: 10;
+    z-index: 30;
     background-color: #1c1c1c;
     transition: all 0.6s ease-in-out;
 }
-.catalog_link{
-    font-size: 25px;
-    font-weight: 600;
-    transition: all 0.5s;
-    display: flex;
-    align-items: center;
-}
-
-.catalog_link:hover {
-    color: rgb(255, 0, 0);
-}
-
-.title h1{
+.title{
     color: #fff;
-    font-size: 2.5em;
+    font-size: 3em;
     font-weight: 600;
-}
-.link{
-    color: white;
-    font-weight: 600;
-    text-decoration: none;
-    font-size: 17px;
-}
-.link:hover{
-    color: #ff4500;
-}
-.link:active{
-    color: #792000;
-}
-.tema{
-    width: 30px;
-    font-weight: 700;
-    color: black;
-    cursor: pointer;
-}
-.search{
-    width: 20em;
-    display: flex;
-    gap: 1em;
-}
-.input_scrolled{
-    width: 100%;
-    padding: 10px 15px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    color: #fff;
 }
 .input{
     display: none;
 }
-
-.search_android{
-    display: none;
-}
-
 .nav{
     display: flex;
     gap: 1.5em;
 }
 @media screen and (max-width: 900px) {
-    .header_menu{
-        display: block;
-        color: #fff;
-        display: flex;
-        gap: 2em;
+    .title{
+        font-size: 2em;
     }
-    .search{
-        display: none;
+    .header{
+        height: 5em;
     }
-}
-@media screen and (max-width: 850px) {
-    .catalog_link{
-        display: none;
+    .header_scrolled {
+        height: 5.5em;
     }
 }
 @media screen and (max-width: 650px){
@@ -112,32 +65,18 @@
         gap: 0.5em;
     }
     .header{
-        padding: .5em;
+        height: 3.7em;
     }
     .header_scrolled{
-        padding: .5em;
+        height: 3.2em;
     }
-    .title h1{
+    .title{
         font-size: 1.7em;
-    }
-    .search{
-        display: none;
     }
     .burger_menu{
         display: block;
     }
-    .search_android{
-        display: block;
-        width: 90%;
-    }
-}
-@media screen and (max-width: 370px){
     .nav{
-        gap: 1em;
-    }
-}
-@media screen and (max-width: 250px){
-    .title h1{
-        font-size: 1.5em;
+        display: none;
     }
 }

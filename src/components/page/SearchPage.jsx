@@ -1,11 +1,13 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import AnimeCard from '../../other/AnimeCard'
 import ErrorPage from './ErrorPage'
+import Preloader from '../../other/Preloader'
 // import CatalogCheckboxesComponent from '../Components/AdvancedSearchPage/CatalogSheckboxesComponent'
 // import CatologYearSelectComponent from '../Components/AdvancedSearchPage/CatologYearSelectComponent'
 
 const SearchPage = () => {
+
   const [yearOpened, setYearOpened] = useState(true)
   const [seasonOpened, setSeasonOpened] = useState(false)
   const [genresOpened, setGenresOpened] = useState(false)
@@ -79,7 +81,7 @@ const SearchPage = () => {
   const [searchResult, setSearchResult] = useState(null)
   const [searchParams, setSearchParams] = useState({
     page: 1,
-    perPage: 15,
+    perPage: 50,
     season: null,
     sort: '["POPULARITY_DESC"]',
     year: null,
@@ -160,7 +162,7 @@ const SearchPage = () => {
   const resetParams = () => {
     setSearchParams({
       page: 1,
-      perPage: 15,
+      perPage: 50,
       season: null,
       sort: '["POPULARITY_DESC"]',
       year: null,
@@ -335,14 +337,14 @@ const SearchPage = () => {
               </div>
             </div>
           </div>
-          {preloader ? <p className='absolute top-[40vh] left-[37vw] text-7xl font-bold z-[9]'>Loading</p>
+          {preloader ? <Preloader/>
           :
             searchError ? <ErrorPage/> 
             :
               searchResult?.length > 0 ? 
                 <div
-                  className="grid grid-cols-5 grid-rows-3 gap-5 flex-shrink-0 justify-items-center h-min 1320res:grid-cols-4 1100res:grid-cols-3
-                900res:grid-cols-4 850resW:grid-cols-3 700res:grid-cols-4 600res:grid-cols-3 500res:grid-cols-4 450res:grid-cols-3"
+                  className="grid grid-cols-5 gap-5 flex-shrink-0 justify-items-center h-min 1320res:grid-cols-4 1100res:grid-cols-3
+                900res:grid-cols-4 850res:grid-cols-3 700res:grid-cols-4 600res:grid-cols-3 500res:grid-cols-4"
                 >
                   {searchResult?.map((item, i) => (
                     <AnimeCard info={item} type={"anime"} key={i}/>

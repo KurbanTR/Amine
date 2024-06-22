@@ -7,7 +7,7 @@ const AnimeCard = ({info, type}) => {
   const [characterRole, setCharacterRole] = useState(info?.role)
 
   return (
-    <Link to={`/${type}/${info?.id ? info?.id : info?.animeId}`} className={`${type === "character" ? "" : ''}`}
+    <Link to={`/anime/${info?.id ? info?.id : info?.animeId}`} className={`${type === "character" ? "" : ''}`}
       onClick={(e) => {
         if(type === "character") e.preventDefault()
       }}

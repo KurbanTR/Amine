@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Episodes = ({ episodeInfo, animeId, type }) => {
-    console.log(episodeInfo);
     const [cardWidth, setCardWidth] = useState(0);
     const [cardHeight, setCardHeight] = useState(0);
     const [currentWidth, setCurrentWidth] = useState(window.innerWidth);

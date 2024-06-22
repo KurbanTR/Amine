@@ -32,18 +32,28 @@ export const updateUserProfile = createAsyncThunk(
     }
 )
 
+export const fetchToken = createAsyncThunk(
+    'user/fetchToken',
+    async ({token, user}) => {
+        const userDocRef = doc(usersColectionRef, user)
+        await updateDoc(userDocRef, {
+            token: token
+        });
+        console.log();
+    }
+)
+
 export const createAccount = createAsyncThunk(
     'user/createAccount',
     async({email, password, name, nav, success, errorReg},{dispatch}) => {
         try{
             const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
-            dispatch(setToken(userCredentials.user.accessToken))
             dispatch(setId(userCredentials.user.uid))
             dispatch(fetchName({displayName: name}))
             const userID = userCredentials.user.uid
             const newUserDocRef = doc (usersColectionRef, userID)
             const newMessagesDocRef = doc (messagesColectionRef, userID)
-            await setDoc(newUserDocRef, {email, name, bio: '', img: 'https://freesvg.org/img/abstract-user-flat-4.png', animes:[], mangas:[]})
+            await setDoc(newUserDocRef, {email, name, bio: '', img: 'https://freesvg.org/img/abstract-user-flat-4.png', animes:[], mangas:[], token: userCredentials.user.accessToken})
             await setDoc(newMessagesDocRef, {id: userID, messages: [], name, img: 'https://freesvg.org/img/abstract-user-flat-4.png', isAdmin: false})
             await success()
             nav('/profile')
@@ -73,8 +83,8 @@ export const singInToAccount = createAsyncThunk(
     async({email, password, nav, success, errorReg}, {dispatch}) => {
         try{
             const userCredentials = await signInWithEmailAndPassword(auth, email, password)
+            dispatch(fetchToken({token: userCredentials.user.accessToken, user: userCredentials.user.uid}))
             success()
-            dispatch(setToken(userCredentials.user.accessToken))
             dispatch(setId(userCredentials.user.uid))
             nav('/profile')
             userCredentials.user.email == 'kurban@gmail.com' && dispatch(setAdmin(true))

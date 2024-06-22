@@ -44,9 +44,6 @@ const AvatarMenu = ({ active, setActive, setImg }) => {
         1200res:max-w-xl 1000res:max-w-lg 850res:max-w-md 
         600res:max-w-sm
       ">
-        <div className='text-start'>
-          <span className="relative top-[-2px] cursor-pointer text-white" onClick={() => setActive(false)}>Close</span>
-        </div>
         <h2 className="text-white/70 mt-4">Enter URL image</h2>
         <form onSubmit={handleSubmit}>
           <input 
@@ -57,9 +54,16 @@ const AvatarMenu = ({ active, setActive, setImg }) => {
             placeholder="URL"
             required 
           />
-          <button type="submit" className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Submit</button>
         </form>
         {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+        <div className='gap-5 mt-3'>
+          <span className='btn-base bg-def-gray' onClick={() => setActive(false)}>
+            <button className="relative top-[-2px] cursor-pointer text-white">Close</button>
+          </span>
+          <span className='btn-base bg-blue-500'>
+            <button className="relative top-[-2px] cursor-pointer text-white">Submit</button>
+          </span>
+        </div>
       </div>
     </div>
   );

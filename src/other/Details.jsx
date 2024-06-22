@@ -43,7 +43,7 @@ export { DetailItem, Description };
 import { useSelector } from 'react-redux';
 // import { DetailItem, Description } from './DetailComponents';
 
-const Details = ({ category }) => {
+const Details = () => {
   const data = useSelector((state) => state.anime.anime);
   if (!data) return null;
 
@@ -61,25 +61,6 @@ const Details = ({ category }) => {
       { label: 'Rating', value: data?.rating },
       { label: 'Duration', value: data?.duration },
     ],
-    manga: [
-      { label: 'Type', value: data?.type },
-      { label: 'Chapters', value: data?.chapters },
-      { label: 'Genres', value: data?.genres?.map((genre) => genre.name).join(', ') },
-      { label: 'Published', value: data?.published?.string },
-      { label: 'Status', value: data?.status },
-      { label: 'Authors', value: data?.authors?.map((author) => author.name).join(', ') },
-    ],
-    characters: [
-      { label: 'Name', value: data?.name },
-      { label: 'Japan', value: data?.name_kanji },
-      { label: 'Nick', value: data?.nicknames?.join(', ') },
-    ],
-    people: [
-      { label: 'Name', value: data?.name },
-      { label: 'Family', value: data?.family_name },
-      { label: 'Alternate Names', value: data?.alternate_names?.join(', ') },
-      { label: 'Birthday', value: new Date(data?.birthday).toLocaleDateString('ru-US', { year: 'numeric', month: 'long', day: 'numeric' }) },
-    ],
   };
 
   const descriptionProp = data?.about || data?.synopsis;
@@ -89,7 +70,7 @@ const Details = ({ category }) => {
       <div>
         <p className='text-3xl font-medium 650res:text-2xl'>Details</p>
         <div className='900res:flex 900res:flex-wrap'>
-          {detailProps[category].map(({ label, value }) => (
+          {detailProps['anime'].map(({ label, value }) => (
             <DetailItem key={label} label={label} value={value} />
           ))}
         </div>
