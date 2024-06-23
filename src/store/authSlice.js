@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from '../firebaseConfig'
 import { collection, doc, getDoc, setDoc, updateDoc} from 'firebase/firestore';
-import { setData } from './profileSlice';
+import { setData, setProfile } from './profileSlice';
 
 export const usersColectionRef = collection(db, 'users')
 export const messagesColectionRef = collection(db, 'messages')
@@ -72,6 +72,19 @@ export const getDefineUser = createAsyncThunk(
             const defineUser = await getDoc(defineUserDocRef)
             const userData = defineUser.data()
             dispatch(setData(userData))
+        } catch(error){
+            console.error(error.message);
+        }
+    }
+)
+export const getUser = createAsyncThunk(
+    'user/getUser',
+    async({id},{dispatch}) => {
+        try{
+            const defineUserDocRef = doc(usersColectionRef, id)
+            const defineUser = await getDoc(defineUserDocRef)
+            const userData = defineUser.data()
+            dispatch(setProfile(userData))
         } catch(error){
             console.error(error.message);
         }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { singInToAccount } from '../../store/authSlice'
@@ -35,6 +35,10 @@ const SignInPage = () => {
             setError(false)
         }
     }
+
+    useEffect(()=>{
+      document.title = 'JumCloud - Authefication'
+    },[])
     
   return (
     <>

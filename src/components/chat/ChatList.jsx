@@ -12,6 +12,10 @@ const ChatList = () => {
   const { id } = useSelector(state => state.user);
   const users = chats.filter(chat => chat.id === id);
 
+  useEffect(()=>{
+    document.title = 'JumCloud - ChatList'
+  },[])
+
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchChats());

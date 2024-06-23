@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from "react-router-dom"
 import s from '../../styles/MainPage.module.css'
 import { fetchTrendingNow, fetchPopular, fetchBestScore, fetchUpcoming } from '../../store/mainSlice'
@@ -8,8 +8,11 @@ import { Keyboard } from 'swiper/modules';
 import 'swiper/css'
 import ss from '../../styles/swiper.module.css'
 import MainContent from '../../other/MainContent'
+import Preloader from '../../other/Preloader'
+import useCardSize from '../../other/CardSize'
 
 const LongerAnimeCard = ({anime, title}) => {
+  const {cardHeight} = useCardSize()
   return (
     <div>
       <p className='text-2xl font-[550] mb-5 mt-20 1480res:mb-2 1480res:mt-0 500res:mb-3 500res:mt-3'>{title}</p>
@@ -17,7 +20,6 @@ const LongerAnimeCard = ({anime, title}) => {
         <Swiper
           grabCursor={true} 
           spaceBetween={20}
-          // slidesPerView={1.2}
           keyboard={{
             enabled: true,
           }}
@@ -28,7 +30,7 @@ const LongerAnimeCard = ({anime, title}) => {
             anime?.map((item, index) => 
               <SwiperSlide key={index} className='w-[77%]'>
                 <Link to={`anime/${item.id}`}>
-                    <div style={{backgroundImage: `url(${item?.cover ? item?.cover : item?.image})`, backgroundColor: `${item?.color}`}}
+                    <div style={{backgroundImage: `url(${item?.cover ? item?.cover : item?.image})`, backgroundColor: `${item?.color}`, height: cardHeight}}
                     className={`bg-def-gray bg-center bg-no-repeat bg-cover w-full h-[200px] flex-col flex justify-center 
                     items-start p-7  gap-2 700res:h-[150px] 500res:h-[110px] pr-[110px] 500res:pr-[80px] 330res:pr-7
                     500res:gap-[4px] relative -z-10 500res:p-[24px] rounded-xl`}>
@@ -51,9 +53,9 @@ const LongerAnimeCard = ({anime, title}) => {
                           </div>
                         </div>
                         : 
-                        <div className='p-2 bg-white text-def-black font-medium 700res:text-xs 700res:p-[6px] rounded-md 700res:rounded-sm z-10 500res:text-[8px] 500res:leading-none 500res:p-[5px]'>{`Release ${item?.releaseDate ? item?.releaseDate : "????"}`}</div>}
-                        <div className='text-xl font-medium 700res:text-lg z-10 500res:text-xs line-clamp-1 flex-shrink-0'>{(item?.title?.english ? item?.title?.english : item?.title?.romaji)}</div>
-                        <div className='text-lg 700res:text-base z-10 font-medium 500res:text-[10px] 500res:leading-none'>{item?.time ? `${item?.type}, ${item?.releaseDate}`  : item?.type}</div>
+                        <div className='p-2 bg-white text-def-black font-semibold 700res:text-xs 700res:p-[6px] rounded-md 700res:rounded-sm z-10 500res:text-[8px] 500res:leading-none 500res:p-[5px]'>{`Release ${item?.releaseDate ? item?.releaseDate : "????"}`}</div>}
+                        <div className='text-xl font-semibold 700res:text-lg z-10 500res:text-xs line-clamp-1 flex-shrink-0'>{(item?.title?.english ? item?.title?.english : item?.title?.romaji)}</div>
+                        <div className='text-lg 700res:text-base z-10 font-semibold 500res:text-[10px] 500res:leading-none'>{item?.time ? `${item?.type}, ${item?.releaseDate}`  : item?.type}</div>
                     </div>
                 </Link>
               </SwiperSlide>
@@ -81,7 +83,7 @@ const AnimeSwiper = ({ anime, title }) => {
         >
           {
             anime?.map((item, index) => 
-              <SwiperSlide className={ss.swiper__slide} key={index}>
+              <SwiperSlide className={ss.swiper__slide} key={index} pagination={{ clickable: true }}>
                 <Link to={`/anime/` + item.id}>
                   <div className='relative overflow-hidden rounded-lg h-[90%] bg-blue-700'>
                     <div>
@@ -96,8 +98,8 @@ const AnimeSwiper = ({ anime, title }) => {
                     }             
                     <div className='absolute bottom-0 right-0 h-[90%] flex items-end w-full bg-gradient-to-t from-black opacity-80 p-[10%]'>
                       <div className='flex flex-col'>
-                        <p className='line-clamp-1 text-[1em] text-white 540res:text-[18px]  400res:text-[15px] 330res:text-[10px]'>{item.title.userPreferred}</p>
-                        <p className='text-[#ababab] font-medium 540res:text-[.7em]  400res:text-[.5em] 330res:text-[.4em]'>
+                        <p className='font-[550] line-clamp-1 text-[1em] text-white 540res:text-[18px]  400res:text-[10px]'>{item.title.userPreferred}</p>
+                        <p className='text-[#ababab] font-medium 540res:text-[.7em] 400res:text-[.4em]'>
                           {item.releaseDate ? item.releaseDate+(!item.genres.length==0 ? ', '+item.genres[0] : '') : !item.genres.length==0 ? item.genres[0] : ''}
                         </p>
                       </div>
@@ -118,12 +120,9 @@ const MainPage = () => {
   const {popular} = useSelector(state => state.main)
   const {bestscore} = useSelector(state => state.main)
   const {upcoming} = useSelector(state => state.main)
+  const {loading} = useSelector(state=>state.anime)
 
   const dispatch = useDispatch()
-  
-  useEffect(()=>{
-    document.title = 'JumCloud - Anime Oline'
-  },[])
 
   useEffect(() => {    
     dispatch(fetchTrendingNow())
@@ -132,8 +131,9 @@ const MainPage = () => {
     dispatch(fetchBestScore())
   }, [dispatch]) 
   
+  if(loading) return <Preloader/>
   return (
-    <div className='mb-20'>      
+    <div>      
       <MainContent/>
       <div className={s.block2}>        
         <AnimeSwiper anime={trendingnow} title='Trending now'/>        

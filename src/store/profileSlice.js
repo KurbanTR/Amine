@@ -93,7 +93,8 @@ const profileSlice = createSlice({
   initialState: {
     mangas: [],
     animes: [],
-    data: null
+    data: null,
+    profile: null,
   },
   reducers: {
     setAnimes(state, actions) {
@@ -111,6 +112,9 @@ const profileSlice = createSlice({
     setData(state, actions){
       state.data = actions.payload
     },
+    setProfile(state, action){
+      state.profile = action.payload
+    },
     deleteAnime(state, action) {
       state.animes = state.animes.filter(anime => anime.id !== action.payload);
     },
@@ -120,5 +124,5 @@ const profileSlice = createSlice({
   },
 });
 
-export const { setMangas, setAnimes, addAnime, addManga, setData, deleteAnime, deleteManga } = profileSlice.actions;
+export const {setProfile, setMangas, setAnimes, addAnime, addManga, setData, deleteAnime, deleteManga } = profileSlice.actions;
 export default profileSlice.reducer;

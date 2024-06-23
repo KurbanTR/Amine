@@ -1,40 +1,11 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useCardSize from "./CardSize";
 
 const Episodes = ({ episodeInfo, animeId, type }) => {
-    const [cardWidth, setCardWidth] = useState(0);
-    const [cardHeight, setCardHeight] = useState(0);
-    const [currentWidth, setCurrentWidth] = useState(window.innerWidth);
-
-    useEffect(() => {
-        const handleResize = () => setCurrentWidth(window.innerWidth);
-        window.addEventListener("resize", handleResize);
-        
-        // Initialize the width on component mount
-        handleResize();
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
-
-    useEffect(() => {
-        if (currentWidth < 1480 && currentWidth > 700) {
-            const newWidth = (currentWidth - 70 - 20) / 3;
-            setCardWidth(newWidth);
-            setCardHeight(newWidth / 1.77);
-        } else if (currentWidth < 700) {
-            const newWidth = (currentWidth - 45 - 20) / 2;
-            setCardWidth(newWidth);
-            setCardHeight(newWidth / 1.77);
-        } else {
-            setCardWidth(469);
-            setCardHeight(469 / 1.77);
-        }
-    }, [currentWidth]);
+    const {cardHeight, cardWidth} = useCardSize()
 
     if(type === 'manga') return (
-        <div style={{display: `${show ? "flex" : "none"}`}} className='w-[1440px] mx-auto 1480res:w-full flex flex-col justify-center items-start 1480res:px-5'>
+        <div style={{display: "flex"}} className='w-[1440px] mx-auto 1480res:w-full flex flex-col justify-center items-start 1480res:px-5'>
           {episodeInfo?.length > 0 ? 
             <>
               {episodeInfo?.map(item => <Link key={item?.id} to={`/read/${id}?chapter=${episodeInfo?.findIndex(findItem => findItem === item)}`} className='py-2 border-b-[1px] border-b-silver/20 w-full flex justify-between items-center'>

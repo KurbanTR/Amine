@@ -344,10 +344,10 @@ const SearchPage = () => {
               searchResult?.length > 0 ? 
                 <div
                   className="grid grid-cols-5 gap-5 flex-shrink-0 justify-items-center h-min 1320res:grid-cols-4 1100res:grid-cols-3
-                900res:grid-cols-4 850res:grid-cols-3 700res:grid-cols-4 600res:grid-cols-3 500res:grid-cols-4"
+                900res:grid-cols-4 850res:grid-cols-3 700res:grid-cols-4 600res:grid-cols-3 500res:grid-cols-4 450res:grid-cols-3"
                 >
                   {searchResult?.map((item, i) => (
-                    <AnimeCard info={item} type={"anime"} key={i}/>
+                    <AnimeCard info={item} type={"anime"} key={i} catalog={true}/>
                     ))}
                 </div>
               : <ErrorPage/> 

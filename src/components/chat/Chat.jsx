@@ -7,18 +7,22 @@ import { addMessages, fetchAdmin, fetchMessages, getDefineChats, setRead } from 
 import { useParams } from "react-router-dom";
 import { format, isSameDay, isSameWeek, isSameYear } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import Preloader from '../../other/Preloader'
 
 const Chat = () => {
   const [message, setMessage] = useState('');
-  const { data } = useSelector(state => state.messages);
   const { id } = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const { messages, isAdmin } = useSelector(state => state.messages);
+  const { messages, isAdmin, data, status } = useSelector(state => state.messages);
   const params = useParams();
 
+  useEffect(()=>{
+    document.title = 'JumCloud - Chat'
+  },[])
+
   useEffect(() => {
-    dispatch(fetchMessages({ idUser: params.id }));
-    dispatch(getDefineChats({ id: params.id }));
+    if(messages.length == 0 && !isAdmin) dispatch(fetchMessages({ idUser: params.id }));
+    if(!data) dispatch(getDefineChats({ id: params.id }));
     dispatch(fetchAdmin({ id }));
 
     const getMessages = async() => {
@@ -31,7 +35,7 @@ const Chat = () => {
   }, [dispatch, params]);
 
   useEffect(() => {
-    if (isAdmin !== 'a') {
+    if (!isAdmin) {
       const unreadMessageIds = messages
         .filter(message => !message.read && message.isAdmin !== isAdmin)
         .map(message => message.id);
@@ -78,10 +82,10 @@ const Chat = () => {
       }
     }
   };
-
+  if(messages.length == 0 && !isAdmin && status === 'loading') return <Preloader/>
   return (
     <main>
-      <ChatHeader nick={data?.name} img={data?.img} isAdmin={isAdmin} />
+      <ChatHeader nick={data?.name} img={data?.img} to={params.id} isAdmin={isAdmin} />
       <div className="flex pt-24">
         <div className="w-full">
           <div className="px-3 flex flex-col gap-3 pb-40">

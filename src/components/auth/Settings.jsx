@@ -21,6 +21,10 @@ const Settings = () => {
   const {id} = useSelector(state => state.user)
 
   useEffect(()=>{
+    document.title = 'JumCloud - Account settings'
+  },[])
+
+  useEffect(()=>{
     dispatch(getDefineUser({id}))
   }, [dispatch, id])
 

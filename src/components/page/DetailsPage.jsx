@@ -16,6 +16,7 @@ import Trailer from '../../other/Trailer';
 import Preloader from '../../other/Preloader';
 
 const DetailsPage = () => {
+
     const {id} = useParams()
     const dispatch = useDispatch()
     const location = useLocation()
@@ -28,8 +29,11 @@ const DetailsPage = () => {
 
     useEffect(()=>{
         dispatch(fetchAnimeInfo({id}))
-        document.title = `${animeInfo?.title?.romaji} - JumCloud`        
     },[dispatch, id])
+    
+    useEffect(()=>{
+        if(animeInfo?.title?.romaji !== undefined) document.title = `${animeInfo?.title?.romaji} - JumCloud`        
+    },[animeInfo])
 
     useEffect(()=>{
         if(malid !== null){
@@ -60,7 +64,7 @@ const DetailsPage = () => {
             id,
             img: animeInfo?.image,
             title: animeInfo?.title?.romaji,
-            score: animeInfo?.rating,
+            rating: animeInfo?.rating,
             year: anime?.year,
             genre: anime?.genres && (anime?.genres.length !== 0 && anime?.genres[0]?.name)
         }

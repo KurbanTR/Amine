@@ -113,7 +113,7 @@ const messagesSlice = createSlice({
     data: null,
     chats: [],
     status: 'idle',
-    isAdmin: 'a',
+    isAdmin: false,
   },
   reducers: {
     setMessages(state, action) {
@@ -142,11 +142,11 @@ const messagesSlice = createSlice({
         state.messages = action.payload;
       })
       .addCase(getDefineChats.pending, (state) => {
-        state.data = null
-        state.messages = []
+        state.status = 'loading';
       })
       .addCase(getDefineChats.fulfilled, (state, action) => {
         state.data = action.payload;
+        state.status = 'succeeded';
       })
   }
 });

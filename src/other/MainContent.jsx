@@ -82,6 +82,7 @@ const MainContent = () => {
                 {data.map((item, index)=>(
                     <SwiperSlide key={index}>
                         <div className={s.block1} style={{backgroundImage: `url(${item.img})`}}>
+                        <div className="absolute inset-0 bg-black opacity-20"></div>
                             <div className={s.block1__main}>
                                 <div className={s.block1__wrapper}>
                                     <h1 className={s.block1__title}>{item.title}</h1>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createAccount } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom"
 import { useDispatch} from "react-redux"
@@ -52,6 +52,10 @@ const RegisterPage = () => {
       }
     }
   }
+
+  useEffect(()=>{
+    document.title = 'JumCloud - Authefication'
+  },[])
 
   return (
     <>

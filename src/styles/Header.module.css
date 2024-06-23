@@ -3,8 +3,8 @@
 }
 .header{
     position: fixed;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
     height: 6em;
     width: 100%;
     display: flex;
@@ -23,8 +23,8 @@
     border-bottom: 1px solid white;
     top: 0;
     height: 6.5em;
-    padding-left: 35px;
-    padding-right: 35px;
+    padding-left: 25px;
+    padding-right: 25px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -57,13 +57,6 @@
     }
 }
 @media screen and (max-width: 650px){
-    header{
-        justify-content: center;
-        flex-wrap: wrap;
-        height: auto;
-        padding: 10px;
-        gap: 0.5em;
-    }
     .header{
         height: 3.7em;
     }

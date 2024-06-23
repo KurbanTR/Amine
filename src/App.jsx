@@ -22,7 +22,7 @@ function App() {
         <Route path='/anime/:id' element={<><Header/><DetailsPage/></>}/>
         <Route path='/registration' element={<><Header/><RegisterPage/></>}/>
         <Route path='/signin' element={<><Header/><SignInPage/></>}/>
-        <Route path='/profile' element={<><Header/><ProfilePage/></>}/>
+        <Route path='/profile/:id' element={<><Header/><ProfilePage/></>}/>
         <Route path='/settings' element={<><Header/><Settings/></>}/>
         <Route path='/watch/:id' element={<><Header/><WatchPage/></>}/>
         <Route path='/chat' element={<ChatList/>}/>
