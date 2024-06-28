@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { MediaCommunitySkin, MediaOutlet, MediaPlayer, MediaPoster } from '@vidstack/react';
 import 'vidstack/styles/defaults.css';
 import 'vidstack/styles/community-skin/video.css';
@@ -8,8 +8,7 @@ const PlayerComponent = ({title, src, poster, initTime=0, setCurrentTime}) => {
   const [seekedToHistory, setSeekedToHistory] = useState(false)
   const ref = useRef()
   useEffect(() => {
-    console.log(initTime);
-    if(ref.current) {
+      if(ref.current) {
       ref.current.currentTime = initTime
     }
   }, [initTime])

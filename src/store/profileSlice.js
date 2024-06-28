@@ -25,27 +25,6 @@ export const addAnimes = createAsyncThunk(
   }
 );
 
-
-export const addMangas = createAsyncThunk(
-  'profile/addMangas',
-  async ({ idUser, newManga, success, error }, { dispatch }) => {
-    const userDocRef = doc(usersColectionRef, idUser);
-    const userDocSnap = await getDoc(userDocRef);
-    if (userDocSnap.exists()) {
-      const existingMangas = userDocSnap.data().mangas || [];
-      if (!existingMangas.some(manga => manga.id === newManga.id)) {
-        await updateDoc(userDocRef, {
-          mangas: arrayUnion(newManga)
-        });
-        dispatch(addManga(newManga));
-        success()
-      }else{
-        error()
-      }
-    }
-  }
-);
-
 export const removeAnime = createAsyncThunk(
   'profile/removeAnime',
   async ({ idUser, animeId }, { dispatch }) => {
@@ -67,31 +46,9 @@ export const removeAnime = createAsyncThunk(
   }
 );
 
-export const removeManga = createAsyncThunk(
-  'profile/removeManga',
-  async ({ idUser, mangaId }, { dispatch }) => {
-    const userDocRef = doc(usersColectionRef, idUser);
-    const userDocSnap = await getDoc(userDocRef);
-    
-    if (userDocSnap.exists()) {
-      const userData = userDocSnap.data();
-      const updatedMangas = userData.mangas.filter(manga => manga.id !== mangaId);
-
-      await updateDoc(userDocRef, {
-        mangas: updatedMangas
-      });
-
-      dispatch(deleteManga(mangaId))
-    } else {
-      throw new Error('User document does not exist');
-    }
-  }
-);
-
 const profileSlice = createSlice({
   name: 'profile',
   initialState: {
-    mangas: [],
     animes: [],
     data: null,
     profile: null,
@@ -100,14 +57,8 @@ const profileSlice = createSlice({
     setAnimes(state, actions) {
       state.animes = actions.payload
     },
-    setMangas(state, actions) {
-      state.mangas = actions.payload
-    },
     addAnime(state, actions){
       state.animes.push(actions.payload)
-    },
-    addManga(state, actions){
-      state.mangas.push(actions.payload)
     },
     setData(state, actions){
       state.data = actions.payload
@@ -118,9 +69,6 @@ const profileSlice = createSlice({
     deleteAnime(state, action) {
       state.animes = state.animes.filter(anime => anime.id !== action.payload);
     },
-    deleteManga(state, action) {
-      state.mangas = state.mangas.filter(manga => manga.id !== action.payload);
-    }
   },
 });
 

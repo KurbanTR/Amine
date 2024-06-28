@@ -10,12 +10,45 @@ import ss from '../../styles/swiper.module.css'
 import MainContent from '../../other/MainContent'
 import Preloader from '../../other/Preloader'
 import useCardSize from '../../other/CardSize'
+import { fetchAnimes } from '../../store/animeHistory'
 
-const LongerAnimeCard = ({anime, title}) => {
+const LongerAnimeCard = ({anime, title, setAnimeHistory}) => {
   const {cardHeight} = useCardSize()
+  const [clearConfirm, setClearConfirm] = useState(false)
   return (
     <div>
-      <p className='text-2xl font-[550] mb-5 mt-20 1480res:mb-2 1480res:mt-0 500res:mb-3 500res:mt-3'>{title}</p>
+      <div className='flex justify-between h-fit items-end mb-5'>
+      <p className='text-2xl font-[550] mt-20 1480res:mb-2 1480res:mt-0 500res:mb-3 500res:mt-3'>{title}</p>
+      {title == 'Continue watch' && (!clearConfirm ? (
+          <button
+            className="w-max btn-base bg-white text-def-black gap-1 600res:text-sm 450res:text-xs 450res:p-[8px]"
+            onClick={() => {
+              setClearConfirm(true);
+            }}
+          >
+            Clear history
+          </button>
+        ) : (
+          <div className='flex gap-5'>
+            <button
+              className="w-max btn-base bg-red-500 text-white gap-1 600res:text-sm 450res:text-xs 450res:p-[8px]"
+              onClick={() => {
+                setAnimeHistory(null);
+              }}
+            >
+              Clear history
+            </button>
+            <button
+              className="w-max btn-base bg-def-gray text-white gap-1 600res:text-sm 450res:text-xs 450res:p-[8px]"
+              onClick={() => {
+                setClearConfirm(false);
+              }}
+            >
+              Back
+            </button>
+          </div>
+        ))}
+      </div>
       <div className='flex overflow-hidden mb-7'>
         <Swiper
           grabCursor={true} 
@@ -24,23 +57,24 @@ const LongerAnimeCard = ({anime, title}) => {
             enabled: true,
           }}
           modules={[Keyboard]}
-          slidesPerView={'auto'}
+          slidesPerView={1}
+          initialSlide={0}
         >
           {
             anime?.map((item, index) => 
-              <SwiperSlide key={index} className='w-[77%]'>
-                <Link to={`anime/${item.id}`}>
+              <SwiperSlide key={index}>
+                <Link to={item?.time ? `/watch/${item?.animeId}?ep=${item?.lastEpisode}&time=${item?.time}` : `/anime/${item?.id}`}>
                     <div style={{backgroundImage: `url(${item?.cover ? item?.cover : item?.image})`, backgroundColor: `${item?.color}`, height: cardHeight}}
                     className={`bg-def-gray bg-center bg-no-repeat bg-cover w-full h-[200px] flex-col flex justify-center 
-                    items-start p-7  gap-2 700res:h-[150px] 500res:h-[110px] pr-[110px] 500res:pr-[80px] 330res:pr-7
+                    items-start p-7 gap-2 700res:h-[150px] 500res:h-[110px] pr-[110px] 500res:pr-[80px] 330res:pr-7
                     500res:gap-[4px] relative -z-10 500res:p-[24px] rounded-xl`}>
                         <div style={item?.cover ? {} : {backgroundImage: `url(${item?.image})`}}
                           className={`${item?.cover ? "" : "backdrop-blur-xl bg-right bg-contain bg-no-repeat"} 330res:!backdrop-blur-none 330res:!bg-none w-full h-full absolute top-0 left-0 bg-black/20 rounded-xl`}></div>
                         {item?.lastEpisode ? 
                         <div className='flex gap-3 items-center'>
-                          <div className='p-2 bg-white text-def-black font-medium 700res:text-xs 700res:p-[6px] rounded-md 700res:rounded-sm
+                          <div className='p-2 bg-white text-def-black font-[550] 700res:text-xs 700res:p-[6px] rounded-md 700res:rounded-sm
                           z-10 500res:text-[8px] 500res:leading-none 500res:p-[5px]'>{`Episode ${item?.lastEpisode}`}</div>
-                          <div className='p-2 bg-black/30 backdrop-blur-lg text-white font-medium 700res:text-xs 700res:p-[6px] rounded-md 700res:rounded-sm
+                          <div className='p-2 bg-black/30 backdrop-blur-lg text-white font-[550] 700res:text-xs 700res:p-[6px] rounded-md 700res:rounded-sm
                           z-10 500res:text-[8px] 500res:leading-none 500res:p-[5px]'>{(item?.time / 60).toFixed(0)
                             .length <= 1
                             ? `0${(item?.time / 60).toFixed(0)}`
@@ -121,14 +155,27 @@ const MainPage = () => {
   const {bestscore} = useSelector(state => state.main)
   const {upcoming} = useSelector(state => state.main)
   const {loading} = useSelector(state=>state.anime)
+  const {id} = useSelector(state=>state.user)
+  const {animes} = useSelector(state=>state.histori)
 
   const dispatch = useDispatch()
+
+  const [animeHistory, setAnimeHistory] = useState(animes)
+  
+  useEffect(()=>{
+    document.title = 'JumCloud - Anime Oline'
+  },[])
+
+  useEffect(()=>{
+    if(animes) setAnimeHistory(animes)
+  },[animes])
 
   useEffect(() => {    
     dispatch(fetchTrendingNow())
     dispatch(fetchPopular())
     dispatch(fetchUpcoming())
     dispatch(fetchBestScore())
+    dispatch(fetchAnimes({idUser: id}))
   }, [dispatch]) 
   
   if(loading) return <Preloader/>
@@ -138,6 +185,7 @@ const MainPage = () => {
       <div className={s.block2}>        
         <AnimeSwiper anime={trendingnow} title='Trending now'/>        
         <AnimeSwiper anime={popular} title='Most Popular'/>
+        {animeHistory?.length > 0 && <LongerAnimeCard anime={animeHistory} title='Continue watch' setAnimeHistory={setAnimeHistory}/>}
         <AnimeSwiper anime={bestscore} title='Best Score'/>
         <LongerAnimeCard anime={upcoming} title='Coming soon'/>
       </div>

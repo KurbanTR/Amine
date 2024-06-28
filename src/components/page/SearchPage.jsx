@@ -187,7 +187,7 @@ const SearchPage = () => {
     <div className="w-[1440px] mx-auto 1480res:w-full 1480res:m-0 1480res:px-5">
       <div className="flex 900res:flex-col 900res:gap-6 gap-10 justify-between mt-24 900res:mt-10">
         <div className="w-full flex-shrink min-w-[200px]"> 
-          <h2 className="text-3xl font-medium mb-8">Catalog</h2>          
+          <h2 className="text-3xl font-[550] mb-8">Catalog</h2>          
           <CatologYearSelectComponent setYearOpened={setYearOpened} yearOpened={yearOpened}
             setYearValue={setYearValue} changeYear={changeYear} yearValue={yearValue}/>
           <CatalogCheckboxesComponent setBoxesOpened={setSeasonOpened} boxesOpened={seasonOpened}
@@ -343,7 +343,7 @@ const SearchPage = () => {
             :
               searchResult?.length > 0 ? 
                 <div
-                  className="grid grid-cols-5 gap-5 flex-shrink-0 justify-items-center h-min 1320res:grid-cols-4 1100res:grid-cols-3
+                  className="grid grid-cols-5 gap-5 1100res:gap-x-0 flex-shrink-0 justify-items-center h-min 1320res:grid-cols-4 1100res:grid-cols-3
                 900res:grid-cols-4 850res:grid-cols-3 700res:grid-cols-4 600res:grid-cols-3 500res:grid-cols-4 450res:grid-cols-3"
                 >
                   {searchResult?.map((item, i) => (

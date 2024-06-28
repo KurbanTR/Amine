@@ -30,17 +30,40 @@ const Header = () => {
         <Link to='/'>
           <h1 className={s.title}>JumCloud</h1>
         </Link>
+
+        {/* Менюшка */}
+
         <div onMouseLeave={() => setShowNavModal(false)}
-          className={`${showNavModal ? "650res:opacity-100" : ""} opacity-0
-          duration-300 bg-def-black border-[1px] border-silver/30 p-5 rounded-xl
-          fixed w-fit right-5 top-20 flex-col left-autoitems-start
-          flex items-cente py-3 px-5`}
+          className={`${!showNavModal ? "hidden" : "hidden 650res:flex"} 
+          duration-300 bg-def-black border-[1px] border-silver/30 rounded-xl
+          fixed w-fit right-5 top-20 flex-col
+          flex py-2 px-4 gap-2`}
         >
           {data?.token && <Link to={`/profile/${idUser}`} style={location?.pathname !== `/profile/${idUser}` ? {color: 'rgba(232, 232, 232, 0.7)'} :{}}>Profile</Link>}
           <Link to='/' style={location?.pathname !== '/' ? {color: 'rgba(232, 232, 232, 0.7)'} :{}}>Home</Link>
           <Link to='/search' style={location?.pathname !== '/search' ? {color: 'rgba(232, 232, 232, 0.7)'}:{}}>Catalog</Link>
           {data?.token && <Link to={`/chat/${idUser}`} style={location?.pathname !== '/chat' ? {color: 'rgba(232, 232, 232, 0.7)'} :{}}>Chat</Link>}
+          <div className={`650res:block hidden w-[160px] rounded-md ${data?.token && !data?.img && 'bg-white/20 animate-pulse'}`}>
+          {data?.token ?
+            <Link to={`/profile/${idUser}`} className='flex items-center gap-3 py-2'>
+              <img src={data?.img || 'https://freesvg.org/img/abstract-user-flat-4.png'} className='flex-shrink-0 rounded-full w-[2.5em] object-cover' alt='avatar' />
+              <h1 className='text-lg'>{data?.name}</h1>
+            </Link>
+          :          
+            <div className='flex gap-3'>
+              <Link to='/registration' className="text-[13px] py-[8px] px-2 bg-def-black-gray rounded-lg font-[550] text-white cursor-pointer">
+                Log in
+              </Link>
+              <Link to='/signin' className="text-[13px] py-[8px] px-2 bg-white rounded-lg font-[550] text-def-black cursor-pointer">
+                Get started
+              </Link>
+            </div>
+          }
+          </div>
         </div>
+
+        {/* Менюшка */}
+
         <nav className={s.nav}>      
           <div className='flex gap-10 items-center 1100res:gap-5'>
             <Link to='/'  className='text-2xl 1100res:text-xl' style={location?.pathname !== '/' ? {color: 'rgba(232, 232, 232, 0.7)'} :{}}>Home</Link>

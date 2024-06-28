@@ -56,7 +56,7 @@ export const createAccount = createAsyncThunk(
             await setDoc(newUserDocRef, {email, name, bio: '', img: 'https://freesvg.org/img/abstract-user-flat-4.png', animes:[], mangas:[], token: userCredentials.user.accessToken})
             await setDoc(newMessagesDocRef, {id: userID, messages: [], name, img: 'https://freesvg.org/img/abstract-user-flat-4.png', isAdmin: false})
             await success()
-            nav('/profile')
+            nav(`/profile/${userCredentials.user.uid}`)
         }catch (error) {
             console.log(error);
             errorReg(error.message)

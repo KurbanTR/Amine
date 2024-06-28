@@ -5,6 +5,9 @@ import ErrorPage from './ErrorPage';
 import PlayerComponent from '../../other/PlayerComponent';
 import AnimeCard from '../../other/AnimeCard';
 import Preloader from '../../other/Preloader';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAnimes, patchAnime, postAnime } from '../../store/animeHistory';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 const WatchPage = () => {
   const {id} = useParams()
@@ -32,7 +35,6 @@ const WatchPage = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [currentEpNum, setCurrentEpNum] = useState(initEp === 0 ? 1 : initEp)
   const [currentActiveUrl, setCurrentActiveUrl] = useState(null)
-  const [animeHistory, setAnimeHistory] = useState(null)
   const [currentTime, setCurrentTime] = useState(initTimeSearch)
   const [initTime, setInitTime] = useState(initTimeSearch)
   const [watchBefore, setWatchBefore] = useState(false)
@@ -43,37 +45,34 @@ const WatchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [intervalTime, setIntervalTime] = useState(false)
 
-  // const postAnimeToHistory = () => {
-  //   setIntervalTime(false)
-  //   if(isAnimeInHistory) {
-  //     patchAnimeHistory()
-  //     return
-  //   }
-  //   axios.post(`https://four04nime.onrender.com/users/me/anime-history`, {
-  //     userId: user._id,
-  //     animeId: id,
-  //     title: animeInfo?.title,
-  //     releaseDate: animeInfo?.releaseDate,
-  //     genres: animeInfo?.genres,
-  //     type: animeInfo?.type,
-  //     cover: animeInfo?.cover,
-  //     image: animeInfo?.image,
-  //     lastEpisode: currentEpNum,
-  //     time: currentTime
-  //   }, {headers: {"Authorization": `Bearer ${localStorage.getItem("JWTAccess")}`}})
-  //   .then((res) => setIsAnimeInHistory(true))
-  //   .catch((err) => console.log(err))
+  const dispatch = useDispatch()
+  const idUser = useSelector(state=>state.user.id)
+  const animeHistory = useSelector(state=> state.histori.animes)
 
-  // }
+  const postAnimeToHistory = () => {
+    setIntervalTime(false);
 
-  // const patchAnimeHistory = () => {
-  //   if(watchBefore) return
-  //   axios.patch(`https://four04nime.onrender.com/users/me/anime-history/${animeInfo?.id}`, {
-  //     lastEpisode: episodeRef.current,
-  //     time: timeRef.current
-  //   }, {headers: {"Authorization" : `Bearer ${localStorage.getItem("JWTAccess")}`}})
-  //   .catch(err => console.log(err))
-  // }
+    const handlePostAnime = () => {
+      try {
+        dispatch(postAnime({
+          id: idUser,
+          newAnime: {
+            animeId: id,
+            title: animeInfo?.title,
+            releaseDate: animeInfo?.releaseDate,
+            type: animeInfo?.type,
+            cover: animeInfo?.cover,
+            image: animeInfo?.image,
+            lastEpisode: currentEpNum,
+            time: currentTime
+          }
+        }));
+      } catch (error) {
+        console.error('Failed to post anime:', error);
+      }
+    };
+    handlePostAnime();
+  }
 
   const completeLoading = (state) => {
     setFetchError(state)
@@ -91,6 +90,7 @@ const WatchPage = () => {
     setWatchBefore(false)
   }
 
+  //CHECK IF ANIME WAS WATCH BEFORE
   useEffect(() => {
     if(!animeHistory) return
     let index = animeHistory.findIndex(item => item?.animeId === id)
@@ -101,6 +101,12 @@ const WatchPage = () => {
       setHistoryTime(animeHistory[index].time)
     } else setIsAnimeInHistory(false)
   }, [animeHistory])
+
+    //FETCH USERS ANIME HISTORY
+    useEffect(() => {
+      if(!idUser) return
+      dispatch(fetchAnimes({idUser}))
+    }, [idUser])
   
   //SET REFS (BCS WHILE UNMOUNT STATES ARE NULL)
   useEffect(() => {
@@ -130,7 +136,6 @@ const WatchPage = () => {
     })
   }, [id])
   
-  // console.log(animeInfo?.episodes[currentEpNum - 1]?.image);
   //FETCH CURRENT VIDEO URL
   useEffect(() => {
     if(!animeInfo) return
@@ -149,15 +154,22 @@ const WatchPage = () => {
     
   }, [currentEpNum, animeInfo, id])
 
-  // useEffect(() => {
-  //   if(!intervalTime) return
-  //   postAnimeToHistory()
-  // }, [intervalTime])
+  //INTERVAL HISTORY EVERY 30 SECONDS
+  useEffect(() => {
+    if(!idUser || !animeInfo) return
+    const interval = setInterval(() => setIntervalTime(true), 30000)
+    return () => clearInterval(interval)
+  }, [idUser, animeInfo])
+
+  useEffect(() => {
+    if(!intervalTime) return
+    postAnimeToHistory()
+  }, [intervalTime])
 
   if(preloader) return <Preloader/>;
   if(fetchError) return <ErrorPage error={errorObj.message}/>
   return (
-    <div className="w-full pt-20 h-[200vh] flex justify-center animate-fadeInAnimate fill-mode-forward relative">
+    <div className="w-full pt-28 h-[200vh] flex justify-center animate-fadeInAnimate fill-mode-forward relative">
       <div className="w-[1440px] flex gap-[20px] mx-5 mt-5">
         <div className="w-full h-min">
           <div>
@@ -180,13 +192,13 @@ const WatchPage = () => {
                   watchBefore ? "!flex" : ""
                 } hidden bg-black/50 backdrop-blur-xl gap-3 z-10 absolute top-3 left-1/2 w-max -translate-x-1/2 p-5 items-center rounded-xl flex-col `}
               >
-                <div className="flex gap-3 font-medium">
-                  <p className="text-xl font-medium flex-shrink-0">You stop at:</p>
-                  <p className="text-xl font-medium flex gap-2">
+                <div className="flex gap-3 font-[550]">
+                  <p className="text-xl font-[550] flex-shrink-0">You stop at:</p>
+                  <p className="text-xl font-[550] flex gap-2">
                     {historyEpisode}
                     <p>Episode</p>
                   </p>
-                  <p className="text-xl font-medium">
+                  <p className="text-xl font-[550]">
                     {(historyTime / 60).toFixed(0)
                       .length <= 1
                       ? `0${(historyTime / 60).toFixed(0)}`
@@ -199,13 +211,13 @@ const WatchPage = () => {
                   </p>
                 </div>
                 <div className="flex gap-3 items-center">
-                  <p className="text-xl font-medium">Continue?</p>
+                  <p className="text-xl font-[550]">Continue?</p>
                   <button className="btn-base bg-white text-black !py-2" onClick={setEpisodeFromHistory}>
                     Yes
                   </button>
                   <button
                     className="btn-base bg-def-gray text-white !py-2"
-                    onClick={() => setWatchBefore(false)}
+                    onClick={() => {setWatchBefore(false);setInitTime(0)}}
                   >
                     Close
                   </button>
@@ -305,7 +317,9 @@ const WatchPage = () => {
                 epListRef.current.childNodes[
                   Number(e.target[0].value) - 1
                 ].scrollIntoView({ block: "center", behavior: "smooth" });
-              } catch {}
+              } catch(error) {
+                console.log(error);
+              }
             }}>
               
               <input

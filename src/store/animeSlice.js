@@ -22,13 +22,12 @@ export const searchAnimeWithPagination = createAsyncThunk(
 
 export const fetchAnimes = createAsyncThunk(
     'anime/fetchAnimes',
-    async function({page, category}, { dispatch, rejectWithValue }) {
+    async function({page, category}, { rejectWithValue }) {
         try {
             const data = await animeApi.getAllAnime({page}, category);
             if (data.ok) {
                 throw new Error('Server Error!');
             }
-            dispatch(setPages(data.data.pagination.last_visible_page));
             return data.data.data;
         } catch (error) {
             return rejectWithValue(error.message);
@@ -80,7 +79,6 @@ const animeSlice = createSlice({
         animeInfo: null,
         malid: null,
         episodes: [],
-        pages: 1,
         loading: false,
         error: false,
     },
@@ -94,10 +92,6 @@ const animeSlice = createSlice({
         setMalId(state, action){
             state.malid = action.payload
         },
-        setPages(state, action){
-            state.pages = action.payload
-        },
-
         setAnimes(state, action){
             state.animes = action.payload
         },

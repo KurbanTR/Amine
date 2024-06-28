@@ -4,6 +4,7 @@ import mainReducer from './mainSlice'
 import authReducer from './authSlice'
 import profileReducer from './profileSlice'
 import messageReducer from './messageSlice'
+import historyReducer from './animeHistory'
 
 export default configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
         main: mainReducer,
         user: authReducer,
         profile: profileReducer,
-        messages: messageReducer
+        messages: messageReducer,
+        histori: historyReducer
     }
 })

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createAccount } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom"
-import { useDispatch} from "react-redux"
+import { useDispatch, useSelector} from "react-redux"
 import { message } from 'antd';
 
 const RegisterPage = () => {
@@ -15,7 +15,7 @@ const RegisterPage = () => {
   const nav = useNavigate()
   const dispatch = useDispatch()
 
-  // const {token} = useSelector(state => state.user)
+  const {id} = useSelector(state => state.user)
 
   // const toast = useToast()
   // const statuses = ['success', 'error', 'warning', 'info']
@@ -25,7 +25,6 @@ const RegisterPage = () => {
     messageApi.open({
       type: 'success',
       content: 'You have successfully registered',
-      // You have successfully logged in to your account
     });
   };
   const error = (errorReg) => {
