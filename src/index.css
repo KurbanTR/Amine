@@ -148,3 +148,11 @@ body {
 .ant-rate-star-full path {
   color: white;
 }
+
+
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}

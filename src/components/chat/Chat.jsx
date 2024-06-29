@@ -3,32 +3,33 @@ import ChatHeader from './ChatHeader';
 import Input from './Input';
 import Message from './Message';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMessages, fetchAdmin, fetchMessages, getDefineChats, setRead } from '../../store/messageSlice';
+import { addMessages, fetchAdmin, fetchMessages, getDefineChats, setRead, removeMessages } from '../../store/messageSlice';
 import { useParams } from "react-router-dom";
 import { format, isSameDay, isSameWeek, isSameYear } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import Preloader from '../../other/Preloader'
+import Preloader from '../../other/Preloader';
 
 const Chat = () => {
   const [message, setMessage] = useState('');
+  const [selectedMessages, setSelectedMessages] = useState([]); // State for selected messages
   const { id } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const { messages, isAdmin, data, status } = useSelector(state => state.messages);
   const params = useParams();
 
-  useEffect(()=>{
-    document.title = 'JumCloud - Chat'
-  },[])
+  useEffect(() => {
+    document.title = 'JumCloud - Chat';
+  }, []);
 
   useEffect(() => {
-    if(messages.length == 0 && !isAdmin) dispatch(fetchMessages({ idUser: params.id }));
-    if(!data) dispatch(getDefineChats({ id: params.id }));
+    if (messages.length === 0 && !isAdmin) dispatch(fetchMessages({ idUser: params.id }));
+    if (!data) dispatch(getDefineChats({ id: params.id }));
     dispatch(fetchAdmin({ id }));
 
-    const getMessages = async() => {
+    const getMessages = async () => {
       dispatch(fetchMessages({ idUser: params.id }));
     };
-    
+
     getMessages();
     const intervalId = setInterval(getMessages, 10000);
     return () => clearInterval(intervalId);
@@ -82,10 +83,35 @@ const Chat = () => {
       }
     }
   };
-  if(messages.length == 0 && !isAdmin && status === 'loading') return <Preloader/>
+
+  const handleSelectMessage = (id, isAdminMessage) => {
+    if (isAdmin === isAdminMessage) {
+      setSelectedMessages(prevSelected => 
+        prevSelected.includes(id) ? 
+        prevSelected.filter(msgId => msgId !== id) : 
+        [...prevSelected, id]
+      );
+    }
+  };
+
+  const handleDeleteSelected = () => {
+    selectedMessages.forEach(messageId => {
+      dispatch(removeMessages({ messageId, idUser: params.id }));
+    });
+    setSelectedMessages([]);
+  };
+
+  if (messages.length === 0 && !isAdmin && status === 'loading') return <Preloader />;
   return (
     <main>
-      <ChatHeader nick={data?.name} img={data?.img} to={params.id} isAdmin={isAdmin} />
+      <ChatHeader 
+        nick={data?.name} 
+        img={data?.img} 
+        to={params.id} 
+        isAdmin={isAdmin} 
+        showDeleteIcon={selectedMessages.length > 0} 
+        onDelete={handleDeleteSelected}
+      />
       <div className="flex pt-24">
         <div className="w-full">
           <div className="px-3 flex flex-col gap-3 pb-40">
@@ -104,6 +130,8 @@ const Chat = () => {
                   isAdmin={message.isAdmin}
                   currentUserIsAdmin={isAdmin}
                   read={message.read} // Прокидываем read
+                  selected={selectedMessages.includes(message.id)}
+                  onSelect={() => handleSelectMessage(message.id, message.isAdmin)}
                 />
               </div>
             ))}
