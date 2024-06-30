@@ -6,8 +6,7 @@ import PlayerComponent from '../../other/PlayerComponent';
 import AnimeCard from '../../other/AnimeCard';
 import Preloader from '../../other/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAnimes, patchAnime, postAnime } from '../../store/animeHistory';
-import { unwrapResult } from '@reduxjs/toolkit';
+import { fetchAnimes, postAnime } from '../../store/animeHistory';
 
 const WatchPage = () => {
   const {id} = useParams()

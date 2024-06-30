@@ -186,32 +186,60 @@ const SearchPage = () => {
   return (
     <div className="w-[1440px] mx-auto 1480res:w-full 1480res:m-0 1480res:px-5">
       <div className="flex 900res:flex-col 900res:gap-6 gap-10 justify-between mt-24 900res:mt-10">
-        <div className="w-full flex-shrink min-w-[200px]"> 
-          <h2 className="text-3xl font-[550] mb-8">Catalog</h2>          
-          <CatologYearSelectComponent setYearOpened={setYearOpened} yearOpened={yearOpened}
-            setYearValue={setYearValue} changeYear={changeYear} yearValue={yearValue}/>
-          <CatalogCheckboxesComponent setBoxesOpened={setSeasonOpened} boxesOpened={seasonOpened}
-            componentHeight={162} mainTitle={"Season"} componentArray={seasons}
-            selectedBoxes={selectedSeason} changeSelectedBoxes={changeSeason} selectedBoxesIsArray={false}/>
-          <CatalogCheckboxesComponent setBoxesOpened={setGenresOpened} boxesOpened={genresOpened}
-            componentHeight={666} mainTitle={"Genres"} componentArray={genres}
-            selectedBoxes={selectedGenres} changeSelectedBoxes={changeGenres} selectedBoxesIsArray={true}/>
-          <CatalogCheckboxesComponent setBoxesOpened={setFormatsOpened} boxesOpened={formatsOpened}
-            componentHeight={270} mainTitle={"Formats"} componentArray={formats}
-            selectedBoxes={selectedFormat} changeSelectedBoxes={changeFormat} selectedBoxesIsArray={false}/>
-          <CatalogCheckboxesComponent setBoxesOpened={setAiringStatusOpened} boxesOpened={airingStatusOpened}
-            componentHeight={198} mainTitle={"Airing Status"} componentArray={airingStatus}
-            selectedBoxes={selectedAiringStatus} changeSelectedBoxes={changeAiringStatus} selectedBoxesIsArray={false}/>
+        <div className="w-full flex-shrink min-w-[200px]">
+          <h2 className="text-3xl font-[550] mb-8">Catalog</h2>
+          <CatologYearSelectComponent
+            setYearOpened={setYearOpened}
+            yearOpened={yearOpened}
+            setYearValue={setYearValue}
+            changeYear={changeYear}
+            yearValue={yearValue}
+          />
+          <CatalogCheckboxesComponent
+            setBoxesOpened={setSeasonOpened}
+            boxesOpened={seasonOpened}
+            componentHeight={162}
+            mainTitle={"Season"}
+            componentArray={seasons}
+            selectedBoxes={selectedSeason}
+            changeSelectedBoxes={changeSeason}
+            selectedBoxesIsArray={false}
+          />
+          <CatalogCheckboxesComponent
+            setBoxesOpened={setGenresOpened}
+            boxesOpened={genresOpened}
+            componentHeight={666}
+            mainTitle={"Genres"}
+            componentArray={genres}
+            selectedBoxes={selectedGenres}
+            changeSelectedBoxes={changeGenres}
+            selectedBoxesIsArray={true}
+          />
+          <CatalogCheckboxesComponent
+            setBoxesOpened={setFormatsOpened}
+            boxesOpened={formatsOpened}
+            componentHeight={270}
+            mainTitle={"Formats"}
+            componentArray={formats}
+            selectedBoxes={selectedFormat}
+            changeSelectedBoxes={changeFormat}
+            selectedBoxesIsArray={false}
+          />
+          <CatalogCheckboxesComponent
+            setBoxesOpened={setAiringStatusOpened}
+            boxesOpened={airingStatusOpened}
+            componentHeight={198}
+            mainTitle={"Airing Status"}
+            componentArray={airingStatus}
+            selectedBoxes={selectedAiringStatus}
+            changeSelectedBoxes={changeAiringStatus}
+            selectedBoxesIsArray={false}
+          />
         </div>
         <div className="flex-shrink-0">
           <div className="flex justify-between 600res:flex-wrap 600res:justify-center gap-5 w-full mb-8 [&>*]:flex-shrink-0">
-            <div
-              className="w-full !flex-shrink 650res:flex-shrink-0 ml-5 600res:ml-0 h-[52px] border-solid border-[2px] border-white/20 flex
-                    p-3 rounded-xl bg-white/20
-                    relative items-center duration-300
-                    z-20"
-            >
-              <label className="flex mr-3" htmlFor={"input2"}>
+            <div className="w-full !flex-shrink 650res:flex-shrink-0 ml-5 600res:ml-0 h-[52px] border-solid border-[2px] border-white/20 flex p-3 rounded-xl bg-white/20 relative items-center duration-300 z-20">
+              <label className="flex mr-3" htmlFor="input2">
                 <span className="cursor-pointer">
                   <svg
                     className="w-5 h-5"
@@ -235,15 +263,14 @@ const SearchPage = () => {
                 value={searchValue}
                 type="text"
                 placeholder="Search"
-                className={`w-full h-full bg-transparent outline-none placeholder:font-normal placeholder:text-white/80 text-white
-            `}
+                className={`w-full h-full bg-transparent outline-none placeholder:font-normal placeholder:text-white/80 text-white`}
                 id="input2"
                 onChange={(e) => setSearchValue(e.target.value.trimStart())}
               />
             </div>
             <div className="mr-5 600res:mr-0 flex items-center gap-3">
               <div
-                onClick={() => fetchAnime()}
+                onClick={fetchAnime}
                 className="flex font-medium lex items-center gap-2 cursor-pointer p-3 450res:p-2 hover:bg-white/30 [&>span>svg]:hover:scale-125 active:scale-90 duration-150 rounded-lg"
               >
                 <span>
@@ -266,7 +293,7 @@ const SearchPage = () => {
                 <span>Submit</span>
               </div>
               <div
-                onClick={() => resetParams()}
+                onClick={resetParams}
                 className="flex items-center gap-2 cursor-pointer p-3 450res:p-2 hover:bg-white/30 [&>span>svg]:hover:-rotate-180 active:scale-90 duration-150 rounded-lg"
               >
                 <span>
@@ -286,10 +313,16 @@ const SearchPage = () => {
                 </span>
                 <span>Reset</span>
               </div>
-              <div className="relative ">
+              <div className="relative">
                 <div className={` ${sortOpened ? "opacity-100" : "opacity-0 pointer-events-none"} duration-200 overflow-hidden absolute top-14 flex flex-col gap-2 p-3 right-0 bg-def-black border border-white/20 rounded-xl text-white w-[200px]`}>
-                    {sort?.map(item => <div onClick={() => {changeSort(item?.id); setSortOpened(false)}}
-                      className='flex justify-between items-center rounded-md p-2 hover:bg-white/20 cursor-pointer'>
+                  {sort?.map((item) => (
+                    <div
+                      onClick={() => {
+                        changeSort(item?.id);
+                        setSortOpened(false);
+                      }}
+                      className="flex justify-between items-center rounded-md p-2 hover:bg-white/20 cursor-pointer"
+                    >
                       <span>{item?.title}</span>
                       <span>
                         <svg
@@ -308,50 +341,48 @@ const SearchPage = () => {
                           />
                         </svg>
                       </span>
-                    </div>)}
+                    </div>
+                  ))}
                 </div>
-                <div 
+                <div
                   onClick={() => setSortOpened(!sortOpened)}
-                  className={`${sortOpened ? "!text-white !bg-white/30" : ""} hover:bg-white/30 active:scale-90 duration-150
-                  text-white/70 flex gap-2 items-center cursor-pointer p-3 450res:p-2 rounded-lg hover:text-white`}
+                  className={`${sortOpened ? "!text-white !bg-white/30" : ""} hover:bg-white/30 active:scale-90 duration-150 text-white/70 flex gap-2 items-center cursor-pointer p-3 450res:p-2 rounded-lg hover:text-white`}
                 >
-                  <span>{sort?.find(item => item.id === selectedSort)?.title}</span>
+                  <span>{sort?.find((item) => item.id === selectedSort)?.title}</span>
                   <div className="">
-                </div>
-                  <svg
-                    className={`w-4 h-4 duration-300`}
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M3.29289 7.29289C3.68342 6.90237 4.31658 6.90237 4.70711 7.29289L12 14.5858L19.2929 7.29289C19.6834 6.90237 20.3166 6.90237 20.7071 7.29289C21.0976 7.68342 21.0976 8.31658 20.7071 8.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L3.29289 8.70711C2.90237 8.31658 2.90237 7.68342 3.29289 7.29289Z"
-                      fill="white"
-                    />
-                  </svg>
+                    <svg
+                      className={`w-4 h-4 duration-300`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M3.29289 7.29289C3.68342 6.90237 4.31658 6.90237 4.70711 7.29289L12 14.5858L19.2929 7.29289C19.6834 6.90237 20.3166 6.90237 20.7071 7.29289C21.0976 7.68342 21.0976 8.31658 20.7071 8.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L3.29289 8.70711C2.90237 8.31658 2.90237 7.68342 3.29289 7.29289Z"
+                        fill="white"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          {preloader ? <Preloader/>
-          :
-            searchError ? <ErrorPage/> 
-            :
-              searchResult?.length > 0 ? 
-                <div
-                  className="grid grid-cols-5 gap-5 1100res:gap-x-0 flex-shrink-0 justify-items-center h-min 1320res:grid-cols-4 1100res:grid-cols-3
-                900res:grid-cols-4 850res:grid-cols-3 700res:grid-cols-4 600res:grid-cols-3 500res:grid-cols-4 450res:grid-cols-3"
-                >
-                  {searchResult?.map((item, i) => (
-                    <AnimeCard info={item} type={"anime"} key={i} catalog={true}/>
-                    ))}
-                </div>
-              : <ErrorPage/> 
-          }
+          {preloader ? (
+            <Preloader />
+          ) : searchError ? (
+            <ErrorPage />
+          ) : searchResult?.length > 0 ? (
+            <div className="grid grid-cols-5 gap-5 1100res:gap-x-0 flex-shrink-0 justify-items-center h-min 1320res:grid-cols-4 1100res:grid-cols-3 900res:grid-cols-4 850res:grid-cols-3 700res:grid-cols-4 600res:grid-cols-3 500res:grid-cols-4 450res:grid-cols-3">
+              {searchResult?.map((item, i) => (
+                <AnimeCard info={item} type={"anime"} key={i} catalog={true} />
+              ))}
+            </div>
+          ) : (
+            <ErrorPage />
+          )}
         </div>
       </div>
     </div>
@@ -361,7 +392,7 @@ const SearchPage = () => {
 
 
 const CatalogCheckboxesComponent = ({setBoxesOpened, boxesOpened, componentHeight, mainTitle, componentArray, selectedBoxes, changeSelectedBoxes, selectedBoxesIsArray}) => {
-    return (
+  return (
     <div>
       <div
         className="flex justify-between pb-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 "
@@ -432,19 +463,18 @@ const CatalogCheckboxesComponent = ({setBoxesOpened, boxesOpened, componentHeigh
           </div>
         ))}
       </div>
-    </div>
-  
-    )
-  }
-  
-  const CatologYearSelectComponent = ({setYearOpened, yearOpened, setYearValue, changeYear, yearValue}) => {
-    return (
-      <div>
+    </div>    
+  )
+}
+
+const CatologYearSelectComponent = ({setYearOpened, yearOpened, setYearValue, changeYear, yearValue}) => {
+  return (
+    <div>
       <div
-        className="flex justify-between py-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6 "
+        className="flex justify-between py-5 w-full items-center cursor-pointer border-b-2 border-b-white/10 mb-6"
         onClick={() => setYearOpened(!yearOpened)}
       >
-        <span className="font-medium">Year</span>
+        <span className="font-medium">Год</span>
         <span>
           <svg
             className={`${
@@ -488,7 +518,7 @@ const CatalogCheckboxesComponent = ({setBoxesOpened, boxesOpened, componentHeigh
         </span>
         <input
           className="outline-none border-2 focus:border-white/80 border-white/30
-          bg-def-black appearance-none w-[110px] px-3 py-2 rounded-xl"
+            bg-def-black appearance-none w-[110px] px-3 py-2 rounded-xl"
           value={yearValue}
           type="number"
           min="1960"
@@ -504,5 +534,5 @@ const CatalogCheckboxesComponent = ({setBoxesOpened, boxesOpened, componentHeigh
       </div>
     </div>
   )
-  }
-  export default SearchPage
+}
+export default SearchPage

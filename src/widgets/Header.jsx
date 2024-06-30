@@ -42,7 +42,7 @@ const Header = () => {
           {data?.token && <Link to={`/profile/${idUser}`} style={location?.pathname !== `/profile/${idUser}` ? {color: 'rgba(232, 232, 232, 0.7)'} :{}}>Profile</Link>}
           <Link to='/' style={location?.pathname !== '/' ? {color: 'rgba(232, 232, 232, 0.7)'} :{}}>Home</Link>
           <Link to='/search' style={location?.pathname !== '/search' ? {color: 'rgba(232, 232, 232, 0.7)'}:{}}>Catalog</Link>
-          {data?.token && <Link to={`/chat/${idUser}`} style={location?.pathname !== '/chat' ? {color: 'rgba(232, 232, 232, 0.7)'} :{}}>Chat</Link>}
+          {data?.token && <Link to={data?.isAdmin ? '/chat/' : `/chat/${idUser}`} style={location?.pathname !== '/chat' ? {color: 'rgba(232, 232, 232, 0.7)'} :{}}>Chat</Link>}
           <div className={`650res:block hidden w-[160px] rounded-md ${data?.token && !data?.img && 'bg-white/20 animate-pulse'}`}>
           {data?.token ?
             <Link to={`/profile/${idUser}`} className='flex items-center gap-3 py-2'>
@@ -69,7 +69,7 @@ const Header = () => {
             <Link to='/'  className='text-2xl 1100res:text-xl' style={location?.pathname !== '/' ? {color: 'rgba(232, 232, 232, 0.7)'} :{}}>Home</Link>
             {data?.token && <Link to={`/profile/${idUser}`} className='text-2xl 1100res:text-xl' style={location?.pathname !== `/profile/${idUser}` ? {color: 'rgba(232, 232, 232, 0.7)'} :{}}>Profile</Link>}
             <Link to='/search'  className='text-2xl 1100res:text-xl' style={location?.pathname !== '/search' ? {color: 'rgba(232, 232, 232, 0.7)'}:{}}>Catalog</Link>
-            {data?.token && <Link to={`/chat/${idUser}`} className='text-2xl 1100res:text-xl' style={location?.pathname !== '/chat' ? {color: 'rgba(232, 232, 232, 0.7)'} :{}}>Chat</Link>}
+            {data?.token && <Link to={data?.isAdmin ? '/chat/' : `/chat/${idUser}`} className='text-2xl 1100res:text-xl' style={location?.pathname !== '/chat' ? {color: 'rgba(232, 232, 232, 0.7)'} :{}}>Chat</Link>}
           </div>
         </nav>
         <span className={`${s.burger_menu}`} onClick={()=>setShowNavModal(!showNavModal)}>

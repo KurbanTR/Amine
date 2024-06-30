@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import { enUS } from 'date-fns/locale';
+import galochka from '../../assets/galochka.svg'
 
 const Message = ({ text, timestamp, isAdmin, currentUserIsAdmin, read, id, idChat, onSelect, selected }) => {
   const alignClass = isAdmin === currentUserIsAdmin ? 'items-end' : 'items-start';
@@ -18,28 +19,7 @@ const Message = ({ text, timestamp, isAdmin, currentUserIsAdmin, read, id, idCha
           </span>
           {isAdmin === currentUserIsAdmin && (
             <span className="ml-2">
-              <svg
-                className={`w-4 h-4 ${read ? 'text-blue-500' : 'text-gray-500'} flex gap-1`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M5 13l4 4L19 7"
-                />
-                {read && (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M9 11l4 4L22 4"
-                  />
-                )}
-              </svg>
+              <img src={galochka} className='w-5' alt="" />
             </span>
           )}
         </div>

@@ -20,7 +20,7 @@ export const postAnime = createAsyncThunk(
         const historyDocRef = doc(historyCollectionRef, id);
         const historyDocSnap = await getDoc(historyDocRef);
 
-        if (historyDocSnap.exists()) {
+        if (newAnime?.time && historyDocSnap.exists()) {
             let animeHistori = historyDocSnap.data().animeHistori;
 
             // Удаляем старое аниме, если оно уже существует
@@ -28,27 +28,6 @@ export const postAnime = createAsyncThunk(
             
             // Добавляем новое аниме в конец
             animeHistori.push(newAnime);
-
-            await updateDoc(historyDocRef, { animeHistori });
-            dispatch(setAnimeHistory(animeHistori));
-        }
-    }
-);
-
-export const patchAnime = createAsyncThunk(
-    'history/patchAnime',
-    async ({ id, updatedAnime }, { dispatch }) => {
-        const historyDocRef = doc(historyCollectionRef, id);
-        const historyDocSnap = await getDoc(historyDocRef);
-
-        if (historyDocSnap.exists()) {
-            let animeHistori = historyDocSnap.data().animeHistori;
-
-            // Удаляем старое аниме, если оно уже существует
-            animeHistori = animeHistori.filter(anime => anime.animeId !== updatedAnime.animeId);
-
-            // Добавляем обновленное аниме в конец
-            animeHistori.push(updatedAnime);
 
             await updateDoc(historyDocRef, { animeHistori });
             dispatch(setAnimeHistory(animeHistori));

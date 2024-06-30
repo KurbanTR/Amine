@@ -4,7 +4,6 @@ import { fetchChats } from '../../store/messageSlice';
 import { Link } from 'react-router-dom';
 import { format, differenceInDays, differenceInYears } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import ErrorPage from '../page/ErrorPage';
 
 const ChatList = () => {
   const dispatch = useDispatch();
@@ -40,7 +39,6 @@ const ChatList = () => {
   };
 
   return (
-    users?.[0]?.isAdmin ? (
       <div className="p-4">
         <h2 className="text-lg font-bold mb-2">Список пользователей</h2>
         {status === 'loading' && <p>Загрузка...</p>}
@@ -70,9 +68,6 @@ const ChatList = () => {
           </div>
         )}
       </div>
-    ) : (
-      <ErrorPage />
-    )
   );
 };
 

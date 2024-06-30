@@ -53,7 +53,7 @@ export const createAccount = createAsyncThunk(
             const userID = userCredentials.user.uid
             const newUserDocRef = doc (usersColectionRef, userID)
             const newMessagesDocRef = doc (messagesColectionRef, userID)
-            await setDoc(newUserDocRef, {email, name, bio: '', img: 'https://freesvg.org/img/abstract-user-flat-4.png', animes:[], mangas:[], token: userCredentials.user.accessToken})
+            await setDoc(newUserDocRef, {email, name, bio: '', img: 'https://freesvg.org/img/abstract-user-flat-4.png', animes:[], mangas:[], token: userCredentials.user.accessToken, isAdmin: false})
             await setDoc(newMessagesDocRef, {id: userID, messages: [], name, img: 'https://freesvg.org/img/abstract-user-flat-4.png', isAdmin: false})
             await success()
             nav(`/profile/${userCredentials.user.uid}`)
@@ -99,7 +99,7 @@ export const singInToAccount = createAsyncThunk(
             dispatch(fetchToken({token: userCredentials.user.accessToken, user: userCredentials.user.uid}))
             success()
             dispatch(setId(userCredentials.user.uid))
-            nav('/profile')
+            nav(`/profile/${userCredentials.user.uid}`)
             userCredentials.user.email == 'kurban@gmail.com' && dispatch(setAdmin(true))
         }catch (error) {
             console.log(error);

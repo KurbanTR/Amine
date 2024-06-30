@@ -11,11 +11,14 @@ const ChatHeader = ({ nick, img, isAdmin, to, showDeleteIcon, onDelete }) => {
         />
         <span className="text-white text-xl 850res:text-lg 600res:text-base font-semibold">{nick}</span>
       </Link>
-      {showDeleteIcon && (
-        <button onClick={onDelete} className="text-white text-xl">
-          🗑️
-        </button>
-      )}
+      <div className="flex items-center">
+        {showDeleteIcon && (
+          <button onClick={onDelete} className="text-white text-xl">
+            🗑️
+          </button>
+        )}
+        {isAdmin && <Link to='/chat' className="text-red-600 font-bold text-xl">Exit</Link>}
+      </div>
     </header>
   );
 };
