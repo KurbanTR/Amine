@@ -1,8 +1,5 @@
-# React + Vite
+# JumCloud
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React JS + Tailwind web app for watch Anime devoloped using Consumet API
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+On this site you can watch not only anime, also you can read manga.
