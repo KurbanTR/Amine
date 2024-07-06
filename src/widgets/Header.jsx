@@ -52,7 +52,7 @@ const Header = () => {
           :          
             <div className='flex gap-3'>
               <Link to='/registration' className="text-[13px] py-[8px] px-2 bg-def-black-gray rounded-lg font-[550] text-white cursor-pointer">
-                Log in
+                Sign Up
               </Link>
               <Link to='/signin' className="text-[13px] py-[8px] px-2 bg-white rounded-lg font-[550] text-def-black cursor-pointer">
                 Get started
