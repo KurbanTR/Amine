@@ -25,7 +25,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className={isScrolled ? s.header_scrolled : s.header}>
+    <header className={`${isScrolled ? s.header_scrolled : s.header} hover:bg-[#1c1c1c]`}>
       <div className='w-full flex gap-14 650res:gap-0 650res:justify-between items-center'>
         <Link to='/'>
           <h1 className={s.title}>JumCloud</h1>

@@ -11,57 +11,65 @@ import icon from '../../assets/icons8.svg'
 import deletee from '../../assets/delete.svg'
 import BioMenu from "../../other/BioMenu";
 import useCardSize, { useSize } from '../../other/CardSize'
+import Preloader from '../../other/Preloader'
+import { fetchAnimes } from "../../store/animeHistory";
 
-const AnimeSwiper = ({ anime, edit, dispatch, idUser }) => {
+const AnimeSwiper = ({ anime, edit, dispatch, idUser, type }) => {
   const {cardHeight} = useCardSize()
   const onDelete = (id) => {
     dispatch(removeAnime({ idUser, animeId: id }));
   };
+  console.log(anime);
 
   return (
-    <div className='flex overflow-hidden px-5'>
-      <Swiper
-        grabCursor={true}
-        spaceBetween={20}
-        keyboard={{
-          enabled: true,
-        }}
-        modules={[Keyboard]}
-        slidesPerView={'auto'}
-        className="mb-4"
-      >
-        {anime?.map((item, index) => (
-          <SwiperSlide className="!w-auto" key={index}>
-            <span
-              onClick={() => onDelete(item.id)}
-              className={`${!edit && 'pointer-events-none opacity-0'} z-10 flex cursor-pointer p-3 active:p-3 active:scale-90 duration-100 absolute top-2 left-2 w-10 h-10 500res:w-14 500res:h-14 bg-def-gray justify-center items-center rounded-full 1320res:flex`}
-            >
-              <img src={deletee} alt="delete" />
-            </span>
-            <Link to={`/anime/${item.id}`}>
-              <div className='relative overflow-hidden rounded-lg'>
-                <div>
-                  <img src={item.img} style={{height: +cardHeight+100}} alt="" />
-                </div>
-                {item.score && 
-                      <div className='absolute top-[.5em] right-0 flex justify-end pr-1'>
-                        <h3 className='bg-[rgb(6,193,73)] py-1 px-3 text-[.9em] 500res:text-[.7em] font-bold rounded-md 400res:px-2'>
-                          {item.score}
-                        </h3>
-                      </div>
-                    }   
-                <div className='absolute bottom-0 right-0 h-24 flex items-end w-full bg-gradient-to-t from-black opacity-80 p-4'>
-                  <div className='flex flex-col'>
-                    <p className='text-[1em] text-white 540res:text-[18px]  400res:text-[10px]'>{item.title}</p>
-                    <p className='text-[#ababab] font-medium 540res:text-[.7em]  400res:text-[.4em]'>{item?.year}{item?.genre && `, ${item?.genre}`}</p>
+    <section>
+      <div className='w-full flex overflow-hidden mb-7'>
+        <Swiper
+          grabCursor={true}
+          spaceBetween={20}
+          keyboard={{
+            enabled: true,
+          }}
+          modules={[Keyboard]}
+          slidesPerView={'auto'}
+        >
+          {anime?.map((item, index) => (
+            <SwiperSlide className='swiper__slide !w-auto' key={index}>
+              {!type && 
+                <span
+                  onClick={() => onDelete(item.id)}
+                  className={`${!edit && 'pointer-events-none opacity-0'} z-10 flex cursor-pointer p-3 active:p-3 active:scale-90 duration-100 absolute top-2 left-2 w-10 h-10 500res:w-14 500res:h-14 bg-def-gray justify-center items-center rounded-full 1320res:flex`}
+                >
+                  <img src={deletee} alt="delete" />
+                </span>
+              }
+              <Link to={`/anime/${item?.id || item?.animeId}`}>
+                <article className='relative overflow-hidden rounded-lg h-[90%] bg-blue-700'>
+                  <figure>
+                    <img src={item?.img || item?.image} style={{ height: +cardHeight + 100 }} alt={item?.title?.english || item?.title?.romaji || item?.title} />
+                  </figure>
+                  {item?.score && 
+                    <div className='absolute top-[.5em] right-0 flex justify-end pr-1'>
+                      <span className='bg-[rgb(6,193,73)] py-1 px-3 text-[.9em] 500res:text-[.7em] font-bold rounded-md 400res:px-2'>
+                        {item.score}
+                      </span>
+                    </div>
+                  }
+                  <div className='absolute bottom-0 right-0 h-[90%] flex items-end w-full bg-gradient-to-t from-black opacity-80 p-[10%]'>
+                    <div className='flex flex-col'>
+                      <h3 className='font-[550] line-clamp-1 text-[1em] text-white 540res:text-[18px] 400res:text-[10px]'>{item?.title?.english || item?.title?.romaji || item?.title}</h3>
+                      <p className='text-[#ababab] font-medium 540res:text-[.7em] 400res:text-[.4em]'>
+                        {item?.year ? item.year + (item?.genre ? ', ' + item.genre : '') : item.genre || ''}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </Link>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
+                </article>
+              </Link>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+    </section>
   );
 };
 
@@ -110,7 +118,9 @@ const UserProfile = ({ user, setActive}) => {
 const ProfilePage = () => {
   const dispatch = useDispatch()
   const { profile } = useSelector(state => state.profile)
+  const { animes } = useSelector(state => state.histori)
   const idUser = useSelector(state => state.user.id)
+  const loading = useSelector(state => state.user.loadingUser)
   const params = useParams()
   const {cardHeight} = useSize()
 
@@ -124,10 +134,13 @@ const ProfilePage = () => {
 
   useEffect(()=>{
     dispatch(getUser({id:params.id}))
-    console.log(profile);
-  }, [dispatch, idUser])
-
-  // if(loading) return <Preloader/>
+  }, [dispatch, idUser, params])
+  
+  
+  useEffect(()=>{
+    dispatch(fetchAnimes({idUser:params.id}))
+  },[dispatch, params])
+  if(loading) return <Preloader/>
   return (
     <>
       <div>
@@ -142,20 +155,36 @@ const ProfilePage = () => {
               </div>}
           </div>
         </div>
-        <div className='w-[1440px] mx-auto 1480res:w-full'>
+        <div className='w-[1440px] mx-auto 1480res:w-11/12'>
           <UserProfile user={profile} setActive={setActive}/>
-          <div className='my-11 px-5 flex gap-5 items-center'>
-            <h1 className='text-5xl 900res:text-3xl 650res:text-2xl'>Favorite</h1>
-            {params.id == idUser &&
-              <h1 onClick={()=>setEdit(!edit)} className={`${edit && 'bg-def-gray'} w-[5.5em] py-[10px] rounded-[12px] text-center font-medium text-[20px] transition duration-100 cursor-pointer justify-self-end ml-auto active:scale-95 flex items-center justify-center gap-2`}>
-                <div className={(edit ? 'bg-white' : 'border-2') + ' duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]'}>
-                  <img src={icon} alt="" />
-                </div>
-                <p>Edit</p>
-              </h1>
-            }
-          </div>
+          {profile?.animes.length !== 0 && (
+            <div className='my-11 1000res:my-8 650res:my-5 flex gap-5 items-center'>
+              <div className="flex w-full items-center">
+                <h1 className='text-5xl 900res:text-3xl 650res:text-2xl'>Favorite</h1>
+                {params.id === idUser && (
+                  <h1 
+                    onClick={() => setEdit(!edit)} 
+                    className={`${edit && 'bg-def-gray'} w-[5.5em] py-[10px] rounded-[12px] text-center font-medium text-[20px] transition duration-100 cursor-pointer justify-self-end ml-auto active:scale-95 flex items-center justify-center gap-2`}
+                  >
+                    <div className={`${edit ? 'bg-white' : 'border-2'} duration-300 w-5 h-5 bg-def-black border-gray-500 flex justify-center items-center rounded-[4px]`}>
+                      <img src={icon} alt="" />
+                    </div>
+                    <p>Edit</p>
+                  </h1>
+                )}
+              </div>
+            </div>
+          )}
           <AnimeSwiper anime={profile?.animes} edit={edit} dispatch={dispatch} idUser={idUser}/>
+
+          <div className='my-11 1000res:my-8 650res:my-5 flex gap-5 items-center'>
+            {animes?.length !== 0 && (
+              <div className="flex w-full items-center">
+                <h1 className='text-5xl 900res:text-3xl 650res:text-2xl'>To Watch</h1>
+              </div>
+            )}
+          </div>
+          <AnimeSwiper anime={animes} edit={false} type dispatch={dispatch} idUser={idUser}/>
         </div>
       </div>
     </>

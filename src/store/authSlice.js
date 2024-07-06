@@ -45,7 +45,7 @@ export const fetchToken = createAsyncThunk(
 
 export const createAccount = createAsyncThunk(
     'user/createAccount',
-    async({email, password, name, nav, success, errorReg},{dispatch}) => {
+    async({email, password, name, nav},{dispatch}) => {
         try{
             const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
             dispatch(setId(userCredentials.user.uid))
@@ -55,23 +55,22 @@ export const createAccount = createAsyncThunk(
             const newMessagesDocRef = doc (messagesColectionRef, userID)
             await setDoc(newUserDocRef, {email, name, bio: '', img: 'https://freesvg.org/img/abstract-user-flat-4.png', animes:[], mangas:[], token: userCredentials.user.accessToken, isAdmin: false})
             await setDoc(newMessagesDocRef, {id: userID, messages: [], name, img: 'https://freesvg.org/img/abstract-user-flat-4.png', isAdmin: false})
-            await success()
             nav(`/profile/${userCredentials.user.uid}`)
         }catch (error) {
             console.log(error);
-            errorReg(error.message)
         }
     }
 )
 
 export const getDefineUser = createAsyncThunk(
     'user/getDefineUser',
-    async({id},{dispatch}) => {
+    async({id}, {dispatch}) => {
         try{
             const defineUserDocRef = doc(usersColectionRef, id)
             const defineUser = await getDoc(defineUserDocRef)
             const userData = defineUser.data()
             dispatch(setData(userData))
+            localStorage.setItem('profileData', JSON.stringify(userData))
         } catch(error){
             console.error(error.message);
         }
@@ -93,17 +92,15 @@ export const getUser = createAsyncThunk(
 
 export const singInToAccount = createAsyncThunk(
     'user/signInToAccount',
-    async({email, password, nav, success, errorReg}, {dispatch}) => {
+    async({email, password, nav}, {dispatch}) => {
         try{
             const userCredentials = await signInWithEmailAndPassword(auth, email, password)
             dispatch(fetchToken({token: userCredentials.user.accessToken, user: userCredentials.user.uid}))
-            success()
             dispatch(setId(userCredentials.user.uid))
             nav(`/profile/${userCredentials.user.uid}`)
             userCredentials.user.email == 'kurban@gmail.com' && dispatch(setAdmin(true))
         }catch (error) {
             console.log(error);
-            errorReg(error.message)
         }
     }
 )
@@ -123,6 +120,7 @@ const authSlice = createSlice({
         token: localStorage.getItem('token'),
         id: localStorage.getItem('id'),
         bio: localStorage.getItem('bio'),
+        loadingUser: false,
     },
     reducers: {
         setToken(state, actions) {
@@ -136,7 +134,26 @@ const authSlice = createSlice({
         removeProfile(){
             localStorage.removeItem('token')
             localStorage.removeItem('id')
+            localStorage.removeItem('bio')
+            localStorage.removeItem('profileData')
         },
+    },
+    extraReducers: (bilder) => {
+        bilder.addCase(getUser.pending, (state) => {
+            state.loading = true
+        })
+        bilder.addCase(createAccount.pending, (state) => {
+            state.loading = true
+        })
+        bilder.addCase(createAccount.fulfilled, (state) => {
+            state.loading = false
+        })
+        bilder.addCase(singInToAccount.pending, (state) => {
+            state.loading = true
+        })
+        bilder.addCase(singInToAccount.fulfilled, (state) => {
+            state.loading = false
+        })
     }
 
 })

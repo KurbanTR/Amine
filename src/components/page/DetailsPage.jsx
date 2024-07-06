@@ -21,11 +21,18 @@ const DetailsPage = () => {
     const dispatch = useDispatch()
     const location = useLocation()
 
-    const {malid} = useSelector(state=>state.anime)
-    const {animeInfo} = useSelector(state=>state.anime)
-    const {episodes} = useSelector(state=>state.anime)
-    const {loading} = useSelector(state=>state.anime)
+    const {malid, animeInfo, episodes, getLoading} = useSelector(state=>state.anime)
     const getError = useSelector(state=>state.anime.error)
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 2800);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     useEffect(()=>{
         dispatch(fetchAnimeInfo({id}))
@@ -49,13 +56,13 @@ const DetailsPage = () => {
     const success = () => {
       messageApi.open({
         type: 'success',
-        content: 'This is a success message',
+        content: 'Add to favorite',
       });
     };
-    const error = () => {
+    const error = (error) => {
       messageApi.open({
         type: 'error',
-        content: 'This is an error message',
+        content: error,
       });
     };
 
@@ -80,14 +87,13 @@ const DetailsPage = () => {
         console.log(anime);
     }  
 
+    if(getLoading || loading)  return <Preloader />
+    if(getError) return <ErrorPage error={getError} />
     return (
         <main>
-        {loading && <Preloader />}
-        {getError && <ErrorPage error={getError} />}
-        {!loading && !getError && (
             <section className={s.block_1}>
             {contextHolder}
-            <header
+            <div                
                 className={`${s.block_1__shapka} flex justify-end p-3`}
                 style={{ backgroundImage: `url(${animeInfo?.cover})` }}
             >
@@ -114,12 +120,12 @@ const DetailsPage = () => {
                     <p>Watch Trailer</p>
                 </button>
                 )}
-            </header>
+            </div>
             <div className={s.block_1__titles}>
                 <img
-                src={animeInfo?.image}
-                className={`${s.persImg} 700res:hidden`}
-                alt={animeInfo?.title?.romaji}
+                    src={animeInfo?.image}
+                    className={`${s.persImg} 700res:hidden`}
+                    alt={animeInfo?.title?.romaji}
                 />
                 <div className='pr-1'>
                 <h2 className='900res:text-3xl 400res:text-2xl text-5xl 1200res:text-4xl font-bold'>
@@ -144,58 +150,44 @@ const DetailsPage = () => {
                 <Tabs position='relative' variant='unstyled'>
                 <TabList>
                     <Tab
-                    _selected={{ color: 'white' }}
-                    sx={{
-                        color: "#7C7C7C",
-                        fontWeight: '500',
-                        fontSize: '1.2em',
-                        '@media screen and (max-width: 600px)': { fontSize: '.7em' },
-                        '@media screen and (max-width: 375px)': { fontSize: '.5em' }
-                    }}
-                    >
-                    Overview
-                    </Tab>
-                    {episodes.length !== 0 && (
-                    <Tab
                         _selected={{ color: 'white' }}
                         sx={{
-                        color: "#7C7C7C",
-                        fontWeight: '500',
-                        fontSize: '1.2em',
-                        '@media screen and (max-width: 600px)': { fontSize: '.7em' },
-                        '@media screen and (max-width: 375px)': { fontSize: '.5em' }
+                            color: "#7C7C7C",
+                            fontWeight: '500',
+                            fontSize: '1.2em',
+                            '@media screen and (max-width: 600px)': { fontSize: '.7em' },
+                            '@media screen and (max-width: 375px)': { fontSize: '.5em' }
                         }}
                     >
-                        Episodes
+                        Overview
                     </Tab>
+                    {animeInfo?.episodes.length !== 0 && (
+                        <Tab
+                            _selected={{ color: 'white' }}
+                            sx={{
+                            color: "#7C7C7C",
+                            fontWeight: '500',
+                            fontSize: '1.2em',
+                            '@media screen and (max-width: 600px)': { fontSize: '.7em' },
+                            '@media screen and (max-width: 375px)': { fontSize: '.5em' }
+                            }}
+                        >
+                            Episodes
+                        </Tab>
                     )}
                     {animeInfo?.characters && (
-                    <Tab
-                        _selected={{ color: 'white' }}
-                        sx={{
-                        color: "#7C7C7C",
-                        fontWeight: '500',
-                        fontSize: '1.2em',
-                        '@media screen and (max-width: 600px)': { fontSize: '.7em' },
-                        '@media screen and (max-width: 375px)': { fontSize: '.5em' }
-                        }}
-                    >
-                        Characters
-                    </Tab>
-                    )}
-                    {anime?.anime && anime?.anime.length !== 0 && (
-                    <Tab
-                        _selected={{ color: 'white' }}
-                        sx={{
-                        color: "#7C7C7C",
-                        fontWeight: '500',
-                        fontSize: '1.2em',
-                        '@media screen and (max-width: 600px)': { fontSize: '.7em' },
-                        '@media screen and (max-width: 375px)': { fontSize: '.5em' }
-                        }}
-                    >
-                        Anime
-                    </Tab>
+                        <Tab
+                            _selected={{ color: 'white' }}
+                            sx={{
+                            color: "#7C7C7C",
+                            fontWeight: '500',
+                            fontSize: '1.2em',
+                            '@media screen and (max-width: 600px)': { fontSize: '.7em' },
+                            '@media screen and (max-width: 375px)': { fontSize: '.5em' }
+                            }}
+                        >
+                            Characters
+                        </Tab>
                     )}
                 </TabList>
                 <TabIndicator
@@ -207,12 +199,12 @@ const DetailsPage = () => {
                 />
                 <TabPanels>
                     <TabPanel>
-                    <Details />
+                        <Details />
                     </TabPanel>
-                    {episodes.length !== 0 && (
-                    <TabPanel>
-                        <Episodes episodeInfo={episodes} animeId={animeInfo?.id} />
-                    </TabPanel>
+                    {animeInfo?.episodes.length !== 0 && (
+                        <TabPanel>
+                            <Episodes episodeInfo={episodes} animeId={animeInfo?.id} />
+                        </TabPanel>
                     )}
                     {animeInfo?.characters && (
                     <TabPanel>
@@ -229,7 +221,6 @@ const DetailsPage = () => {
                 setTrailerSrc={setTrailerSrc}
             />
             </section>
-        )}
         </main>
     );
 };

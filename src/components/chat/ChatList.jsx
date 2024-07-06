@@ -16,10 +16,8 @@ const ChatList = () => {
   },[])
 
   useEffect(() => {
-    if (status === 'idle') {
-      dispatch(fetchChats());
-    }
-  }, [dispatch, status]);
+    dispatch(fetchChats());
+  }, []);
 
   const formattedTimestamp = (timestamp) => {
     const date = new Date(timestamp);

@@ -9,7 +9,6 @@ const useCardSize = () => {
         const handleResize = () => setCurrentWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
         
-        // Initialize the width on component mount
         handleResize();
 
         return () => {
@@ -43,7 +42,6 @@ export const useSize = () => {
         const handleResize = () => setCurrentWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
         
-        // Initialize the width on component mount
         handleResize();
 
         return () => {

@@ -17,9 +17,9 @@ export const addAnimes = createAsyncThunk(
           animes: arrayUnion(newAnime)
         });
         dispatch(addAnime(newAnime));
-        success()
+        success('Add to favorite')
       }else{
-        error()
+        error('This anime is already in favorites')
       }
     }
   }
@@ -50,7 +50,7 @@ const profileSlice = createSlice({
   name: 'profile',
   initialState: {
     animes: [],
-    data: null,
+    data: JSON.parse(localStorage.getItem('profileData')),
     profile: null,
   },
   reducers: {
@@ -58,7 +58,7 @@ const profileSlice = createSlice({
       state.animes = actions.payload
     },
     addAnime(state, actions){
-      state.animes.push(actions.payload)
+      state.animes.unshift(actions.payload)
     },
     setData(state, actions){
       state.data = actions.payload

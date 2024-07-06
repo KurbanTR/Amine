@@ -1,73 +1,58 @@
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { singInToAccount } from '../../store/authSlice'
 import { Link } from 'react-router-dom'
-import { message } from 'antd';
+import Input from './Input'
+import Preloader from '../../other/Preloader'
 
 const SignInPage = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [eror, setError] = useState(false)
-    const nav = useNavigate()
-    const dispatch = useDispatch()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState(false)
+  const {loading} = useSelector(state => state.user)
+  const nav = useNavigate()
+  const dispatch = useDispatch()
 
-    const [messageApi, contextHolder] = message.useMessage();
-    const success = () => {
-      messageApi.open({
-        type: 'success',
-        content: 'You have successfully registered',
-        // You have successfully logged in to your account
-      });
-    };
-    const error = (errorReg) => {
-      messageApi.open({
-        type: 'error',
-        content: errorReg
-      });
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault()
 
-    const onHandleClick = () => {
-        if(email == '' || password == ''){
-            setError(true)
-        }else{
-            dispatch(singInToAccount({email, password, nav, success, errorReg: error}))
-            setError(false)
-        }
+    if (email === '' || password === '') {
+      setError(true)
+    } else {
+      const formData = new FormData()
+      formData.append('email', email)
+      formData.append('password', password)
+
+      dispatch(singInToAccount({ email, password, nav }))
+      setError(false)
     }
+  }
 
-    useEffect(()=>{
-      document.title = 'JumCloud - Authefication'
-    },[])
-    
+  useEffect(() => {
+    document.title = 'JumCloud - Authentication'
+  }, [])
+
+  if(loading) return <Preloader/>
   return (
-    <>
-      <main className="w-[100%] h-[100vh]  flex justify-center items-center">
-        <section className=" flex items-center justify-center flex-col p-[4em] w-[50em]">
-          <div className="pb-[100px] font-[600]">
-            <h1 className="text-6xl ">Log In</h1>
+    <main className="w-full flex justify-center items-center relative" style={{ height: `${window.outerHeight - 125}px` }}>
+      <section className="flex items-center justify-center flex-col px-[4em] w-[50em] pt-28 relative z-10">
+        <div className="pb-[1em] font-[600]">
+          <h1 className="text-6xl 1480res:text-4xl 1000res:text-3xl">Log In</h1>
+        </div>
+        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-[1em] pt-[1%] w-full">
+          <Input title='Email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Input title='Password' type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+          <div className="w-full flex items-center flex-col gap-3">
+            <button type="submit" className="bg-red-700 px-[1em] py-[.5em] font-semibold text-5xl 1480res:text-2xl 1000res:text-1xl rounded-lg hover:bg-red-600 mt-[1%]">Log In</button>
+            <p className="text-red-600 text-3xl 1480res:text-base 1000res:text-sm">{error ? 'Заполните все поля' : false}</p>
           </div>
-          <div className="flex flex-col items-center gap-[3em] pt-[40px] w-[100%]">
-            <div className="w-[100%]">
-              <p>Email</p>
-              <input type="email" value={email} placeholder="Your Email" onChange={(e)=>setEmail(e.target.value)}  className="w-100% bg-[#606060] w-[100%] rounded-md px-5 py-4"/>
-            </div>
-            <div className="w-[100%]">
-              <p>Password</p>
-              <input type="password" value={password} placeholder="Your Password" onChange={(e)=>setPassword(e.target.value)} className="w-[100%] bg-[#606060] rounded-md px-5 py-4 text-white"/>
-            </div>
-            <div className="w-[100%] flex justify-center">
-              <button onClick={onHandleClick} className="bg-red-700 px-[2em] py-[.6em] font-[600] text-2xl rounded-lg hover:bg-red-600 ">LogIn</button>
-              <p className="text-red-600">{eror ? 'Заполните все поля' : false}</p>
-            </div>
-            <div>
-                <p>If you dont have account <Link className='text-blue-500' to='/registration'>register</Link></p>
-            </div>
+          <div>
+            <p className='text-3xl 1480res:text-base 1000res:text-sm'>If you don't have an account, <Link className='text-blue-500' to='/registration'>register</Link></p>
           </div>
-        </section>
-        {contextHolder}
-      </main>
-    </>
+        </form>
+      </section>
+    </main>
   )
 }
 

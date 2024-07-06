@@ -63,7 +63,9 @@ const WatchPage = () => {
             cover: animeInfo?.cover,
             image: animeInfo?.image,
             lastEpisode: currentEpNum,
-            time: currentTime
+            time: currentTime,
+            genre: animeInfo?.genres?.[0],
+            year: animeInfo?.releaseDate,
           }
         }));
       } catch (error) {

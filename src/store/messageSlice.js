@@ -112,7 +112,7 @@ const messagesSlice = createSlice({
     messages: [],
     data: null,
     chats: [],
-    status: 'idle',
+    status: null,
     isAdmin: false,
   },
   reducers: {

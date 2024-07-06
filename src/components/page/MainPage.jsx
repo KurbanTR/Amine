@@ -19,7 +19,7 @@ const LongerAnimeCard = ({anime, title, setAnimeHistory}) => {
     <article>
       <section className='flex justify-between h-fit items-end mb-5'>
         <h2 className='text-2xl font-[550] mt-20 1480res:mb-2 1480res:mt-0 500res:mb-3 500res:mt-3'>{title}</h2>
-        {title === 'Continue watch' && !clearConfirm ? (
+        {title === 'Continue watch' && (!clearConfirm ? (
           <button
             className="w-max btn-base bg-white text-def-black gap-1 600res:text-sm 450res:text-xs 450res:p-[8px]"
             onClick={() => {
@@ -47,7 +47,7 @@ const LongerAnimeCard = ({anime, title, setAnimeHistory}) => {
               Back
             </button>
           </div>
-        )}
+        ))}
       </section>
       <section className='flex overflow-hidden mb-7'>
         <Swiper
@@ -57,7 +57,7 @@ const LongerAnimeCard = ({anime, title, setAnimeHistory}) => {
             enabled: true,
           }}
           modules={[Keyboard]}
-          slidesPerView={1}
+          slidesPerView={1.25}
           initialSlide={0}
         >
           {anime?.map((item, index) => (
@@ -93,7 +93,7 @@ const LongerAnimeCard = ({anime, title, setAnimeHistory}) => {
                   ) : (
                     <div className='p-2 bg-white text-def-black font-semibold 700res:text-xs 700res:p-[6px] rounded-md 700res:rounded-sm z-10 500res:text-[8px] 500res:leading-none 500res:p-[5px]'>{`Release ${item?.releaseDate ?? '????'}`}</div>
                   )}
-                  <div className='text-xl font-semibold 700res:text-lg z-10 500res:text-xs line-clamp-1 flex-shrink-0'>{item?.title?.english ?? item?.title?.romaji}</div>
+                  <div className='text-xl font-semibold 700res:text-lg z-10 500res:text-xs line-clamp-1 flex-shrink-0'>{item?.title?.english || item?.title?.romaji}</div>
                   <div className='text-lg 700res:text-base z-10 font-semibold 500res:text-[10px] 500res:leading-none'>
                     {item?.time ? `${item?.type}, ${item?.releaseDate}` : item?.type}
                   </div>
@@ -109,7 +109,7 @@ const LongerAnimeCard = ({anime, title, setAnimeHistory}) => {
 
 const AnimeSwiper = ({ anime, title }) => {
   return (
-    <section className='anime-section'>
+    <section>
       <h2 className='text-2xl font-[550] mb-5 mt-20 1480res:mb-2 1480res:mt-0 500res:mb-3 500res:mt-3'>{title}</h2>
       <div className='w-full flex overflow-hidden mb-7'>
         <Swiper
@@ -126,7 +126,7 @@ const AnimeSwiper = ({ anime, title }) => {
               <Link to={`/anime/` + item.id}>
                 <article className='relative overflow-hidden rounded-lg h-[90%] bg-blue-700'>
                   <figure>
-                    <img src={item.image} className={`bg-[${item.color}]`} alt={item.title.userPreferred} />
+                    <img src={item.image} className={`bg-[${item.color}]`} alt={item?.title?.english || item?.title?.romaji} />
                   </figure>
                   {item.rating && (
                     <div className='absolute top-[.5em] right-0 flex justify-end pr-1'>
@@ -137,9 +137,9 @@ const AnimeSwiper = ({ anime, title }) => {
                   )}
                   <div className='absolute bottom-0 right-0 h-[90%] flex items-end w-full bg-gradient-to-t from-black opacity-80 p-[10%]'>
                     <div className='flex flex-col'>
-                      <h3 className='font-[550] line-clamp-1 text-[1em] text-white 540res:text-[18px] 400res:text-[10px]'>{item.title.userPreferred}</h3>
+                      <h3 className='font-[550] line-clamp-1 text-[1em] text-white 540res:text-[18px] 400res:text-[10px]'>{item.title.english}</h3>
                       <p className='text-[#ababab] font-medium 540res:text-[.7em] 400res:text-[.4em]'>
-                        {item.releaseDate ? item.releaseDate + (!item.genres.length === 0 ? ', ' + item.genres[0] : '') : !item.genres.length === 0 ? item.genres[0] : ''}
+                        {item.releaseDate ? item.releaseDate + (item.genres.length !== 0 ? ', ' + item?.genres?.[0] : '') : item.genres.length !== 0 ? item.genres[0] : ''}
                       </p>
                     </div>
                   </div>
@@ -158,13 +158,14 @@ const MainPage = () => {
   const {popular} = useSelector(state => state.main)
   const {bestscore} = useSelector(state => state.main)
   const {upcoming} = useSelector(state => state.main)
-  const {loading} = useSelector(state=>state.anime)
   const {id} = useSelector(state=>state.user)
   const {animes} = useSelector(state=>state.histori)
 
+  const [animeHistory, setAnimeHistory] = useState(animes)
+  const [loading, setLoading] = useState(false)
+
   const dispatch = useDispatch()
 
-  const [animeHistory, setAnimeHistory] = useState(animes)
   
   useEffect(()=>{
     document.title = 'JumCloud - Anime Oline'
@@ -174,12 +175,22 @@ const MainPage = () => {
     if(animes) setAnimeHistory(animes)
   },[animes])
 
+  useEffect(()=>{
+    trendingnow.length == 0 && setLoading(true)
+
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  },[])
+
   useEffect(() => {    
-    dispatch(fetchTrendingNow())
-    dispatch(fetchPopular())
-    dispatch(fetchUpcoming())
-    dispatch(fetchBestScore())
-    dispatch(fetchAnimes({idUser: id}))
+    trendingnow.length == 0 && dispatch(fetchTrendingNow())
+    popular.length == 0 && dispatch(fetchPopular())
+    upcoming.length == 0 && dispatch(fetchUpcoming())
+    bestscore.length == 0 && dispatch(fetchBestScore())
+    animes.length == 0 && dispatch(fetchAnimes({idUser: id}))
   }, [dispatch]) 
   
   if(loading) return <Preloader/>
