@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { singInToAccount } from '../../store/authSlice'
 import { Link } from 'react-router-dom'
+import { message } from 'antd';
 import Input from './Input'
 import Preloader from '../../other/Preloader'
 
@@ -14,6 +15,14 @@ const SignInPage = () => {
   const nav = useNavigate()
   const dispatch = useDispatch()
 
+  const [messageApi, contextHolder] = message.useMessage();
+  const errorMessage = (error) => {
+    messageApi.open({
+      type: 'error',
+      content: error,
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -24,7 +33,7 @@ const SignInPage = () => {
       formData.append('email', email)
       formData.append('password', password)
 
-      dispatch(singInToAccount({ email, password, nav }))
+      dispatch(singInToAccount({ email, password, nav, errorMessage }))
       setError(false)
     }
   }
@@ -36,6 +45,7 @@ const SignInPage = () => {
   if(loading) return <Preloader/>
   return (
     <main className="w-full flex justify-center items-center relative" style={{ height: `${window.outerHeight - 125}px` }}>
+      {contextHolder}
       <section className="flex items-center justify-center flex-col px-[4em] w-[50em] pt-28 relative z-10">
         <div className="pb-[1em] font-[600]">
           <h1 className="text-6xl 1480res:text-4xl 1000res:text-3xl">Log In</h1>

@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import Input from './Input';
 import ErrorPage from '../page/ErrorPage'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Preloader from '../../other/Preloader'
+import { message } from 'antd';
+import { createAccount } from '../../store/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const RegistrationForm = () => {
   const [name, setName] = useState('');
@@ -10,8 +13,22 @@ const RegistrationForm = () => {
   const [password, setPassword] = useState('');
   const [secPassword, setSecPassword] = useState('');
   const [errPassword, setErrPassword] = useState(false);
-  const { data, loading } = useSelector(state => state.profile)
   const [eror, setEror] = useState(false);
+
+  const { data, loading } = useSelector(state => state.profile)
+
+  const formData = new FormData();
+
+  const dispatch = useDispatch()
+  const nav = useNavigate()
+
+  const [messageApi, contextHolder] = message.useMessage();
+  const errorMessage = (error) => {
+    messageApi.open({
+      type: 'error',
+      content: error,
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,22 +42,21 @@ const RegistrationForm = () => {
     if (!name || !email || !password || !secPassword) {
       setEror(true);
     } else {
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('secPassword', secPassword);
+      dispatch(createAccount({ email, password, name, nav, errorMessage }))
       setEror(false);
     }
 
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('password', password);
-    formData.append('secPassword', secPassword);
-
-    console.log('Form submitted');
   };
 
   if(loading) return <Preloader/>
   if(data?.token) return <ErrorPage/>
   return (
     <main className="w-full flex justify-center items-center relative" style={{ height: `${window.outerHeight - 110}px` }}>
+      {contextHolder}
       <section className="flex items-center justify-center flex-col px-[4em] w-[50em] pt-20 relative z-10">
         <div className="pb-[1em] font-[600]">
           <h1 className="text-6xl 1480res:text-4xl 1000res:text-3xl">Registration</h1>
