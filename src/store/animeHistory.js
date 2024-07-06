@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { collection, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 
 export const historyCollectionRef = collection(db, 'animeHistory');
@@ -17,21 +17,20 @@ export const fetchAnimes = createAsyncThunk(
 export const postAnime = createAsyncThunk(
     'history/postAnime',
     async ({ id, newAnime }, { dispatch }) => {
+        if (!newAnime?.time) return;
+
         const historyDocRef = doc(historyCollectionRef, id);
         const historyDocSnap = await getDoc(historyDocRef);
 
-        if (newAnime?.time && historyDocSnap.exists()) {
-            let animeHistori = historyDocSnap.data().animeHistori;
+        let animeHistori = [];
 
-            // Удаляем старое аниме, если оно уже существует
+        if (historyDocSnap.exists()) {
+            animeHistori = historyDocSnap.data().animeHistori || [];
             animeHistori = animeHistori.filter(anime => anime.animeId !== newAnime.animeId);
-            
-            // Добавляем новое аниме в конец
-            animeHistori.push(newAnime);
-
-            await updateDoc(historyDocRef, { animeHistori });
-            dispatch(setAnimeHistory(animeHistori));
         }
+        animeHistori.push(newAnime);
+        await setDoc(historyDocRef, { animeHistori });
+        dispatch(setAnimeHistory(animeHistori));
     }
 );
 
