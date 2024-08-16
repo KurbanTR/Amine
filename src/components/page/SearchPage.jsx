@@ -186,7 +186,7 @@ const SearchPage = () => {
   return (
     <div className="w-[1440px] mx-auto 1480res:w-full 1480res:m-0 1480res:px-5">
       <div className="flex 900res:flex-col 900res:gap-6 gap-10 justify-between mt-24 900res:mt-10">
-        <div className="w-full flex-shrink w-[200px]">
+        <div className="w-full flex-shrink min-w-[200px]">
           <h2 className="text-3xl font-[550] mb-8">Catalog</h2>
           <CatologYearSelectComponent
             setYearOpened={setYearOpened}
