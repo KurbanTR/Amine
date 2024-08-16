@@ -18,7 +18,7 @@ const LongerAnimeCard = ({anime, title, setAnimeHistory}) => {
   return (
     <article>
       <section className='flex justify-between h-fit items-end mb-5'>
-        <h2 className='text-2xl font-[550] mt-20 1480res:mb-2 1480res:mt-0 500res:mb-3 500res:mt-3'>{title}</h2>
+        <h2 className='text-2xl font-[550] mt-20 1480res:mb-2 1480res:mt-0 500res:mb-3 500res:mt-3'>{anime.length !== 0 && title}</h2>
         {title === 'Continue watch' && (!clearConfirm ? (
           <button
             className="w-max btn-base bg-white text-def-black gap-1 600res:text-sm 450res:text-xs 450res:p-[8px]"
@@ -110,7 +110,7 @@ const LongerAnimeCard = ({anime, title, setAnimeHistory}) => {
 const AnimeSwiper = ({ anime, title }) => {
   return (
     <section>
-      <h2 className='text-2xl font-[550] mb-5 mt-20 1480res:mb-2 1480res:mt-0 500res:mb-3 500res:mt-3'>{title}</h2>
+      <h2 className='text-2xl font-[550] mb-5 mt-20 1480res:mb-2 1480res:mt-0 500res:mb-3 500res:mt-3'>{anime.length !== 0 && title}</h2>
       <div className='w-full flex overflow-hidden mb-7'>
         <Swiper
           grabCursor={true}
